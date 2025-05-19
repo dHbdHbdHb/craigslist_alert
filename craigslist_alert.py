@@ -1,4 +1,6 @@
 import pandas as pd
+import datetime
+import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -65,29 +67,41 @@ def main():
         print(f"Sent single alert: {row['title'][:40]}")
 
     # --- Digest by neighborhood ---
-    def digest_hood_match(row):
-        if pd.isnull(row['neighborhoods']):
-            return False
-        return any(h in digest_neighborhoods for h in row['neighborhoods'].split(','))
+    try:
+            with open("last_digest_date.txt", "r") as f:
+                last_date = f.read().strip()
+        except FileNotFoundError:
+            last_date = None
 
-    df_digest = df[df.apply(digest_hood_match, axis=1)] if digest_neighborhoods else df
-    if not df_digest.empty:
-        digest_msg = "<h2>New Craigslist Listings by Neighborhood</h2><br>"
-        for hood in sorted(digest_neighborhoods):
-            subdf = df_digest[df_digest['neighborhoods'].str.contains(hood, na=False)]
-            if not subdf.empty:
-                digest_msg += f"<b>--- {hood} ---</b><br>"
-                for _, row in subdf.iterrows():
-                    digest_msg += (
-                        f"- <b>{row['title']}</b> (${row['price']}), "
-                        f"{row['num_bedrooms']}bd/{row['num_bathrooms']}ba, "
-                        f"<a href='{row['url']}'>{row['url']}</a><br>"
-                    )
-                digest_msg += "<br>"
-                # Mark digest listings alerted
-                df.loc[subdf.index, 'alerted'] = True
-        send_email("Craigslist Digest Update", digest_msg)
-        print("Sent digest email.")
+    today_str = datetime.date.today().isoformat()
+    send_digest = (last_date != today_str)
+
+    if send_digest:
+        def digest_hood_match(row):
+            if pd.isnull(row['neighborhoods']):
+                return False
+            return any(h in digest_neighborhoods for h in row['neighborhoods'].split(','))
+
+        df_digest = df[df.apply(digest_hood_match, axis=1)] if digest_neighborhoods else df
+        if not df_digest.empty:
+            digest_msg = "<h2>New Craigslist Listings by Neighborhood</h2><br>"
+            for hood in sorted(digest_neighborhoods):
+                subdf = df_digest[df_digest['neighborhoods'].str.contains(hood, na=False)]
+                if not subdf.empty:
+                    digest_msg += f"<b>--- {hood} ---</b><br>"
+                    for _, row in subdf.iterrows():
+                        digest_msg += (
+                            f"- <b>{row['title']}</b> (${row['price']}), "
+                            f"{row['num_bedrooms']}bd/{row['num_bathrooms']}ba, "
+                            f"<a href='{row['url']}'>{row['url']}</a><br>"
+                        )
+                    digest_msg += "<br>"
+                    # Mark digest listings alerted
+                    df.loc[subdf.index, 'alerted'] = True
+            send_email("Craigslist Digest Update", digest_msg)
+            print("Sent digest email.")
+            with open("last_digest_date.txt", "w") as f:
+                f.write(today_str)
 
     # Save updates
     df.to_csv(ACTIVE_PATH, index=False)
