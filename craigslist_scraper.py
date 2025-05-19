@@ -11,8 +11,8 @@ from datetime import datetime
 # ----- Configurable parameters -----
 max_price = "4500"
 min_bedrooms = "3"
-DATA_ACTIVE = "craigslist_data/listings_active.csv"
-DATA_ARCHIVE = "craigslist_data/listings_archive.csv"
+DATA_ACTIVE = "craigslist_alert/craigslist_data/listings_active.csv"
+DATA_ARCHIVE = "craigslist_alert/craigslist_data/listings_archive.csv"
 MAX_ACTIVE_ROWS = 1000
 
 SEARCH_URL = (

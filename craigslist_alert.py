@@ -11,7 +11,7 @@ GMAIL_ADDRESS = "hillsbunnell@gmail.com"
 GMAIL_APP_PASSWORD = "eknq yzlh jkop vkdg" # https://myaccount.google.com/apppasswords
 RECIPIENT_EMAIL = "hillsbunnell@gmail.com"  # Could add more addresses
 
-ACTIVE_PATH = "craigslist_data/listings_active.csv"
+ACTIVE_PATH = "craigslist_alert/craigslist_data/listings_active.csv"
 
 # Criteria for HIGH-PRIORITY single email
 priority_neighborhoods = {"Bernal", "Duboce", "Chill Mission"}
