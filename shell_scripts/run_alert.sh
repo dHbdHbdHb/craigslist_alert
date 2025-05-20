@@ -1,4 +1,4 @@
 #!/bin/bash
 source /home/pi/miniforge3/etc/profile.d/conda.sh
 conda activate craigslist
-python /home/pi/craigslist_alert/craigslist_alert.py
+python /home/pi/craigslist_alert/craigslist_robust_alert.py

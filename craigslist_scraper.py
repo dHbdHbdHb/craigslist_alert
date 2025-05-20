@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import re
 from shapely.geometry import Point
-from neighbohoods.neighborhood_shapes import neighborhood_shapes
+from neighborhoods.neighborhood_shapes import neighborhood_shapes
 import pandas as pd
 import os
 from datetime import datetime
