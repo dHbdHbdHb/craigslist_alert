@@ -11,8 +11,9 @@ from datetime import datetime
 # ----- Configurable parameters -----
 max_price = "4500"
 min_bedrooms = "3"
-DATA_ACTIVE = "craigslist_data/listings_active.csv"
-DATA_ARCHIVE = "craigslist_data/listings_archive.csv"
+BASE_DIR = os.path.expanduser("~/craigslist_alert")
+DATA_ACTIVE  = os.path.join(BASE_DIR, "craigslist_data", "listings_active.csv")
+DATA_ARCHIVE = os.path.join(BASE_DIR, "craigslist_data", "listings_archive.csv")
 MAX_ACTIVE_ROWS = 1000
 
 SEARCH_URL = (
@@ -100,7 +101,7 @@ def main():
         price = clean_price(link_info.get('raw_price'))
         beds = parse_num(info.get('numberOfBedrooms'))
         baths = parse_num(info.get('numberOfBathroomsTotal'))
-        post_time = info.get('datePosted') or datetime.utcnow().isoformat()
+        post_time = info.get('datePosted') or datetime.now().isoformat()
 
         listings.append({
             'title': info.get('name', 'No title'),
@@ -131,6 +132,7 @@ def main():
     df_archive_candidates = df_result.iloc[MAX_ACTIVE_ROWS:]
 
     # Save active listings
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE}")
     df_active.to_csv(DATA_ACTIVE, index=False)
 
     # Append new to archive
