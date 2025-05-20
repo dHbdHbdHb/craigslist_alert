@@ -19,7 +19,7 @@ GMAIL_ADDRESS = "hillsbunnell@gmail.com"
 GMAIL_APP_PASSWORD = "eknq yzlh jkop vkdg" # https://myaccount.google.com/apppasswords
 RECIPIENT_EMAIL = "hillsbunnell@gmail.com"  # Could add more addresses
 BASE_DIR = os.path.expanduser("~/craigslist_alert")
-DATA_ACTIVE  = os.path.join(BASE_DIR, "craigslist_data", "listings_active.csv")
+ACTIVE_PATH  = os.path.join(BASE_DIR, "craigslist_data", "listings_active.csv")
 
 ORS_API_KEY = '5b3ce3597851110001cf624809183d29fbaa46ecb0f48f56e62f89cb'  # OpenRouteService API key https://account.heigit.org/manage/key
 CALTRAIN_COORDS = [-122.3942, 37.7763]  # lon, lat

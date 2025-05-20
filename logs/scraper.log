@@ -1,0 +1,21 @@
+/bin/sh: 1: /home/pi/craigslist_alert/run_scraper.sh: not found
+Writing 21 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 21 active; 0 archived.
+                                               title  ... alerted
+0      Spacious 3BR Home with Huge Backyard & Garage  ...   False
+1  Nice three bedroom two and half bath plus bonu...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  Spacious  4 room 1ba flat best nopa 10 min to ...  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 21 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 21 active; 0 archived.
+                                               title  ... alerted
+0      Spacious 3BR Home with Huge Backyard & Garage  ...   False
+1  Nice three bedroom two and half bath plus bonu...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  Spacious  4 room 1ba flat best nopa 10 min to ...  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
