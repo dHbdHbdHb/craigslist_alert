@@ -32,11 +32,6 @@ priority_neighborhoods = {"Mission", "Duboce"}
 priority_max_price = 3700
 priority_min_bathrooms = 2
 
-# Debug: show working directory and paths
-print(f"DEBUG: cwd = {os.getcwd()}")
-print(f"DEBUG: ACTIVE_PATH = {ACTIVE_PATH}")
-print(f"DEBUG: LAST_DIGEST_FILE = {LAST_DIGEST_FILE}")
-
 def send_email(msg: MIMEMultipart):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
         server.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
@@ -99,7 +94,6 @@ def main():
     print("DEBUG: unalerted rows after filter =", len(df))
 
     # --- Send priority single emails ---
-    # --- Priority alerts ---
     def hood_match(row):
         if pd.isnull(row['neighborhoods']): return False
         return any(h in priority_neighborhoods for h in row['neighborhoods'].split(','))
@@ -170,7 +164,7 @@ def main():
             # ---- Group by neighborhood ----
             hood_to_listings = {hood: [] for hood in neighborhood_shapes.keys()}
             for row in listings:
-                # row['neighborhoods'] could be "Mission,Duboce"
+                # Filter neighborhoods to only those in neighborhood_shapes
                 hoods = [h.strip() for h in (row.get('neighborhoods') or '').split(',') if h.strip() in neighborhood_shapes]
                 for hood in hoods:
                     hood_to_listings[hood].append(row)

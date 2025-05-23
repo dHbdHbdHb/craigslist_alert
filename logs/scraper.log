@@ -2240,3 +2240,1183 @@ Scraped 8 listings; 44 active; 0 archived.
 3      Shared housing in the Mission in San Francisco  ...    True
 
 [5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 18:00:06
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 18:10:06
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 18:20:06
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 18:30:06
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 18:40:05
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 18:50:06
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 19:00:06
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 19:10:06
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 19:20:06
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 19:30:06
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 19:40:05
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 19:50:05
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 20:00:05
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 20:10:05
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 20:20:05
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 20:30:07
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 20:40:05
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 20:50:05
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 21:00:05
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 21:10:05
+Scraped 9 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 21:20:05
+Scraped 9 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 21:30:06
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 21:40:05
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 21:50:06
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 22:00:06
+Scraped 8 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                      Location! Location! Location!  ...   False
+3      Springtime by the beach! Live at Baker Beach!  ...   False
+4     Shared housing in the Mission in San Francisco  ...    True
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 22:10:05
+Scraped 9 listings; 45 active; 0 archived.
+                                                title  ... alerted
+44  Newly Remodeled House inner Sunset close to UC...  ...   False
+0   REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+1   Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                       Location! Location! Location!  ...   False
+3       Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 22:20:05
+Scraped 9 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 22:30:06
+Scraped 9 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 22:40:05
+Scraped 9 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 22:50:06
+Scraped 9 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 23:00:06
+Scraped 9 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 23:10:05
+Scraped 9 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 23:20:05
+Scraped 9 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 23:30:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 23:40:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 23:50:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 00:00:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 00:10:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 00:20:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 00:30:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 00:40:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 00:50:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 01:00:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 01:10:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 01:20:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 01:30:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 01:40:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 01:50:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 02:00:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 02:10:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 02:20:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 02:30:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 02:40:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 02:50:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 03:00:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 03:10:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 03:20:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 03:30:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 03:40:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 03:50:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 04:00:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 04:10:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 04:20:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 04:30:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 04:40:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 04:50:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 05:00:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 05:10:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 05:20:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 05:30:06
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 05:40:05
+Scraped 8 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 05:50:05
+Scraped 7 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 06:00:06
+Scraped 7 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                      Location! Location! Location!  ...   False
+4      Springtime by the beach! Live at Baker Beach!  ...   False
+
+[5 rows x 11 columns]
+Writing 46 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 06:10:05
+Scraped 8 listings; 46 active; 0 archived.
+                                                title  ... alerted
+45  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+0   Newly Remodeled House inner Sunset close to UC...  ...   False
+1   REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+2   Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                       Location! Location! Location!  ...   False
+
+[5 rows x 11 columns]
+Writing 46 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 06:20:05
+Scraped 8 listings; 46 active; 0 archived.
+                                               title  ... alerted
+0  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                      Location! Location! Location!  ...   False
+
+[5 rows x 11 columns]
+Writing 47 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 06:30:06
+Scraped 9 listings; 47 active; 0 archived.
+                                                title  ... alerted
+46  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+0   READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+1   Newly Remodeled House inner Sunset close to UC...  ...   False
+2   REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+3   Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+
+[5 rows x 11 columns]
+Writing 47 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 06:40:05
+Scraped 9 listings; 47 active; 0 archived.
+                                               title  ... alerted
+0  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+4  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+
+[5 rows x 11 columns]
+Writing 47 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 06:50:06
+Scraped 9 listings; 47 active; 0 archived.
+                                               title  ... alerted
+0  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+4  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+
+[5 rows x 11 columns]
+Writing 47 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 07:00:06
+Scraped 9 listings; 47 active; 0 archived.
+                                               title  ... alerted
+0  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+4  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+
+[5 rows x 11 columns]
+Writing 47 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 07:10:05
+Scraped 9 listings; 47 active; 0 archived.
+                                               title  ... alerted
+0  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+4  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+
+[5 rows x 11 columns]
+Writing 47 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 07:20:06
+Scraped 9 listings; 47 active; 0 archived.
+                                               title  ... alerted
+0  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+4  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+
+[5 rows x 11 columns]
+Writing 47 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 07:30:06
+Scraped 9 listings; 47 active; 0 archived.
+                                               title  ... alerted
+0  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+4  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+
+[5 rows x 11 columns]
+Writing 47 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 07:40:05
+Scraped 9 listings; 47 active; 0 archived.
+                                               title  ... alerted
+0  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+4  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+
+[5 rows x 11 columns]
+Writing 47 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 07:50:06
+Scraped 9 listings; 47 active; 0 archived.
+                                               title  ... alerted
+0  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+4  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+
+[5 rows x 11 columns]
+Writing 47 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 08:00:06
+Scraped 9 listings; 47 active; 0 archived.
+                                               title  ... alerted
+0  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+4  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+
+[5 rows x 11 columns]
+Writing 48 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 08:10:06
+Scraped 10 listings; 48 active; 0 archived.
+                                                title  ... alerted
+47  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+0   READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+1   READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2   Newly Remodeled House inner Sunset close to UC...  ...   False
+3   REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+
+[5 rows x 11 columns]
+Writing 48 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 08:20:06
+Scraped 10 listings; 48 active; 0 archived.
+                                               title  ... alerted
+0  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3  Newly Remodeled House inner Sunset close to UC...  ...   False
+4  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+
+[5 rows x 11 columns]
+Writing 48 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 08:30:06
+Scraped 10 listings; 48 active; 0 archived.
+                                               title  ... alerted
+0  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3  Newly Remodeled House inner Sunset close to UC...  ...   False
+4  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+
+[5 rows x 11 columns]
+Writing 48 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 08:40:05
+Scraped 10 listings; 48 active; 0 archived.
+                                               title  ... alerted
+0  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3  Newly Remodeled House inner Sunset close to UC...  ...   False
+4  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+
+[5 rows x 11 columns]
+Writing 48 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 08:50:06
+Scraped 10 listings; 48 active; 0 archived.
+                                               title  ... alerted
+0  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3  Newly Remodeled House inner Sunset close to UC...  ...   False
+4  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+
+[5 rows x 11 columns]
+Writing 48 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 09:00:06
+Scraped 10 listings; 48 active; 0 archived.
+                                               title  ... alerted
+0  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+1  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3  Newly Remodeled House inner Sunset close to UC...  ...   False
+4  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...    True
+
+[5 rows x 11 columns]
+Writing 49 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 09:10:05
+Scraped 11 listings; 49 active; 0 archived.
+                                                title  ... alerted
+48      Nice three bedroom two and half bath for rent  ...   False
+0   FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+1   READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+2   READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3   Newly Remodeled House inner Sunset close to UC...  ...   False
+
+[5 rows x 11 columns]
+Writing 49 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 09:20:06
+Scraped 11 listings; 49 active; 0 archived.
+                                               title  ... alerted
+0      Nice three bedroom two and half bath for rent  ...   False
+1  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+2  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+4  Newly Remodeled House inner Sunset close to UC...  ...   False
+
+[5 rows x 11 columns]
+Writing 49 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 09:30:06
+Scraped 12 listings; 49 active; 0 archived.
+                                               title  ... alerted
+0      Nice three bedroom two and half bath for rent  ...   False
+1  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+2  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+4  Newly Remodeled House inner Sunset close to UC...  ...   False
+
+[5 rows x 11 columns]
+Writing 49 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 09:40:05
+Scraped 12 listings; 49 active; 0 archived.
+                                               title  ... alerted
+0      Nice three bedroom two and half bath for rent  ...   False
+1  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+2  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+4  Newly Remodeled House inner Sunset close to UC...  ...   False
+
+[5 rows x 11 columns]
+Writing 49 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 09:50:05
+Scraped 12 listings; 49 active; 0 archived.
+                                               title  ... alerted
+0      Nice three bedroom two and half bath for rent  ...   False
+1  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+2  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+4  Newly Remodeled House inner Sunset close to UC...  ...   False
+
+[5 rows x 11 columns]
+Writing 49 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 10:00:06
+Scraped 12 listings; 49 active; 0 archived.
+                                               title  ... alerted
+0      Nice three bedroom two and half bath for rent  ...   False
+1  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+2  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+4  Newly Remodeled House inner Sunset close to UC...  ...   False
+
+[5 rows x 11 columns]
+Writing 49 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 10:10:06
+Scraped 12 listings; 49 active; 0 archived.
+                                               title  ... alerted
+0      Nice three bedroom two and half bath for rent  ...   False
+1  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+2  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+4  Newly Remodeled House inner Sunset close to UC...  ...   False
+
+[5 rows x 11 columns]
+Writing 49 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 10:20:05
+Scraped 12 listings; 49 active; 0 archived.
+                                               title  ... alerted
+0      Nice three bedroom two and half bath for rent  ...   False
+1  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+2  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+4  Newly Remodeled House inner Sunset close to UC...  ...   False
+
+[5 rows x 11 columns]
+Writing 50 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 10:30:06
+Scraped 13 listings; 50 active; 0 archived.
+                                                title  ... alerted
+49  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+0       Nice three bedroom two and half bath for rent  ...   False
+1   FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+2   READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+3   READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+
+[5 rows x 11 columns]
+Writing 50 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 10:40:05
+Scraped 13 listings; 50 active; 0 archived.
+                                               title  ... alerted
+0  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+1      Nice three bedroom two and half bath for rent  ...   False
+2  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+3  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+4  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+
+[5 rows x 11 columns]
+Writing 50 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 10:50:06
+Scraped 13 listings; 50 active; 0 archived.
+                                               title  ... alerted
+0  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+1      Nice three bedroom two and half bath for rent  ...   False
+2  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+3  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+4  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+
+[5 rows x 11 columns]
+Writing 50 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 11:00:06
+Scraped 13 listings; 50 active; 0 archived.
+                                               title  ... alerted
+0  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+1      Nice three bedroom two and half bath for rent  ...   False
+2  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+3  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+4  READY MOVE-IN!! PRIME LOCATION . CLEAN & COZY ...  ...   False
+
+[5 rows x 11 columns]
+Writing 52 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 11:10:05
+Scraped 12 listings; 52 active; 0 archived.
+                                                title  ... alerted
+51  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+50  Newly Remodeled House inner Sunset close to UC...  ...   False
+0   Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+1       Nice three bedroom two and half bath for rent  ...   False
+2   FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+
+[5 rows x 11 columns]
+Writing 52 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 11:20:05
+Scraped 12 listings; 52 active; 0 archived.
+                                               title  ... alerted
+0  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+3      Nice three bedroom two and half bath for rent  ...   False
+4  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+
+[5 rows x 11 columns]
+Writing 52 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 11:30:06
+Scraped 12 listings; 52 active; 0 archived.
+                                               title  ... alerted
+0  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+3      Nice three bedroom two and half bath for rent  ...   False
+4  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+
+[5 rows x 11 columns]
+Writing 52 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 11:40:05
+Scraped 12 listings; 52 active; 0 archived.
+                                               title  ... alerted
+0  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+3      Nice three bedroom two and half bath for rent  ...   False
+4  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+
+[5 rows x 11 columns]
+Writing 52 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 11:50:05
+Scraped 12 listings; 52 active; 0 archived.
+                                               title  ... alerted
+0  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+3      Nice three bedroom two and half bath for rent  ...   False
+4  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+
+[5 rows x 11 columns]
+Writing 52 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 12:00:05
+Scraped 12 listings; 52 active; 0 archived.
+                                               title  ... alerted
+0  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+3      Nice three bedroom two and half bath for rent  ...   False
+4  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+
+[5 rows x 11 columns]
+Writing 52 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 12:10:05
+Scraped 12 listings; 52 active; 0 archived.
+                                               title  ... alerted
+0  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+3      Nice three bedroom two and half bath for rent  ...   False
+4  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+
+[5 rows x 11 columns]
+Writing 52 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 12:20:05
+Scraped 12 listings; 52 active; 0 archived.
+                                               title  ... alerted
+0  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+3      Nice three bedroom two and half bath for rent  ...   False
+4  FULL FLOOR FLAT! Bay Windows, Hardwood Floors,...  ...   False
+
+[5 rows x 11 columns]
+Writing 53 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 12:30:06
+Scraped 13 listings; 53 active; 0 archived.
+                                                title  ... alerted
+52  Beautiful 3br/1ba located at the heart of Cole...  ...   False
+0   One bedroom avilable in a large 3 bedroom Vict...  ...   False
+1   Newly Remodeled House inner Sunset close to UC...  ...   False
+2   Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+3       Nice three bedroom two and half bath for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 53 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 12:40:05
+Scraped 13 listings; 53 active; 0 archived.
+                                               title  ... alerted
+0  Beautiful 3br/1ba located at the heart of Cole...  ...   False
+1  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+4      Nice three bedroom two and half bath for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 53 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 12:50:06
+Scraped 13 listings; 53 active; 0 archived.
+                                               title  ... alerted
+0  Beautiful 3br/1ba located at the heart of Cole...  ...   False
+1  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+4      Nice three bedroom two and half bath for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 53 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 13:00:06
+Scraped 13 listings; 53 active; 0 archived.
+                                               title  ... alerted
+0  Beautiful 3br/1ba located at the heart of Cole...  ...   False
+1  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+4      Nice three bedroom two and half bath for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 53 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 13:10:06
+Scraped 13 listings; 53 active; 0 archived.
+                                               title  ... alerted
+0  Beautiful 3br/1ba located at the heart of Cole...  ...   False
+1  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+4      Nice three bedroom two and half bath for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 53 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 13:20:06
+Scraped 13 listings; 53 active; 0 archived.
+                                               title  ... alerted
+0  Beautiful 3br/1ba located at the heart of Cole...  ...   False
+1  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+4      Nice three bedroom two and half bath for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 53 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-23 13:30:06
+Scraped 13 listings; 53 active; 0 archived.
+                                               title  ... alerted
+0  Beautiful 3br/1ba located at the heart of Cole...  ...   False
+1  One bedroom avilable in a large 3 bedroom Vict...  ...   False
+2  Newly Remodeled House inner Sunset close to UC...  ...   False
+3  Bright & Newly Refreshed Bayview Home - Easy C...  ...   False
+4      Nice three bedroom two and half bath for rent  ...   False
+
+[5 rows x 11 columns]
