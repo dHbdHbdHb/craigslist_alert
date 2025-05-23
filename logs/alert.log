@@ -1,8 +1,401 @@
-/bin/sh: 1: /home/pi/craigslist_alert/run_alert.sh: not found
-Traceback (most recent call last):
-  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 176, in <module>
-    main()
-  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 88, in main
-    df = pd.read_csv(ACTIVE_PATH)
-                     ^^^^^^^^^^^
-NameError: name 'ACTIVE_PATH' is not defined
+Sent digest email.
+Sent digest email.
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-22, send_digest=False
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-22, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-21, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: cwd = /home/pi
+DEBUG: ACTIVE_PATH = /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+DEBUG: LAST_DIGEST_FILE = /home/pi/craigslist_alert/last_digest_date.txt
+DEBUG: initial alerted counts = {False: 37, True: 9}
+DEBUG: unalerted rows after filter = 37
+DEBUG: priority listings count = 0
+DEBUG: last_date=None, today_str=2025-05-22, send_digest=True
+DEBUG: digest listings count = 0

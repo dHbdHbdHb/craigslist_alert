@@ -7,6 +7,7 @@ from neighborhoods.neighborhood_shapes import neighborhood_shapes
 import pandas as pd
 import os
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # ----- Configurable parameters -----
 max_price = "4500"
@@ -101,7 +102,7 @@ def main():
         price = clean_price(link_info.get('raw_price'))
         beds = parse_num(info.get('numberOfBedrooms'))
         baths = parse_num(info.get('numberOfBathroomsTotal'))
-        post_time = info.get('datePosted') or datetime.now().isoformat()
+        post_time = info.get('datePosted') or datetime.now(ZoneInfo("America/Los_Angeles")).isoformat()
 
         listings.append({
             'title': info.get('name', 'No title'),
@@ -132,7 +133,10 @@ def main():
     df_archive_candidates = df_result.iloc[MAX_ACTIVE_ROWS:]
 
     # Save active listings
-    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE}")
+    print(
+        f"Writing {len(df_active)} rows to {DATA_ACTIVE} "
+        f"at {datetime.now(ZoneInfo('America/Los_Angeles')).strftime('%Y-%m-%d %H:%M:%S')}"
+    )
     df_active.to_csv(DATA_ACTIVE, index=False)
 
     # Append new to archive

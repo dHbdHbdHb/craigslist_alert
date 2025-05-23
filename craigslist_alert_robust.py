@@ -1,5 +1,6 @@
 import os
 import datetime
+from zoneinfo import ZoneInfo
 import pandas as pd
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -20,6 +21,7 @@ GMAIL_APP_PASSWORD = "eknq yzlh jkop vkdg" # https://myaccount.google.com/apppas
 RECIPIENT_EMAIL = "hillsbunnell@gmail.com"  # Could add more addresses
 BASE_DIR = os.path.expanduser("~/craigslist_alert")
 ACTIVE_PATH  = os.path.join(BASE_DIR, "craigslist_data", "listings_active.csv")
+LAST_DIGEST_FILE = os.path.join(BASE_DIR, "last_digest_date.txt")
 
 ORS_API_KEY = '5b3ce3597851110001cf624809183d29fbaa46ecb0f48f56e62f89cb'  # OpenRouteService API key https://account.heigit.org/manage/key
 CALTRAIN_COORDS = [-122.3942, 37.7763]  # lon, lat
@@ -29,6 +31,11 @@ CHROMEDRIVER_PATH = '/usr/bin/chromedriver'
 priority_neighborhoods = {"Mission", "Duboce"}
 priority_max_price = 3700
 priority_min_bathrooms = 2
+
+# Debug: show working directory and paths
+print(f"DEBUG: cwd = {os.getcwd()}")
+print(f"DEBUG: ACTIVE_PATH = {ACTIVE_PATH}")
+print(f"DEBUG: LAST_DIGEST_FILE = {LAST_DIGEST_FILE}")
 
 def send_email(msg: MIMEMultipart):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
@@ -85,13 +92,16 @@ def build_map_png(listings, map_html="email_map.html", map_png="email_map.png"):
 
 
 def main():
+    # Load active listings
     df = pd.read_csv(ACTIVE_PATH)
+    print("DEBUG: initial alerted counts =", df['alerted'].value_counts(dropna=False).to_dict())
     df = df[df['alerted'] == False]
+    print("DEBUG: unalerted rows after filter =", len(df))
 
     # --- Send priority single emails ---
+    # --- Priority alerts ---
     def hood_match(row):
-        if pd.isnull(row['neighborhoods']):
-            return False
+        if pd.isnull(row['neighborhoods']): return False
         return any(h in priority_neighborhoods for h in row['neighborhoods'].split(','))
 
     priority_mask = (
@@ -100,77 +110,110 @@ def main():
         (df['num_bathrooms'] >= priority_min_bathrooms)
     )
     df_priority = df[priority_mask]
-    df.loc[df_priority.index, 'alerted'] = True
+    print("DEBUG: priority listings count =", len(df_priority))
 
-    for _, row in df_priority.iterrows():
-        subject = f"🚨 New High-Priority Craigslist Listing: {row['title'][:40]}"
-        html_body = f"""
-        <html><body style="font-family:'Helvetica Neue',Arial,sans-serif;">
-        <h2 style="color:#262312; margin-bottom:10px;">{row['title']}</h2>
-        <div style="margin-bottom:8px;"><strong>Neighborhoods:</strong> {row['neighborhoods']}</div>
-        <div style="margin-bottom:8px;"><strong>Price:</strong> ${row['price']}</div>
-        <div style="margin-bottom:8px;"><strong>Beds/Baths:</strong> {row['num_bedrooms']}/{row['num_bathrooms']}</div>
-        <div style="margin-bottom:8px;"><strong>City:</strong> {row['city']}</div>
-        <div style="margin-bottom:8px;"><strong>Posted:</strong> {row['time_posted']}</div>
-        <div style="margin-bottom:8px;"><strong>URL:</strong> <a href="{row['url']}" style="color:#A67D4B;">View Listing</a></div>
-        <div style="margin-bottom:8px;"><strong>Location:</strong> ({row['lat']}, {row['lon']})</div>
-        </body></html>
-        """
-        msg = MIMEMultipart('alternative')
-        msg['From'] = GMAIL_ADDRESS
-        msg['To'] = RECIPIENT_EMAIL
-        msg['Subject'] = subject
-        msg.attach(MIMEText(html_body, 'html'))
-        send_email(msg)
-        print(f"Sent single alert: {row['title'][:40]}")
+    if not df_priority.empty:
+        df.loc[df_priority.index, 'alerted'] = True
+        print("DEBUG: alerted counts after priority =", df['alerted'].value_counts(dropna=False).to_dict())
+        df.to_csv(ACTIVE_PATH, index=False)
 
+        for _, row in df_priority.iterrows():
+            # send priority email
+            for _, row in df_priority.iterrows():
+                subject = f"🚨 New High-Priority Craigslist Listing: {row['title'][:40]}"
+                html_body = f"""
+                <html><body style="font-family:'Helvetica Neue',Arial,sans-serif;">
+                <h2 style="color:#262312; margin-bottom:10px;">{row['title']}</h2>
+                <div style="margin-bottom:8px;"><strong>Neighborhoods:</strong> {row['neighborhoods']}</div>
+                <div style="margin-bottom:8px;"><strong>Price:</strong> ${row['price']}</div>
+                <div style="margin-bottom:8px;"><strong>Beds/Baths:</strong> {row['num_bedrooms']}/{row['num_bathrooms']}</div>
+                <div style="margin-bottom:8px;"><strong>City:</strong> {row['city']}</div>
+                <div style="margin-bottom:8px;"><strong>Posted:</strong> {row['time_posted']}</div>
+                <div style="margin-bottom:8px;"><strong>URL:</strong> <a href="{row['url']}" style="color:#A67D4B;">View Listing</a></div>
+                <div style="margin-bottom:8px;"><strong>Location:</strong> ({row['lat']}, {row['lon']})</div>
+                </body></html>
+                """
+                msg = MIMEMultipart('alternative')
+                msg['From'] = GMAIL_ADDRESS
+                msg['To'] = RECIPIENT_EMAIL
+                msg['Subject'] = subject
+                msg.attach(MIMEText(html_body, 'html'))
+                send_email(msg)
+                print(f"Sent single alert: {row['title'][:40]}")
+            pass
+    
     # --- Digest by neighborhood (once a day) ---
     try:
-        with open('last_digest_date.txt', 'r') as f:
+        with open(LAST_DIGEST_FILE, 'r') as f:
             last_date = f.read().strip()
     except FileNotFoundError:
         last_date = None
-    today_str = datetime.date.today().isoformat()
+    today = datetime.datetime.now(ZoneInfo("America/Los_Angeles")).date()
+    today_str = today.isoformat()
     send_digest = (last_date != today_str)
+    print(f"DEBUG: last_date={last_date}, today_str={today_str}, send_digest={send_digest}")
 
     if send_digest:
-        def digest_hood_match(row):
-            if pd.isnull(row['neighborhoods']): return False
-            return any(h in neighborhood_shapes for h in row['neighborhoods'].split(','))
-        df_digest = df[df.apply(digest_hood_match, axis=1)]
+        df = pd.read_csv(ACTIVE_PATH)
+        df = df[df['alerted'] == False]
+        df_digest = df[df.apply(lambda r: not pd.isnull(r['neighborhoods']) and any(h in neighborhood_shapes for h in r['neighborhoods'].split(',')), axis=1)]
+        print("DEBUG: digest listings count =", len(df_digest))
         if not df_digest.empty:
             listings = df_digest.to_dict('records')
             map_png = build_map_png(listings)
             msg = MIMEMultipart('related')
             msg['From'] = GMAIL_ADDRESS
             msg['To'] = RECIPIENT_EMAIL
-            msg['Subject'] = 'Craigslist Daily Digest'
-            # Build HTML with inline styles for Gmail
+            subject_date = today.strftime('%B %d')
+            msg['Subject'] = f"Craigslist Daily Digest, {subject_date}"
+
+            # ---- Group by neighborhood ----
+            hood_to_listings = {hood: [] for hood in neighborhood_shapes.keys()}
+            for row in listings:
+                # row['neighborhoods'] could be "Mission,Duboce"
+                hoods = [h.strip() for h in (row.get('neighborhoods') or '').split(',') if h.strip() in neighborhood_shapes]
+                for hood in hoods:
+                    hood_to_listings[hood].append(row)
+
+            # ---- Build HTML ----
             html = '<html><body style="font-family:Arial,sans-serif; margin:0; padding:10px;">'
             html += '<h2 style="color:#262312;">New Craigslist Listings by Neighborhood</h2>'
-            current_hood = None
-            for row in listings:
-                hoods = row.get('neighborhoods','')
-                html += f"<div style='border:1px solid #262312; border-radius:6px; padding:8px; margin-bottom:8px;'>"
-                html += f"<div style='font-weight:bold; color:#262312;'>{row['title']}</div>"
-                html += f"<div style='color:#A8BFB9;'>${row['price']} &nbsp; {row['num_bedrooms']}bd/{row['num_bathrooms']}ba</div>"
-                html += f"<div><a href='{row['url']}' style='color:#A67D4B;'>View Listing</a></div>"
-                html += '</div>'
-            html += f"<div><img src='cid:mapimage' style='width:100%;max-width:800px;border-radius:8px;' /></div>"
+
+            for hood, hood_listings in hood_to_listings.items():
+                if not hood_listings:
+                    continue
+                html += f"<h3 style='margin:20px 0 6px 0; color:#D99441;'>{hood}</h3>"
+                for row in hood_listings:
+                    html += (
+                        "<div style='border:1px solid #262312; border-radius:6px; "
+                        "padding:8px; margin-bottom:8px;'>"
+                        f"<div style='font-weight:bold; color:#262312;'>{row['title']}</div>"
+                        f"<div style='color:#A8BFB9;'>${row['price']} &nbsp; {row['num_bedrooms']}bd/{row['num_bathrooms']}ba</div>"
+                        f"<div><a href='{row['url']}' style='color:#A67D4B;'>View Listing</a></div>"
+                        "</div>"
+                    )
+            html += (
+                "<div><img src='cid:mapimage' "
+                "style='width:100%;max-width:800px;border-radius:8px;' /></div>"
+            )
             html += '</body></html>'
+
             body = MIMEMultipart('alternative')
             body.attach(MIMEText(html, 'html'))
             msg.attach(body)
+
             with open(map_png, 'rb') as f:
                 img = MIMEImage(f.read())
                 img.add_header('Content-ID', '<mapimage>')
                 msg.attach(img)
             send_email(msg)
             print('Sent digest email.')
-            with open('last_digest_date.txt', 'w') as f:
+            df_all = pd.read_csv(ACTIVE_PATH)
+            df_all.loc[df_all.index.isin(df_digest.index), 'alerted'] = True
+            df_all.to_csv(ACTIVE_PATH, index=False)
+            with open(LAST_DIGEST_FILE, 'w') as f:
                 f.write(today_str)
-
-    df.to_csv(ACTIVE_PATH, index=False)
+            print(f"DEBUG: flagged {len(df_digest)} digest listings and updated LAST_DIGEST_FILE")
 
 if __name__ == '__main__':
     main()

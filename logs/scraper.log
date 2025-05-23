@@ -1,21 +1,2242 @@
-/bin/sh: 1: /home/pi/craigslist_alert/run_scraper.sh: not found
-Writing 21 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
-Scraped 13 listings; 21 active; 0 archived.
+Writing 23 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 23 active; 0 archived.
                                                title  ... alerted
-0      Spacious 3BR Home with Huge Backyard & Garage  ...   False
-1  Nice three bedroom two and half bath plus bonu...  ...   False
-2  Newly Remodeled House inner Sunset close to UC...  ...   False
-3  Spacious  4 room 1ba flat best nopa 10 min to ...  ...   False
-4      Springtime by the beach! Live at Baker Beach!  ...   False
+0       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+1  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+2      Spacious 3BR Home with Huge Backyard & Garage  ...   False
+3  Nice three bedroom two and half bath plus bonu...  ...   False
+4  Newly Remodeled House inner Sunset close to UC...  ...   False
 
 [5 rows x 11 columns]
-Writing 21 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
-Scraped 13 listings; 21 active; 0 archived.
+Writing 23 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 23 active; 0 archived.
                                                title  ... alerted
-0      Spacious 3BR Home with Huge Backyard & Garage  ...   False
-1  Nice three bedroom two and half bath plus bonu...  ...   False
+0       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+1  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+2      Spacious 3BR Home with Huge Backyard & Garage  ...   False
+3  Nice three bedroom two and half bath plus bonu...  ...   False
+4  Newly Remodeled House inner Sunset close to UC...  ...   False
+
+[5 rows x 11 columns]
+Writing 24 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 24 active; 0 archived.
+                                                title  ... alerted
+23       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+0        Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+1   Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+2       Spacious 3BR Home with Huge Backyard & Garage  ...   False
+3   Nice three bedroom two and half bath plus bonu...  ...   False
+
+[5 rows x 11 columns]
+Writing 24 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 24 active; 0 archived.
+                                               title  ... alerted
+0       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+1       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+2  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+3      Spacious 3BR Home with Huge Backyard & Garage  ...   False
+4  Nice three bedroom two and half bath plus bonu...  ...   False
+
+[5 rows x 11 columns]
+Writing 24 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 24 active; 0 archived.
+                                               title  ... alerted
+0       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+1       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+2  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+3      Spacious 3BR Home with Huge Backyard & Garage  ...   False
+4  Nice three bedroom two and half bath plus bonu...  ...   False
+
+[5 rows x 11 columns]
+Writing 24 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 24 active; 0 archived.
+                                               title  ... alerted
+0       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+1       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+2  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+3      Spacious 3BR Home with Huge Backyard & Garage  ...   False
+4  Nice three bedroom two and half bath plus bonu...  ...   False
+
+[5 rows x 11 columns]
+Writing 25 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 14 listings; 25 active; 0 archived.
+                                                title  ... alerted
+24  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+0        Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+1        Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+2   Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+3       Spacious 3BR Home with Huge Backyard & Garage  ...   False
+
+[5 rows x 11 columns]
+Writing 25 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 14 listings; 25 active; 0 archived.
+                                               title  ... alerted
+0  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+1       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+2       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+3  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+4      Spacious 3BR Home with Huge Backyard & Garage  ...   False
+
+[5 rows x 11 columns]
+Writing 25 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 11 listings; 25 active; 0 archived.
+                                               title  ... alerted
+0  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+1       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+2       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+3  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+4      Spacious 3BR Home with Huge Backyard & Garage  ...   False
+
+[5 rows x 11 columns]
+Writing 25 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 11 listings; 25 active; 0 archived.
+                                               title  ... alerted
+0  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+1       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+2       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+3  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+4      Spacious 3BR Home with Huge Backyard & Garage  ...   False
+
+[5 rows x 11 columns]
+Writing 25 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 11 listings; 25 active; 0 archived.
+                                               title  ... alerted
+0  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+1       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+2       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+3  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+4      Spacious 3BR Home with Huge Backyard & Garage  ...   False
+
+[5 rows x 11 columns]
+Writing 25 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 11 listings; 25 active; 0 archived.
+                                               title  ... alerted
+0  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+1       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+2       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+3  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+4      Spacious 3BR Home with Huge Backyard & Garage  ...   False
+
+[5 rows x 11 columns]
+Writing 26 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 26 active; 0 archived.
+                                                title  ... alerted
+25  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+0   Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+1        Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+2        Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+3   Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+
+[5 rows x 11 columns]
+Writing 26 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 26 active; 0 archived.
+                                               title  ... alerted
+0  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+1  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+2       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+3       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+4  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+
+[5 rows x 11 columns]
+Writing 26 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 26 active; 0 archived.
+                                               title  ... alerted
+0  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+1  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+2       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+3       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+4  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+
+[5 rows x 11 columns]
+Writing 26 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 26 active; 0 archived.
+                                               title  ... alerted
+0  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+1  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+2       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+3       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+4  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+
+[5 rows x 11 columns]
+Writing 26 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 26 active; 0 archived.
+                                               title  ... alerted
+0  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+1  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+2       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+3       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+4  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+
+[5 rows x 11 columns]
+Writing 26 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 26 active; 0 archived.
+                                               title  ... alerted
+0  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+1  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+2       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+3       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+4  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+
+[5 rows x 11 columns]
+Writing 26 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 26 active; 0 archived.
+                                               title  ... alerted
+0  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+1  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+2       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+3       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+4  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+
+[5 rows x 11 columns]
+Writing 26 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 26 active; 0 archived.
+                                               title  ... alerted
+0  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+1  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+2       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+3       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+4  Classic 3-Bed/2-Bath Apartment with Updated Ki...  ...   False
+
+[5 rows x 11 columns]
+Writing 27 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 27 active; 0 archived.
+                                                title  ... alerted
+26  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+0   Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+1   Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+2        Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+3        Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+
+[5 rows x 11 columns]
+Writing 27 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 27 active; 0 archived.
+                                               title  ... alerted
+0  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+1  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+2  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+3       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+4       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+
+[5 rows x 11 columns]
+Writing 27 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 27 active; 0 archived.
+                                               title  ... alerted
+0  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+1  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+2  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+3       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+4       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+
+[5 rows x 11 columns]
+Writing 27 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 12 listings; 27 active; 0 archived.
+                                               title  ... alerted
+0  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+1  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+2  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+3       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+4       Private Room in 3bed 1.5 bath SOMA apartment  ...   False
+
+[5 rows x 11 columns]
+Writing 28 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 28 active; 0 archived.
+                                                title  ... alerted
+27  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+0   **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+1   Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+2   Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+3        Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+
+[5 rows x 11 columns]
+Writing 28 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 28 active; 0 archived.
+                                               title  ... alerted
+0  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+1  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+2  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+3  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+4       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+
+[5 rows x 11 columns]
+Writing 28 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 28 active; 0 archived.
+                                               title  ... alerted
+0  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+1  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+2  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+3  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+4       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+
+[5 rows x 11 columns]
+Writing 28 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 28 active; 0 archived.
+                                               title  ... alerted
+0  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+1  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+2  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+3  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+4       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+
+[5 rows x 11 columns]
+Writing 28 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 28 active; 0 archived.
+                                               title  ... alerted
+0  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+1  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+2  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+3  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+4       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+
+[5 rows x 11 columns]
+Writing 28 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 28 active; 0 archived.
+                                               title  ... alerted
+0  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+1  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+2  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+3  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+4       Stylish 3-Bed, 2-Bath in [Popular Apartment]  ...   False
+
+[5 rows x 11 columns]
+Writing 29 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 29 active; 0 archived.
+                                                title  ... alerted
+28  !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+0   Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+1   **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+2   Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+3   Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+
+[5 rows x 11 columns]
+Writing 29 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 29 active; 0 archived.
+                                               title  ... alerted
+0  !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+1  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+2  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+3  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+4  Spacious 3-Bedroom, 2.5-Bath with Great Storag...  ...   False
+
+[5 rows x 11 columns]
+Writing 30 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 30 active; 0 archived.
+                                                title  ... alerted
+29                                     Presidio Gem!!  ...   False
+0   !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+1   Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+2   **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+3   Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+
+[5 rows x 11 columns]
+Writing 30 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 30 active; 0 archived.
+                                               title  ... alerted
+0                                     Presidio Gem!!  ...   False
+1  !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+2  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+3  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+4  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+
+[5 rows x 11 columns]
+Writing 30 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 30 active; 0 archived.
+                                               title  ... alerted
+0                                     Presidio Gem!!  ...   False
+1  !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+2  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+3  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+4  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+
+[5 rows x 11 columns]
+Writing 30 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 30 active; 0 archived.
+                                               title  ... alerted
+0                                     Presidio Gem!!  ...   False
+1  !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+2  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+3  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+4  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+
+[5 rows x 11 columns]
+Writing 30 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 30 active; 0 archived.
+                                               title  ... alerted
+0                                     Presidio Gem!!  ...   False
+1  !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+2  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+3  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+4  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+
+[5 rows x 11 columns]
+Writing 30 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 30 active; 0 archived.
+                                               title  ... alerted
+0                                     Presidio Gem!!  ...   False
+1  !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+2  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+3  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+4  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+
+[5 rows x 11 columns]
+Writing 30 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 30 active; 0 archived.
+                                               title  ... alerted
+0                                     Presidio Gem!!  ...   False
+1  !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+2  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+3  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+4  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+
+[5 rows x 11 columns]
+Writing 30 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 30 active; 0 archived.
+                                               title  ... alerted
+0                                     Presidio Gem!!  ...   False
+1  !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+2  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+3  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+4  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+
+[5 rows x 11 columns]
+Writing 30 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 30 active; 0 archived.
+                                               title  ... alerted
+0                                     Presidio Gem!!  ...   False
+1  !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+2  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+3  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+4  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+
+[5 rows x 11 columns]
+Writing 30 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 30 active; 0 archived.
+                                               title  ... alerted
+0                                     Presidio Gem!!  ...   False
+1  !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+2  Bright 3BR Home w/ Garage Parking in Southern ...  ...   False
+3  **~Spacious 3BR/2BA Apartment in  San Francisc...  ...   False
+4  Nob Hill Large 3-Bedroom Unit w/ Modern Kitche...  ...   False
+
+[5 rows x 11 columns]
+Writing 33 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 33 active; 0 archived.
+                                                title  ... alerted
+32  👑 "Influencer Approved! 3BR/1BA Designed for t...  ...   False
+31  Great location and beautiful neighborhood 174 ...  ...   False
+30          Prime location 3-bedroom 2 bath apartment  ...   False
+0                                      Presidio Gem!!  ...   False
+1   !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+
+[5 rows x 11 columns]
+Writing 33 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 33 active; 0 archived.
+                                               title  ... alerted
+0  👑 "Influencer Approved! 3BR/1BA Designed for t...  ...   False
+1  Great location and beautiful neighborhood 174 ...  ...   False
+2          Prime location 3-bedroom 2 bath apartment  ...   False
+3                                     Presidio Gem!!  ...   False
+4  !!~Fully Furnished 3BR w/ Sauna, Parking & Mod...  ...   False
+
+[5 rows x 11 columns]
+Writing 36 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 36 active; 0 archived.
+                                                title  ... alerted
+35  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+34  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+33  🔥 "FIRE Deal! 3-Bedroom Steal – Landlord Pays ...  ...   False
+0   👑 "Influencer Approved! 3BR/1BA Designed for t...  ...   False
+1   Great location and beautiful neighborhood 174 ...  ...   False
+
+[5 rows x 11 columns]
+Writing 36 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 36 active; 0 archived.
+                                               title  ... alerted
+0  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+1  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+2  🔥 "FIRE Deal! 3-Bedroom Steal – Landlord Pays ...  ...   False
+3  👑 "Influencer Approved! 3BR/1BA Designed for t...  ...   False
+4  Great location and beautiful neighborhood 174 ...  ...   False
+
+[5 rows x 11 columns]
+Writing 38 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 38 active; 0 archived.
+                                                title  ... alerted
+37  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+36  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+0   🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+1   📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+2   🔥 "FIRE Deal! 3-Bedroom Steal – Landlord Pays ...  ...   False
+
+[5 rows x 11 columns]
+Writing 38 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 38 active; 0 archived.
+                                               title  ... alerted
+0  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+1  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+2  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+3  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+4  🔥 "FIRE Deal! 3-Bedroom Steal – Landlord Pays ...  ...   False
+
+[5 rows x 11 columns]
+Writing 38 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 38 active; 0 archived.
+                                               title  ... alerted
+0  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+1  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+2  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+3  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+4  🔥 "FIRE Deal! 3-Bedroom Steal – Landlord Pays ...  ...   False
+
+[5 rows x 11 columns]
+Writing 38 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 38 active; 0 archived.
+                                               title  ... alerted
+0  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+1  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+2  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+3  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+4  🔥 "FIRE Deal! 3-Bedroom Steal – Landlord Pays ...  ...   False
+
+[5 rows x 11 columns]
+Writing 38 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 38 active; 0 archived.
+                                               title  ... alerted
+0  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+1  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+2  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+3  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+4  🔥 "FIRE Deal! 3-Bedroom Steal – Landlord Pays ...  ...   False
+
+[5 rows x 11 columns]
+Writing 38 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 38 active; 0 archived.
+                                               title  ... alerted
+0  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+1  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+2  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+3  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+4  🔥 "FIRE Deal! 3-Bedroom Steal – Landlord Pays ...  ...   False
+
+[5 rows x 11 columns]
+Writing 38 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 38 active; 0 archived.
+                                               title  ... alerted
+0  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+1  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+2  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+3  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+4  🔥 "FIRE Deal! 3-Bedroom Steal – Landlord Pays ...  ...   False
+
+[5 rows x 11 columns]
+Writing 38 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 38 active; 0 archived.
+                                               title  ... alerted
+0  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+1  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+2  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+3  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+4  🔥 "FIRE Deal! 3-Bedroom Steal – Landlord Pays ...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 39 active; 0 archived.
+                                                title  ... alerted
+38                         spacious 4-bed 2-bath home  ...   False
+0   💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+1   ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+2   🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+3   📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 39 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 16 listings; 39 active; 0 archived.
+                                               title  ... alerted
+0                         spacious 4-bed 2-bath home  ...   False
+1  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+4  📈 "Price Jumps Tomorrow! Lock This 4BR/2BA Dea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 40 active; 0 archived.
+                                                title  ... alerted
+39                 Luxury 3 bedroom 2 bathroom house.  ...   False
+0                          spacious 4-bed 2-bath home  ...   False
+1   💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+2   ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+3   🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 40 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 17 listings; 40 active; 0 archived.
+                                               title  ... alerted
+0                 Luxury 3 bedroom 2 bathroom house.  ...   False
+1                         spacious 4-bed 2-bath home  ...   False
+2  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+4  🎯 "Bullseye! Perfect 3-Bed for Hustlers & Drea...  ...   False
+
+[5 rows x 11 columns]
+Writing 41 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 41 active; 0 archived.
+                                                title  ... alerted
+40                 Well maintained 3BD & 2BR for rent  ...   False
+0                  Luxury 3 bedroom 2 bathroom house.  ...   False
+1                          spacious 4-bed 2-bath home  ...   False
+2   💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+3   ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+
+[5 rows x 11 columns]
+Writing 41 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 41 active; 0 archived.
+                                               title  ... alerted
+0                 Well maintained 3BD & 2BR for rent  ...   False
+1                 Luxury 3 bedroom 2 bathroom house.  ...   False
+2                         spacious 4-bed 2-bath home  ...   False
+3  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+4  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+
+[5 rows x 11 columns]
+Writing 41 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 41 active; 0 archived.
+                                               title  ... alerted
+0                 Well maintained 3BD & 2BR for rent  ...   False
+1                 Luxury 3 bedroom 2 bathroom house.  ...   False
+2                         spacious 4-bed 2-bath home  ...   False
+3  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+4  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+
+[5 rows x 11 columns]
+Writing 41 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 41 active; 0 archived.
+                                               title  ... alerted
+0                 Well maintained 3BD & 2BR for rent  ...   False
+1                 Luxury 3 bedroom 2 bathroom house.  ...   False
+2                         spacious 4-bed 2-bath home  ...   False
+3  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+4  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+
+[5 rows x 11 columns]
+Writing 41 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 41 active; 0 archived.
+                                               title  ... alerted
+0                 Well maintained 3BD & 2BR for rent  ...   False
+1                 Luxury 3 bedroom 2 bathroom house.  ...   False
+2                         spacious 4-bed 2-bath home  ...   False
+3  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+4  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+
+[5 rows x 11 columns]
+Writing 41 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 18 listings; 41 active; 0 archived.
+                                               title  ... alerted
+0                 Well maintained 3BD & 2BR for rent  ...   False
+1                 Luxury 3 bedroom 2 bathroom house.  ...   False
+2                         spacious 4-bed 2-bath home  ...   False
+3  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+4  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+
+[5 rows x 11 columns]
+Writing 41 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 41 active; 0 archived.
+                                               title  ... alerted
+0                 Well maintained 3BD & 2BR for rent  ...   False
+1                 Luxury 3 bedroom 2 bathroom house.  ...   False
+2                         spacious 4-bed 2-bath home  ...   False
+3  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+4  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+
+[5 rows x 11 columns]
+Writing 41 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 41 active; 0 archived.
+                                               title  ... alerted
+0                 Well maintained 3BD & 2BR for rent  ...   False
+1                 Luxury 3 bedroom 2 bathroom house.  ...   False
+2                         spacious 4-bed 2-bath home  ...   False
+3  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+4  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+
+[5 rows x 11 columns]
+Writing 41 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 41 active; 0 archived.
+                                               title  ... alerted
+0                 Well maintained 3BD & 2BR for rent  ...   False
+1                 Luxury 3 bedroom 2 bathroom house.  ...   False
+2                         spacious 4-bed 2-bath home  ...   False
+3  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+4  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+
+[5 rows x 11 columns]
+Writing 41 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 41 active; 0 archived.
+                                               title  ... alerted
+0                 Well maintained 3BD & 2BR for rent  ...   False
+1                 Luxury 3 bedroom 2 bathroom house.  ...   False
+2                         spacious 4-bed 2-bath home  ...   False
+3  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+4  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+
+[5 rows x 11 columns]
+Writing 41 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 41 active; 0 archived.
+                                               title  ... alerted
+0                 Well maintained 3BD & 2BR for rent  ...   False
+1                 Luxury 3 bedroom 2 bathroom house.  ...   False
+2                         spacious 4-bed 2-bath home  ...   False
+3  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+4  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+
+[5 rows x 11 columns]
+Writing 41 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 41 active; 0 archived.
+                                               title  ... alerted
+0                 Well maintained 3BD & 2BR for rent  ...   False
+1                 Luxury 3 bedroom 2 bathroom house.  ...   False
+2                         spacious 4-bed 2-bath home  ...   False
+3  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+4  ⚡ "Instant Love! Stunning 3BR/2BA – Apply Befo...  ...   False
+
+[5 rows x 11 columns]
+Writing 42 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 42 active; 0 archived.
+                                                title  ... alerted
+41  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+0                  Well maintained 3BD & 2BR for rent  ...   False
+1                  Luxury 3 bedroom 2 bathroom house.  ...   False
+2                          spacious 4-bed 2-bath home  ...   False
+3   💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+
+[5 rows x 11 columns]
+Writing 42 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv
+Scraped 13 listings; 42 active; 0 archived.
+                                               title  ... alerted
+0  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+1                 Well maintained 3BD & 2BR for rent  ...   False
+2                 Luxury 3 bedroom 2 bathroom house.  ...   False
+3                         spacious 4-bed 2-bath home  ...   False
+4  💎 "Diamond Deal: Luxury 3-Bed Gem – Rare Find ...  ...   False
+
+[5 rows x 11 columns]
+Writing 43 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 18:50:05
+Scraped 14 listings; 43 active; 0 archived.
+                                                title  ... alerted
+42  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+0   Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+1                  Well maintained 3BD & 2BR for rent  ...   False
+2                  Luxury 3 bedroom 2 bathroom house.  ...   False
+3                          spacious 4-bed 2-bath home  ...   False
+
+[5 rows x 11 columns]
+Writing 43 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 19:00:05
+Scraped 14 listings; 43 active; 0 archived.
+                                               title  ... alerted
+0  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                 Well maintained 3BD & 2BR for rent  ...   False
+3                 Luxury 3 bedroom 2 bathroom house.  ...   False
+4                         spacious 4-bed 2-bath home  ...   False
+
+[5 rows x 11 columns]
+Writing 43 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 19:10:05
+Scraped 14 listings; 43 active; 0 archived.
+                                               title  ... alerted
+0  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                 Well maintained 3BD & 2BR for rent  ...   False
+3                 Luxury 3 bedroom 2 bathroom house.  ...   False
+4                         spacious 4-bed 2-bath home  ...   False
+
+[5 rows x 11 columns]
+Writing 43 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 19:20:05
+Scraped 14 listings; 43 active; 0 archived.
+                                               title  ... alerted
+0  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                 Well maintained 3BD & 2BR for rent  ...   False
+3                 Luxury 3 bedroom 2 bathroom house.  ...   False
+4                         spacious 4-bed 2-bath home  ...   False
+
+[5 rows x 11 columns]
+Writing 43 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 19:30:06
+Scraped 14 listings; 43 active; 0 archived.
+                                               title  ... alerted
+0  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                 Well maintained 3BD & 2BR for rent  ...   False
+3                 Luxury 3 bedroom 2 bathroom house.  ...   False
+4                         spacious 4-bed 2-bath home  ...   False
+
+[5 rows x 11 columns]
+Writing 43 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 19:40:05
+Scraped 14 listings; 43 active; 0 archived.
+                                               title  ... alerted
+0  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                 Well maintained 3BD & 2BR for rent  ...   False
+3                 Luxury 3 bedroom 2 bathroom house.  ...   False
+4                         spacious 4-bed 2-bath home  ...   False
+
+[5 rows x 11 columns]
+Writing 43 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 19:50:05
+Scraped 14 listings; 43 active; 0 archived.
+                                               title  ... alerted
+0  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                 Well maintained 3BD & 2BR for rent  ...   False
+3                 Luxury 3 bedroom 2 bathroom house.  ...   False
+4                         spacious 4-bed 2-bath home  ...   False
+
+[5 rows x 11 columns]
+Writing 43 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 20:00:06
+Scraped 14 listings; 43 active; 0 archived.
+                                               title  ... alerted
+0  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+1  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                 Well maintained 3BD & 2BR for rent  ...   False
+3                 Luxury 3 bedroom 2 bathroom house.  ...   False
+4                         spacious 4-bed 2-bath home  ...   False
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 20:10:06
+Scraped 14 listings; 44 active; 0 archived.
+                                                title  ... alerted
+43  Newly Remodeled House inner Sunset close to UC...  ...   False
+0   Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+1   Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+2                  Well maintained 3BD & 2BR for rent  ...   False
+3                  Luxury 3 bedroom 2 bathroom house.  ...   False
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 20:20:05
+Scraped 14 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                 Well maintained 3BD & 2BR for rent  ...   False
+4                 Luxury 3 bedroom 2 bathroom house.  ...   False
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 20:30:06
+Scraped 12 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                 Well maintained 3BD & 2BR for rent  ...   False
+4                 Luxury 3 bedroom 2 bathroom house.  ...   False
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 20:40:05
+Scraped 12 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                 Well maintained 3BD & 2BR for rent  ...   False
+4                 Luxury 3 bedroom 2 bathroom house.  ...   False
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 20:50:05
+Scraped 11 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                 Well maintained 3BD & 2BR for rent  ...   False
+4                 Luxury 3 bedroom 2 bathroom house.  ...   False
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 21:00:06
+Scraped 11 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                 Well maintained 3BD & 2BR for rent  ...   False
+4                 Luxury 3 bedroom 2 bathroom house.  ...   False
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 21:10:06
+Scraped 11 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                 Well maintained 3BD & 2BR for rent  ...   False
+4                 Luxury 3 bedroom 2 bathroom house.  ...   False
+
+[5 rows x 11 columns]
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 21:20:05
+Scraped 11 listings; 44 active; 0 archived.
+                                               title  ... alerted
+0  Newly Remodeled House inner Sunset close to UC...  ...   False
+1  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+2  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                 Well maintained 3BD & 2BR for rent  ...   False
+4                 Luxury 3 bedroom 2 bathroom house.  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 21:30:06
+Scraped 12 listings; 45 active; 0 archived.
+                                                title  ... alerted
+44      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+0   Newly Remodeled House inner Sunset close to UC...  ...   False
+1   Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+2   Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+3                  Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 21:40:06
+Scraped 12 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 21:50:06
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 22:00:06
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 22:10:06
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 22:20:06
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 22:30:06
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 22:40:06
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 22:50:05
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 23:00:05
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 23:10:05
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 23:20:05
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 23:30:08
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 23:40:05
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-21 23:50:05
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 00:00:05
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 00:10:05
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 00:20:05
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 00:30:07
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 45 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 00:40:05
+Scraped 10 listings; 45 active; 0 archived.
+                                               title  ... alerted
+0      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1  Newly Remodeled House inner Sunset close to UC...  ...   False
+2  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+4                 Well maintained 3BD & 2BR for rent  ...   False
+
+[5 rows x 11 columns]
+Writing 46 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 00:50:05
+Scraped 11 listings; 46 active; 0 archived.
+                                                title  ... alerted
+45  👑 "Influencer Approved! 3BR/2BA Designed for t...  ...   False
+0       Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
+1   Newly Remodeled House inner Sunset close to UC...  ...   False
+2   Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+3   Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+
+[5 rows x 11 columns]
+Writing 46 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 01:00:06
+Scraped 11 listings; 46 active; 0 archived.
+                                               title  ... alerted
+0  👑 "Influencer Approved! 3BR/2BA Designed for t...  ...   False
+1      Situated in San Francisco!, 3BD 1.5BA, Retail  ...   False
 2  Newly Remodeled House inner Sunset close to UC...  ...   False
-3  Spacious  4 room 1ba flat best nopa 10 min to ...  ...   False
-4      Springtime by the beach! Live at Baker Beach!  ...   False
+3  Spacious 3 Bedroom Loft! Private Balcony! Avai...  ...   False
+4  Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+
+[5 rows x 11 columns]
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+  File "/home/pi/craigslist_alert/craigslist_scraper.py", line 136
+    print(f"Writing {len(df_active)} rows to {DATA_ACTIVE} at {datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%Y-%m-%d %H:%M:%S')")
+                                                                                      ^^^^^^^
+SyntaxError: f-string: unmatched '('
+Writing 44 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-05-22 17:50:05
+Scraped 8 listings; 44 active; 0 archived.
+                                                title  ... alerted
+43  REMODELED BRIGHT LARGE 1500sf 3BR/2.5BA Balboa...  ...   False
+0   Call Now! Updated 3B2B! Laundry In Unit! Avail...  ...   False
+1                       Location! Location! Location!  ...   False
+2       Springtime by the beach! Live at Baker Beach!  ...   False
+3      Shared housing in the Mission in San Francisco  ...    True
 
 [5 rows x 11 columns]
