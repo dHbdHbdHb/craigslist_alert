@@ -1,4 +1,5 @@
 title,neighborhoods,price,num_bedrooms,num_bathrooms,url,lat,lon,city,time_posted,alerted
+"OPEN SUN 1pm-1:30pm.Full Flat,W/D,Sh Yard(540 Guerrero)",Mission,3995,3,1.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-open-sun-1pm-130pmfull/7854315425.html,37.7630300535801,-122.423949374797,San Francisco,2025-05-30T09:20:06.280892-07:00,False
 "OPEN SUN 1pm-1:30pm.Fully renovated,In-Unit W/D,ShYard(540 Guerrero)",Mission,3995,3,1.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-open-sun-1pm-130pmfully/7854228683.html,37.7630300535801,-122.423949374797,San Francisco,2025-05-29T22:20:05.619589-07:00,True
 "Walk-in showers, In San Francisco, 3/BD 1.5/BA",,3582,3,2.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-walk-in-showers-in-san/7854211110.html,37.7724999000175,-122.414693814574,San Francisco,2025-05-29T19:40:06.319883-07:00,False
 CLASSIC 3BR/2BA Flat in Prime Inner Richmond,,1650,3,2.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-classic-3br-2ba-flat-in/7854209152.html,37.7849623050187,-122.461248927258,San Francisco,2025-05-29T19:20:06.183182-07:00,False
