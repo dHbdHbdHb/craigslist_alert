@@ -18,7 +18,11 @@ from neighborhoods.neighborhood_shapes import neighborhood_shapes
 # ----- Configurable -----
 GMAIL_ADDRESS = "hillsbunnell@gmail.com"
 GMAIL_APP_PASSWORD = "eknq yzlh jkop vkdg" # https://myaccount.google.com/apppasswords
-RECIPIENT_EMAIL = "hillsbunnell@gmail.com"  # Could add more addresses
+RECIPIENT_EMAIL = [
+    "hillsbunnell@gmail.com",
+    "Natasha.ma.batista@gmail.com"
+    # Could add more addresses here
+    ]
 BASE_DIR = os.path.expanduser("~/craigslist_alert")
 ACTIVE_PATH  = os.path.join(BASE_DIR, "craigslist_data", "listings_active.csv")
 LAST_DIGEST_FILE = os.path.join(BASE_DIR, "last_digest_date.txt")
@@ -28,7 +32,7 @@ CALTRAIN_COORDS = [-122.3942, 37.7763]  # lon, lat
 CHROMEDRIVER_PATH = '/usr/bin/chromedriver'
 
 # Priority & Digest criteria...
-priority_neighborhoods = {"Mission", "Duboce"}
+priority_neighborhoods = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal"}
 priority_max_price = 3700
 priority_min_bathrooms = 2
 
@@ -129,7 +133,7 @@ def main():
                 """
                 msg = MIMEMultipart('alternative')
                 msg['From'] = GMAIL_ADDRESS
-                msg['To'] = RECIPIENT_EMAIL
+                msg['To'] = ', '.join(RECIPIENT_EMAIL) #RECIPIENT_EMAIL 
                 msg['Subject'] = subject
                 msg.attach(MIMEText(html_body, 'html'))
                 send_email(msg)

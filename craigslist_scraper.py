@@ -10,7 +10,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 # ----- Configurable parameters -----
-max_price = "4500"
+max_price = "5000"
 min_bedrooms = "3"
 BASE_DIR = os.path.expanduser("~/craigslist_alert")
 DATA_ACTIVE  = os.path.join(BASE_DIR, "craigslist_data", "listings_active.csv")

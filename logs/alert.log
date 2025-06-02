@@ -682,3 +682,1838 @@ DEBUG: initial alerted counts = {False: 49, True: 4}
 DEBUG: unalerted rows after filter = 49
 DEBUG: priority listings count = 0
 DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 49, True: 4}
+DEBUG: unalerted rows after filter = 49
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 49, True: 4}
+DEBUG: unalerted rows after filter = 49
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 50, True: 4}
+DEBUG: unalerted rows after filter = 50
+DEBUG: priority listings count = 1
+DEBUG: alerted counts after priority = {False: 49, True: 1}
+Sent single alert: Shared housing in the Mission in San Fra
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 51, True: 1}
+DEBUG: unalerted rows after filter = 51
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 52, True: 1}
+DEBUG: unalerted rows after filter = 52
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 52, True: 1}
+DEBUG: unalerted rows after filter = 52
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 1}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 1}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 1}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 1}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 1}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 1}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 1}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 1}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 1}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 1}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 54, True: 1}
+DEBUG: unalerted rows after filter = 54
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 55, True: 1}
+DEBUG: unalerted rows after filter = 55
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 55, True: 1}
+DEBUG: unalerted rows after filter = 55
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 55, True: 1}
+DEBUG: unalerted rows after filter = 55
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-23, send_digest=False
+DEBUG: initial alerted counts = {False: 55, True: 1}
+DEBUG: unalerted rows after filter = 55
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-23, today_str=2025-05-24, send_digest=True
+DEBUG: digest listings count = 5
+Sent digest email.
+DEBUG: flagged 5 digest listings and updated LAST_DIGEST_FILE
+DEBUG: initial alerted counts = {False: 50, True: 6}
+DEBUG: unalerted rows after filter = 50
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 50, True: 6}
+DEBUG: unalerted rows after filter = 50
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 50, True: 6}
+DEBUG: unalerted rows after filter = 50
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 50, True: 6}
+DEBUG: unalerted rows after filter = 50
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 50, True: 6}
+DEBUG: unalerted rows after filter = 50
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 50, True: 6}
+DEBUG: unalerted rows after filter = 50
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 50, True: 6}
+DEBUG: unalerted rows after filter = 50
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 50, True: 6}
+DEBUG: unalerted rows after filter = 50
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 50, True: 6}
+DEBUG: unalerted rows after filter = 50
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 50, True: 6}
+DEBUG: unalerted rows after filter = 50
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 50, True: 6}
+DEBUG: unalerted rows after filter = 50
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 51, True: 6}
+DEBUG: unalerted rows after filter = 51
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 51, True: 6}
+DEBUG: unalerted rows after filter = 51
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 51, True: 6}
+DEBUG: unalerted rows after filter = 51
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 51, True: 6}
+DEBUG: unalerted rows after filter = 51
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 51, True: 6}
+DEBUG: unalerted rows after filter = 51
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 51, True: 6}
+DEBUG: unalerted rows after filter = 51
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 52, True: 6}
+DEBUG: unalerted rows after filter = 52
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 6}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 6}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 6}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 6}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 6}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 6}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 6}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 6}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 6}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 6}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 6}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 53, True: 6}
+DEBUG: unalerted rows after filter = 53
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 55, True: 6}
+DEBUG: unalerted rows after filter = 55
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 55, True: 6}
+DEBUG: unalerted rows after filter = 55
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 6}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 6}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 6}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 6}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 6}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 6}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 6}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 57, True: 6}
+DEBUG: unalerted rows after filter = 57
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 57, True: 6}
+DEBUG: unalerted rows after filter = 57
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 57, True: 6}
+DEBUG: unalerted rows after filter = 57
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 57, True: 6}
+DEBUG: unalerted rows after filter = 57
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 58, True: 6}
+DEBUG: unalerted rows after filter = 58
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 59, True: 6}
+DEBUG: unalerted rows after filter = 59
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 59, True: 6}
+DEBUG: unalerted rows after filter = 59
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 59, True: 6}
+DEBUG: unalerted rows after filter = 59
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-24, send_digest=False
+DEBUG: initial alerted counts = {False: 59, True: 6}
+DEBUG: unalerted rows after filter = 59
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-24, today_str=2025-05-25, send_digest=True
+DEBUG: digest listings count = 3
+Sent digest email.
+DEBUG: flagged 3 digest listings and updated LAST_DIGEST_FILE
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 56, True: 9}
+DEBUG: unalerted rows after filter = 56
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 57, True: 9}
+DEBUG: unalerted rows after filter = 57
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 57, True: 9}
+DEBUG: unalerted rows after filter = 57
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 57, True: 9}
+DEBUG: unalerted rows after filter = 57
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 58, True: 9}
+DEBUG: unalerted rows after filter = 58
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 59, True: 9}
+DEBUG: unalerted rows after filter = 59
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 59, True: 9}
+DEBUG: unalerted rows after filter = 59
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 60, True: 9}
+DEBUG: unalerted rows after filter = 60
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 60, True: 9}
+DEBUG: unalerted rows after filter = 60
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 60, True: 9}
+DEBUG: unalerted rows after filter = 60
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 60, True: 9}
+DEBUG: unalerted rows after filter = 60
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 9}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 9}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 9}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 9}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 9}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 9}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 64, True: 9}
+DEBUG: unalerted rows after filter = 64
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 64, True: 9}
+DEBUG: unalerted rows after filter = 64
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 65, True: 9}
+DEBUG: unalerted rows after filter = 65
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 65, True: 9}
+DEBUG: unalerted rows after filter = 65
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 68, True: 9}
+DEBUG: unalerted rows after filter = 68
+DEBUG: priority listings count = 1
+DEBUG: alerted counts after priority = {False: 67, True: 1}
+Sent single alert: Modern 3BR/2BA – Apartment
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 1}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 70, True: 1}
+DEBUG: unalerted rows after filter = 70
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 70, True: 1}
+DEBUG: unalerted rows after filter = 70
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 70, True: 1}
+DEBUG: unalerted rows after filter = 70
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 70, True: 1}
+DEBUG: unalerted rows after filter = 70
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 70, True: 1}
+DEBUG: unalerted rows after filter = 70
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-25, send_digest=False
+DEBUG: initial alerted counts = {False: 70, True: 1}
+DEBUG: unalerted rows after filter = 70
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-25, today_str=2025-05-26, send_digest=True
+DEBUG: digest listings count = 7
+Sent digest email.
+DEBUG: flagged 7 digest listings and updated LAST_DIGEST_FILE
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 63, True: 8}
+DEBUG: unalerted rows after filter = 63
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 64, True: 8}
+DEBUG: unalerted rows after filter = 64
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 64, True: 8}
+DEBUG: unalerted rows after filter = 64
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 64, True: 8}
+DEBUG: unalerted rows after filter = 64
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 65, True: 8}
+DEBUG: unalerted rows after filter = 65
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 66, True: 8}
+DEBUG: unalerted rows after filter = 66
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 66, True: 8}
+DEBUG: unalerted rows after filter = 66
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 67, True: 8}
+DEBUG: unalerted rows after filter = 67
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 68, True: 8}
+DEBUG: unalerted rows after filter = 68
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 68, True: 8}
+DEBUG: unalerted rows after filter = 68
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 68, True: 8}
+DEBUG: unalerted rows after filter = 68
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 8}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 8}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 8}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 8}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 8}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 8}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 8}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 8}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 8}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 8}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 8}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 69, True: 8}
+DEBUG: unalerted rows after filter = 69
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 70, True: 8}
+DEBUG: unalerted rows after filter = 70
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 70, True: 8}
+DEBUG: unalerted rows after filter = 70
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 8}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 8}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 72, True: 8}
+DEBUG: unalerted rows after filter = 72
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 72, True: 8}
+DEBUG: unalerted rows after filter = 72
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 75, True: 8}
+DEBUG: unalerted rows after filter = 75
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 75, True: 8}
+DEBUG: unalerted rows after filter = 75
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 75, True: 8}
+DEBUG: unalerted rows after filter = 75
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-26, send_digest=False
+DEBUG: initial alerted counts = {False: 75, True: 8}
+DEBUG: unalerted rows after filter = 75
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-26, today_str=2025-05-27, send_digest=True
+DEBUG: digest listings count = 4
+Sent digest email.
+DEBUG: flagged 4 digest listings and updated LAST_DIGEST_FILE
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 71, True: 12}
+DEBUG: unalerted rows after filter = 71
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 72, True: 12}
+DEBUG: unalerted rows after filter = 72
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 73, True: 12}
+DEBUG: unalerted rows after filter = 73
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 75, True: 12}
+DEBUG: unalerted rows after filter = 75
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 76, True: 12}
+DEBUG: unalerted rows after filter = 76
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 76, True: 12}
+DEBUG: unalerted rows after filter = 76
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 76, True: 12}
+DEBUG: unalerted rows after filter = 76
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 76, True: 12}
+DEBUG: unalerted rows after filter = 76
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 76, True: 12}
+DEBUG: unalerted rows after filter = 76
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 76, True: 12}
+DEBUG: unalerted rows after filter = 76
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 77, True: 12}
+DEBUG: unalerted rows after filter = 77
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 78, True: 12}
+DEBUG: unalerted rows after filter = 78
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 79, True: 12}
+DEBUG: unalerted rows after filter = 79
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 80, True: 12}
+DEBUG: unalerted rows after filter = 80
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 80, True: 12}
+DEBUG: unalerted rows after filter = 80
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 12}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-27, send_digest=False
+DEBUG: initial alerted counts = {False: 82, True: 12}
+DEBUG: unalerted rows after filter = 82
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-27, today_str=2025-05-28, send_digest=True
+DEBUG: digest listings count = 2
+Sent digest email.
+DEBUG: flagged 2 digest listings and updated LAST_DIGEST_FILE
+DEBUG: initial alerted counts = {False: 80, True: 14}
+DEBUG: unalerted rows after filter = 80
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 80, True: 14}
+DEBUG: unalerted rows after filter = 80
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 80, True: 14}
+DEBUG: unalerted rows after filter = 80
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 80, True: 14}
+DEBUG: unalerted rows after filter = 80
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 80, True: 14}
+DEBUG: unalerted rows after filter = 80
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 80, True: 14}
+DEBUG: unalerted rows after filter = 80
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 80, True: 14}
+DEBUG: unalerted rows after filter = 80
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 80, True: 14}
+DEBUG: unalerted rows after filter = 80
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 80, True: 14}
+DEBUG: unalerted rows after filter = 80
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 14}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 14}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 14}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 14}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 14}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 14}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 14}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 81, True: 14}
+DEBUG: unalerted rows after filter = 81
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 82, True: 14}
+DEBUG: unalerted rows after filter = 82
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 83, True: 14}
+DEBUG: unalerted rows after filter = 83
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 83, True: 14}
+DEBUG: unalerted rows after filter = 83
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 83, True: 14}
+DEBUG: unalerted rows after filter = 83
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 83, True: 14}
+DEBUG: unalerted rows after filter = 83
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 84, True: 14}
+DEBUG: unalerted rows after filter = 84
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 84, True: 14}
+DEBUG: unalerted rows after filter = 84
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 84, True: 14}
+DEBUG: unalerted rows after filter = 84
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 84, True: 14}
+DEBUG: unalerted rows after filter = 84
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 84, True: 14}
+DEBUG: unalerted rows after filter = 84
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 84, True: 14}
+DEBUG: unalerted rows after filter = 84
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 84, True: 14}
+DEBUG: unalerted rows after filter = 84
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 84, True: 14}
+DEBUG: unalerted rows after filter = 84
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 85, True: 14}
+DEBUG: unalerted rows after filter = 85
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 85, True: 14}
+DEBUG: unalerted rows after filter = 85
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 85, True: 14}
+DEBUG: unalerted rows after filter = 85
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 85, True: 14}
+DEBUG: unalerted rows after filter = 85
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 87, True: 14}
+DEBUG: unalerted rows after filter = 87
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 87, True: 14}
+DEBUG: unalerted rows after filter = 87
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 87, True: 14}
+DEBUG: unalerted rows after filter = 87
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 87, True: 14}
+DEBUG: unalerted rows after filter = 87
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 87, True: 14}
+DEBUG: unalerted rows after filter = 87
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 87, True: 14}
+DEBUG: unalerted rows after filter = 87
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 87, True: 14}
+DEBUG: unalerted rows after filter = 87
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 88, True: 14}
+DEBUG: unalerted rows after filter = 88
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 88, True: 14}
+DEBUG: unalerted rows after filter = 88
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 88, True: 14}
+DEBUG: unalerted rows after filter = 88
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 88, True: 14}
+DEBUG: unalerted rows after filter = 88
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 88, True: 14}
+DEBUG: unalerted rows after filter = 88
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 88, True: 14}
+DEBUG: unalerted rows after filter = 88
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-28, send_digest=False
+DEBUG: initial alerted counts = {False: 88, True: 14}
+DEBUG: unalerted rows after filter = 88
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-29, send_digest=True
+DEBUG: digest listings count = 0
+DEBUG: initial alerted counts = {False: 89, True: 14}
+DEBUG: unalerted rows after filter = 89
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-28, today_str=2025-05-29, send_digest=True
+DEBUG: digest listings count = 1
+Sent digest email.
+DEBUG: flagged 1 digest listings and updated LAST_DIGEST_FILE
+DEBUG: initial alerted counts = {False: 88, True: 15}
+DEBUG: unalerted rows after filter = 88
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 90, True: 15}
+DEBUG: unalerted rows after filter = 90
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 91, True: 15}
+DEBUG: unalerted rows after filter = 91
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 91, True: 15}
+DEBUG: unalerted rows after filter = 91
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 91, True: 15}
+DEBUG: unalerted rows after filter = 91
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 91, True: 15}
+DEBUG: unalerted rows after filter = 91
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 91, True: 15}
+DEBUG: unalerted rows after filter = 91
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 92, True: 15}
+DEBUG: unalerted rows after filter = 92
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 92, True: 15}
+DEBUG: unalerted rows after filter = 92
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 92, True: 15}
+DEBUG: unalerted rows after filter = 92
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 92, True: 15}
+DEBUG: unalerted rows after filter = 92
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 92, True: 15}
+DEBUG: unalerted rows after filter = 92
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 92, True: 15}
+DEBUG: unalerted rows after filter = 92
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 92, True: 15}
+DEBUG: unalerted rows after filter = 92
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 92, True: 15}
+DEBUG: unalerted rows after filter = 92
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 93, True: 15}
+DEBUG: unalerted rows after filter = 93
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 94, True: 15}
+DEBUG: unalerted rows after filter = 94
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 94, True: 15}
+DEBUG: unalerted rows after filter = 94
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 94, True: 15}
+DEBUG: unalerted rows after filter = 94
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 95, True: 15}
+DEBUG: unalerted rows after filter = 95
+DEBUG: priority listings count = 1
+DEBUG: alerted counts after priority = {False: 94, True: 1}
+Sent single alert: SETTLE into classic san francisco!
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 95, True: 1}
+DEBUG: unalerted rows after filter = 95
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 95, True: 1}
+DEBUG: unalerted rows after filter = 95
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 95, True: 1}
+DEBUG: unalerted rows after filter = 95
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 95, True: 1}
+DEBUG: unalerted rows after filter = 95
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 1}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 98, True: 1}
+DEBUG: unalerted rows after filter = 98
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 98, True: 1}
+DEBUG: unalerted rows after filter = 98
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 98, True: 1}
+DEBUG: unalerted rows after filter = 98
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 98, True: 1}
+DEBUG: unalerted rows after filter = 98
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 100, True: 1}
+DEBUG: unalerted rows after filter = 100
+DEBUG: priority listings count = 2
+DEBUG: alerted counts after priority = {False: 98, True: 2}
+Sent single alert: LIVE well in a beautiful apartment full 
+Sent single alert: STEP into a comfortable lifestyle in a w
+Sent single alert: LIVE well in a beautiful apartment full 
+Sent single alert: STEP into a comfortable lifestyle in a w
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 98, True: 2}
+DEBUG: unalerted rows after filter = 98
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 98, True: 2}
+DEBUG: unalerted rows after filter = 98
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 98, True: 2}
+DEBUG: unalerted rows after filter = 98
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 98, True: 2}
+DEBUG: unalerted rows after filter = 98
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 98, True: 2}
+DEBUG: unalerted rows after filter = 98
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 98, True: 2}
+DEBUG: unalerted rows after filter = 98
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 98, True: 2}
+DEBUG: unalerted rows after filter = 98
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 99, True: 2}
+DEBUG: unalerted rows after filter = 99
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 100, True: 2}
+DEBUG: unalerted rows after filter = 100
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 100, True: 2}
+DEBUG: unalerted rows after filter = 100
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 100, True: 2}
+DEBUG: unalerted rows after filter = 100
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 100, True: 2}
+DEBUG: unalerted rows after filter = 100
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 100, True: 2}
+DEBUG: unalerted rows after filter = 100
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 101, True: 2}
+DEBUG: unalerted rows after filter = 101
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 101, True: 2}
+DEBUG: unalerted rows after filter = 101
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 101, True: 2}
+DEBUG: unalerted rows after filter = 101
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-29, send_digest=False
+DEBUG: initial alerted counts = {False: 101, True: 2}
+DEBUG: unalerted rows after filter = 101
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-29, today_str=2025-05-30, send_digest=True
+DEBUG: digest listings count = 5
+Sent digest email.
+DEBUG: flagged 5 digest listings and updated LAST_DIGEST_FILE
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 96, True: 7}
+DEBUG: unalerted rows after filter = 96
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 97, True: 7}
+DEBUG: unalerted rows after filter = 97
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 97, True: 7}
+DEBUG: unalerted rows after filter = 97
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 97, True: 7}
+DEBUG: unalerted rows after filter = 97
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 97, True: 7}
+DEBUG: unalerted rows after filter = 97
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 97, True: 7}
+DEBUG: unalerted rows after filter = 97
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 99, True: 7}
+DEBUG: unalerted rows after filter = 99
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 102, True: 7}
+DEBUG: unalerted rows after filter = 102
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 102, True: 7}
+DEBUG: unalerted rows after filter = 102
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 102, True: 7}
+DEBUG: unalerted rows after filter = 102
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 102, True: 7}
+DEBUG: unalerted rows after filter = 102
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 102, True: 7}
+DEBUG: unalerted rows after filter = 102
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 102, True: 7}
+DEBUG: unalerted rows after filter = 102
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 102, True: 7}
+DEBUG: unalerted rows after filter = 102
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 104, True: 7}
+DEBUG: unalerted rows after filter = 104
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 105, True: 7}
+DEBUG: unalerted rows after filter = 105
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 105, True: 7}
+DEBUG: unalerted rows after filter = 105
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 105, True: 7}
+DEBUG: unalerted rows after filter = 105
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 106, True: 7}
+DEBUG: unalerted rows after filter = 106
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 106, True: 7}
+DEBUG: unalerted rows after filter = 106
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 106, True: 7}
+DEBUG: unalerted rows after filter = 106
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 106, True: 7}
+DEBUG: unalerted rows after filter = 106
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 106, True: 7}
+DEBUG: unalerted rows after filter = 106
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 106, True: 7}
+DEBUG: unalerted rows after filter = 106
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 106, True: 7}
+DEBUG: unalerted rows after filter = 106
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 109, True: 7}
+DEBUG: unalerted rows after filter = 109
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 110, True: 7}
+DEBUG: unalerted rows after filter = 110
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 110, True: 7}
+DEBUG: unalerted rows after filter = 110
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 111, True: 7}
+DEBUG: unalerted rows after filter = 111
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 111, True: 7}
+DEBUG: unalerted rows after filter = 111
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-30, send_digest=False
+DEBUG: initial alerted counts = {False: 111, True: 7}
+DEBUG: unalerted rows after filter = 111
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-30, today_str=2025-05-31, send_digest=True
+DEBUG: digest listings count = 8
+Sent digest email.
+DEBUG: flagged 8 digest listings and updated LAST_DIGEST_FILE
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 103, True: 15}
+DEBUG: unalerted rows after filter = 103
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 104, True: 15}
+DEBUG: unalerted rows after filter = 104
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 105, True: 15}
+DEBUG: unalerted rows after filter = 105
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 107, True: 15}
+DEBUG: unalerted rows after filter = 107
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 107, True: 15}
+DEBUG: unalerted rows after filter = 107
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 108, True: 15}
+DEBUG: unalerted rows after filter = 108
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 109, True: 15}
+DEBUG: unalerted rows after filter = 109
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 109, True: 15}
+DEBUG: unalerted rows after filter = 109
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 109, True: 15}
+DEBUG: unalerted rows after filter = 109
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 109, True: 15}
+DEBUG: unalerted rows after filter = 109
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 111, True: 15}
+DEBUG: unalerted rows after filter = 111
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 112, True: 15}
+DEBUG: unalerted rows after filter = 112
+DEBUG: priority listings count = 1
+DEBUG: alerted counts after priority = {False: 111, True: 1}
+Sent single alert: QUIET unit with updated interiors and gr
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 114, True: 1}
+DEBUG: unalerted rows after filter = 114
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 114, True: 1}
+DEBUG: unalerted rows after filter = 114
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 114, True: 1}
+DEBUG: unalerted rows after filter = 114
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 114, True: 1}
+DEBUG: unalerted rows after filter = 114
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 114, True: 1}
+DEBUG: unalerted rows after filter = 114
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 114, True: 1}
+DEBUG: unalerted rows after filter = 114
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 114, True: 1}
+DEBUG: unalerted rows after filter = 114
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 114, True: 1}
+DEBUG: unalerted rows after filter = 114
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 114, True: 1}
+DEBUG: unalerted rows after filter = 114
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 1}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 1}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 1}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 1}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 1}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 1}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 1}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 1}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 1}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 1}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 1}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-05-31, send_digest=False
+DEBUG: initial alerted counts = {False: 117, True: 1}
+DEBUG: unalerted rows after filter = 117
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-05-31, today_str=2025-06-01, send_digest=True
+DEBUG: digest listings count = 3
+Sent digest email.
+DEBUG: flagged 3 digest listings and updated LAST_DIGEST_FILE
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 115, True: 4}
+DEBUG: unalerted rows after filter = 115
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 4}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 1
+DEBUG: alerted counts after priority = {False: 115, True: 1}
+Sent single alert: SPACIOUS comfort in a relaxed setting!
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 1}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 1}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 1}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 1}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 1}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 1}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 1}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 1}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 1}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 1}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 1}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 116, True: 1}
+DEBUG: unalerted rows after filter = 116
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 117, True: 1}
+DEBUG: unalerted rows after filter = 117
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 117, True: 1}
+DEBUG: unalerted rows after filter = 117
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 117, True: 1}
+DEBUG: unalerted rows after filter = 117
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 117, True: 1}
+DEBUG: unalerted rows after filter = 117
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 117, True: 1}
+DEBUG: unalerted rows after filter = 117
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
