@@ -2517,3 +2517,983 @@ DEBUG: initial alerted counts = {False: 117, True: 1}
 DEBUG: unalerted rows after filter = 117
 DEBUG: priority listings count = 0
 DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 125, True: 1}
+DEBUG: unalerted rows after filter = 125
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 125, True: 1}
+DEBUG: unalerted rows after filter = 125
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 125, True: 1}
+DEBUG: unalerted rows after filter = 125
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 125, True: 1}
+DEBUG: unalerted rows after filter = 125
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-01, send_digest=False
+DEBUG: initial alerted counts = {False: 127, True: 1}
+DEBUG: unalerted rows after filter = 127
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 5
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 128, True: 1}
+DEBUG: unalerted rows after filter = 128
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 6
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 128, True: 1}
+DEBUG: unalerted rows after filter = 128
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 6
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 128, True: 1}
+DEBUG: unalerted rows after filter = 128
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 6
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 128, True: 1}
+DEBUG: unalerted rows after filter = 128
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 6
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 128, True: 1}
+DEBUG: unalerted rows after filter = 128
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 6
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 129, True: 1}
+DEBUG: unalerted rows after filter = 129
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 6
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 129, True: 1}
+DEBUG: unalerted rows after filter = 129
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 6
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 129, True: 1}
+DEBUG: unalerted rows after filter = 129
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 6
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 129, True: 1}
+DEBUG: unalerted rows after filter = 129
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 6
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 129, True: 1}
+DEBUG: unalerted rows after filter = 129
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 6
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 129, True: 1}
+DEBUG: unalerted rows after filter = 129
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 6
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 130, True: 1}
+DEBUG: unalerted rows after filter = 130
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 7
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 130, True: 1}
+DEBUG: unalerted rows after filter = 130
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 7
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 130, True: 1}
+DEBUG: unalerted rows after filter = 130
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 7
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 130, True: 1}
+DEBUG: unalerted rows after filter = 130
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 7
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 130, True: 1}
+DEBUG: unalerted rows after filter = 130
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 7
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 130, True: 1}
+DEBUG: unalerted rows after filter = 130
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 7
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 131, True: 1}
+DEBUG: unalerted rows after filter = 131
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 7
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 131, True: 1}
+DEBUG: unalerted rows after filter = 131
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 7
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 135, True: 1}
+DEBUG: unalerted rows after filter = 135
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 7
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 137, True: 1}
+DEBUG: unalerted rows after filter = 137
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 8
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 137, True: 1}
+DEBUG: unalerted rows after filter = 137
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 8
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 138, True: 1}
+DEBUG: unalerted rows after filter = 138
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 8
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 138, True: 1}
+DEBUG: unalerted rows after filter = 138
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 8
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 139, True: 1}
+DEBUG: unalerted rows after filter = 139
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 8
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 142, True: 1}
+DEBUG: unalerted rows after filter = 142
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 9
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 142, True: 1}
+DEBUG: unalerted rows after filter = 142
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 9
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 145, True: 1}
+DEBUG: unalerted rows after filter = 145
+DEBUG: priority listings count = 2
+DEBUG: alerted counts after priority = {False: 143, True: 2}
+Sent single alert: WELL-LIT apartment with comfort, style, 
+Sent single alert: SPACIOUS living with every amenity you n
+Sent single alert: WELL-LIT apartment with comfort, style, 
+Sent single alert: SPACIOUS living with every amenity you n
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 9
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 143, True: 2}
+DEBUG: unalerted rows after filter = 143
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 9
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 144, True: 2}
+DEBUG: unalerted rows after filter = 144
+DEBUG: priority listings count = 1
+DEBUG: alerted counts after priority = {False: 143, True: 1}
+Sent single alert: BRIGHT space in a quiet and friendly set
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 11
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 145, True: 1}
+DEBUG: unalerted rows after filter = 145
+DEBUG: priority listings count = 2
+DEBUG: alerted counts after priority = {False: 143, True: 2}
+Sent single alert: WELL-LIT apartment with comfort, style, 
+Sent single alert: SPACIOUS living with every amenity you n
+Sent single alert: WELL-LIT apartment with comfort, style, 
+Sent single alert: SPACIOUS living with every amenity you n
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 9
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 144, True: 2}
+DEBUG: unalerted rows after filter = 144
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 9
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 217, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 207, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 42, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'
+DEBUG: initial alerted counts = {False: 145, True: 2}
+DEBUG: unalerted rows after filter = 145
+DEBUG: priority listings count = 0
+DEBUG: last_date=2025-06-01, today_str=2025-06-02, send_digest=True
+DEBUG: digest listings count = 9
+Traceback (most recent call last):
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 218, in <module>
+    main()
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 208, in main
+    send_email(msg)
+  File "/home/pi/craigslist_alert/craigslist_alert_robust.py", line 43, in send_email
+    server.send_message(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/smtplib.py", line 984, in send_message
+    g.flatten(msg_copy, linesep='\r\n')
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 117, in flatten
+    self._write(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 200, in _write
+    self._write_headers(msg)
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/generator.py", line 432, in _write_headers
+    self._fp.write(self.policy.fold_binary(h, v))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 345, in fold_binary
+    folded = self._fold(name, value, sanitize=self.cte_type=='7bit')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/miniforge3/envs/craigslist/lib/python3.11/email/_policybase.py", line 377, in _fold
+    parts.append(h.encode(linesep=self.linesep, maxlinelen=maxlinelen))
+                 ^^^^^^^^
+AttributeError: 'list' object has no attribute 'encode'

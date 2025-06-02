@@ -20,6 +20,7 @@ GMAIL_ADDRESS = "hillsbunnell@gmail.com"
 GMAIL_APP_PASSWORD = "eknq yzlh jkop vkdg" # https://myaccount.google.com/apppasswords
 RECIPIENT_EMAIL = [
     "hillsbunnell@gmail.com",
+    "Max.Drimmer@gmail.com",
     "Natasha.ma.batista@gmail.com"
     # Could add more addresses here
     ]
@@ -31,9 +32,9 @@ ORS_API_KEY = '5b3ce3597851110001cf624809183d29fbaa46ecb0f48f56e62f89cb'  # Open
 CALTRAIN_COORDS = [-122.3942, 37.7763]  # lon, lat
 CHROMEDRIVER_PATH = '/usr/bin/chromedriver'
 
-# Priority & Digest criteria...
+# Priority & Digest criteria
 priority_neighborhoods = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal"}
-priority_max_price = 3700
+priority_max_price = 3800
 priority_min_bathrooms = 2
 
 def send_email(msg: MIMEMultipart):
