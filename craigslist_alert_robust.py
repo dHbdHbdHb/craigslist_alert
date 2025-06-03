@@ -34,7 +34,7 @@ CHROMEDRIVER_PATH = '/usr/bin/chromedriver'
 
 # Priority & Digest criteria
 priority_neighborhoods = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal"}
-priority_max_price = 3800
+priority_max_price = 3900
 priority_min_bathrooms = 2
 
 def send_email(msg: MIMEMultipart):
@@ -162,7 +162,7 @@ def main():
             map_png = build_map_png(listings)
             msg = MIMEMultipart('related')
             msg['From'] = GMAIL_ADDRESS
-            msg['To'] = RECIPIENT_EMAIL
+            msg['To'] = ', '.join(RECIPIENT_EMAIL)
             subject_date = today.strftime('%B %d')
             msg['Subject'] = f"Craigslist Daily Digest, {subject_date}"
 

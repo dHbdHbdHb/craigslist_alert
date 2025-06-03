@@ -18122,3 +18122,43 @@ Scraped 24 listings; 152 active; 0 archived.
 147  Modern 3BR/2BA, 1,491 SqFt Ocean Front Condo! ...  ...   False
 
 [5 rows x 11 columns]
+Writing 152 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-06-02 16:40:05
+Scraped 24 listings; 152 active; 0 archived.
+                                               title  ... alerted
+0  Charming 3 BR x 1 BA in the Heart of San Franc...  ...   False
+1  Huge 3BR/1.5BA Full Floor NOPA Flat! Laundry! ...  ...   False
+2  SPACIOUS 4BR! Laundry IN-UNIT! Great Location!...  ...   False
+3   3 Bedroom/2 Bathroom Excelsior district charmer!  ...   False
+4  Modern 3BR/2BA, 1,491 SqFt Ocean Front Condo! ...  ...   False
+
+[5 rows x 11 columns]
+Writing 152 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-06-02 16:50:05
+Scraped 24 listings; 152 active; 0 archived.
+                                               title  ... alerted
+0  Charming 3 BR x 1 BA in the Heart of San Franc...  ...   False
+1  Huge 3BR/1.5BA Full Floor NOPA Flat! Laundry! ...  ...   False
+2  SPACIOUS 4BR! Laundry IN-UNIT! Great Location!...  ...   False
+3   3 Bedroom/2 Bathroom Excelsior district charmer!  ...   False
+4  Modern 3BR/2BA, 1,491 SqFt Ocean Front Condo! ...  ...   False
+
+[5 rows x 11 columns]
+Writing 152 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-06-02 17:00:05
+Scraped 24 listings; 152 active; 0 archived.
+                                               title  ... alerted
+0  Charming 3 BR x 1 BA in the Heart of San Franc...  ...   False
+1  Huge 3BR/1.5BA Full Floor NOPA Flat! Laundry! ...  ...   False
+2  SPACIOUS 4BR! Laundry IN-UNIT! Great Location!...  ...   False
+3   3 Bedroom/2 Bathroom Excelsior district charmer!  ...   False
+4  Modern 3BR/2BA, 1,491 SqFt Ocean Front Condo! ...  ...   False
+
+[5 rows x 11 columns]
+Writing 154 rows to /home/pi/craigslist_alert/craigslist_data/listings_active.csv at 2025-06-02 17:10:05
+Scraped 25 listings; 154 active; 0 archived.
+                                                 title  ... alerted
+153  OPEN: TUE 6-6:30pm. Top, second floor 3BR/1BA ...  ...   False
+152  Just Remodeled! Full Flr Flat near Alamo Sq. |...  ...   False
+0    Charming 3 BR x 1 BA in the Heart of San Franc...  ...   False
+1    Huge 3BR/1.5BA Full Floor NOPA Flat! Laundry! ...  ...   False
+2    SPACIOUS 4BR! Laundry IN-UNIT! Great Location!...  ...   False
+
+[5 rows x 11 columns]
