@@ -18,10 +18,16 @@ from neighborhoods.neighborhood_shapes import neighborhood_shapes
 # ----- Configurable -----
 GMAIL_ADDRESS = "hillsbunnell@gmail.com"
 GMAIL_APP_PASSWORD = "eknq yzlh jkop vkdg" # https://myaccount.google.com/apppasswords
-RECIPIENT_EMAIL = [
-    "hillsbunnell@gmail.com",
+DIGEST_RECIPIENT_EMAILS = [
+    "Natasha.ma.batista@gmail.com",
     "Max.Drimmer@gmail.com",
-    "Natasha.ma.batista@gmail.com"
+    "hillsbunnell@gmail.com"
+    # Could add more addresses here
+    ]
+ALERT_RECIPIENT_EMAILS = [
+    # "Natasha.ma.batista@gmail.com",
+    # "Max.Drimmer@gmail.com",
+    "hillsbunnell@gmail.com"
     # Could add more addresses here
     ]
 BASE_DIR = os.path.expanduser("~/craigslist_alert")
@@ -36,6 +42,7 @@ CHROMEDRIVER_PATH = '/usr/bin/chromedriver'
 priority_neighborhoods = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal"}
 priority_max_price = 3900
 priority_min_bathrooms = 2
+digest_max_price = 5200
 
 def send_email(msg: MIMEMultipart):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
@@ -117,29 +124,28 @@ def main():
         df.to_csv(ACTIVE_PATH, index=False)
 
         for _, row in df_priority.iterrows():
-            # send priority email
-            for _, row in df_priority.iterrows():
-                subject = f"🚨 New High-Priority Craigslist Listing: {row['title'][:40]}"
-                html_body = f"""
-                <html><body style="font-family:'Helvetica Neue',Arial,sans-serif;">
-                <h2 style="color:#262312; margin-bottom:10px;">{row['title']}</h2>
-                <div style="margin-bottom:8px;"><strong>Neighborhoods:</strong> {row['neighborhoods']}</div>
-                <div style="margin-bottom:8px;"><strong>Price:</strong> ${row['price']}</div>
-                <div style="margin-bottom:8px;"><strong>Beds/Baths:</strong> {row['num_bedrooms']}/{row['num_bathrooms']}</div>
-                <div style="margin-bottom:8px;"><strong>City:</strong> {row['city']}</div>
-                <div style="margin-bottom:8px;"><strong>Posted:</strong> {row['time_posted']}</div>
-                <div style="margin-bottom:8px;"><strong>URL:</strong> <a href="{row['url']}" style="color:#A67D4B;">View Listing</a></div>
-                <div style="margin-bottom:8px;"><strong>Location:</strong> ({row['lat']}, {row['lon']})</div>
-                </body></html>
-                """
-                msg = MIMEMultipart('alternative')
-                msg['From'] = GMAIL_ADDRESS
-                msg['To'] = ', '.join(RECIPIENT_EMAIL) #RECIPIENT_EMAIL 
-                msg['Subject'] = subject
-                msg.attach(MIMEText(html_body, 'html'))
-                send_email(msg)
-                print(f"Sent single alert: {row['title'][:40]}")
-            pass
+        # send priority email
+            subject = f"🚨 New High-Priority Craigslist Listing: {row['title'][:40]}"
+            html_body = f"""
+            <html><body style="font-family:'Helvetica Neue',Arial,sans-serif;">
+            <h2 style="color:#262312; margin-bottom:10px;">{row['title']}</h2>
+            <div style="margin-bottom:8px;"><strong>Neighborhoods:</strong> {row['neighborhoods']}</div>
+            <div style="margin-bottom:8px;"><strong>Price:</strong> ${row['price']}</div>
+            <div style="margin-bottom:8px;"><strong>Beds/Baths:</strong> {row['num_bedrooms']}/{row['num_bathrooms']}</div>
+            <div style="margin-bottom:8px;"><strong>City:</strong> {row['city']}</div>
+            <div style="margin-bottom:8px;"><strong>Posted:</strong> {row['time_posted']}</div>
+            <div style="margin-bottom:8px;"><strong>URL:</strong> <a href="{row['url']}" style="color:#A67D4B;">View Listing</a></div>
+            <div style="margin-bottom:8px;"><strong>Location:</strong> ({row['lat']}, {row['lon']})</div>
+            </body></html>
+            """
+            msg = MIMEMultipart('alternative')
+            msg['From'] = GMAIL_ADDRESS
+            msg['To'] = ', '.join(ALERT_RECIPIENT_EMAILS)
+            msg['Subject'] = subject
+            msg.attach(MIMEText(html_body, 'html'))
+            send_email(msg)
+            print(f"Sent single alert: {row['title'][:40]}")
+        pass
     
     # --- Digest by neighborhood (once a day) ---
     try:
@@ -155,6 +161,10 @@ def main():
     if send_digest:
         df = pd.read_csv(ACTIVE_PATH)
         df = df[df['alerted'] == False]
+        digest_mask = (
+            (df['price'] <= digest_max_price)
+        )
+        df_priority = df[digest_mask]
         df_digest = df[df.apply(lambda r: not pd.isnull(r['neighborhoods']) and any(h in neighborhood_shapes for h in r['neighborhoods'].split(',')), axis=1)]
         print("DEBUG: digest listings count =", len(df_digest))
         if not df_digest.empty:
@@ -162,7 +172,7 @@ def main():
             map_png = build_map_png(listings)
             msg = MIMEMultipart('related')
             msg['From'] = GMAIL_ADDRESS
-            msg['To'] = ', '.join(RECIPIENT_EMAIL)
+            msg['To'] = ', '.join(DIGEST_RECIPIENT_EMAILS)
             subject_date = today.strftime('%B %d')
             msg['Subject'] = f"Craigslist Daily Digest, {subject_date}"
 
@@ -192,6 +202,9 @@ def main():
                         "</div>"
                     )
             html += (
+                "<div style='margin:24px 0 8px 0; font-size:18px; font-weight:bold; color:#262312;'>"
+                "Biking Times:"
+                "</div>"
                 "<div><img src='cid:mapimage' "
                 "style='width:100%;max-width:800px;border-radius:8px;' /></div>"
             )
