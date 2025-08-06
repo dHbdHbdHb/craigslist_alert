@@ -19,7 +19,7 @@ from neighborhoods.neighborhood_shapes import neighborhood_shapes
 GMAIL_ADDRESS = "hillsbunnell@gmail.com"
 GMAIL_APP_PASSWORD = "eknq yzlh jkop vkdg" # https://myaccount.google.com/apppasswords
 DIGEST_RECIPIENT_EMAILS = [
-    "Natasha.ma.batista@gmail.com",
+    # "Natasha.ma.batista@gmail.com",
     "Max.Drimmer@gmail.com",
     "hillsbunnell@gmail.com"
     # Could add more addresses here
