@@ -11,6 +11,8 @@ from folium.features import DivIcon
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+import requests
+from bs4 import BeautifulSoup
 import time
 import openrouteservice
 from neighborhoods.neighborhood_shapes import neighborhood_shapes
@@ -20,7 +22,7 @@ GMAIL_ADDRESS = "hillsbunnell@gmail.com"
 GMAIL_APP_PASSWORD = "eknq yzlh jkop vkdg" # https://myaccount.google.com/apppasswords
 DIGEST_RECIPIENT_EMAILS = [
     # "Natasha.ma.batista@gmail.com",
-    "Max.Drimmer@gmail.com",
+    # "Max.Drimmer@gmail.com",
     "hillsbunnell@gmail.com"
     # Could add more addresses here
     ]
@@ -40,9 +42,9 @@ CHROMEDRIVER_PATH = '/usr/bin/chromedriver'
 
 # Priority & Digest criteria
 priority_neighborhoods = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal"}
-priority_max_price = 3900
+priority_max_price = 3000
 priority_min_bathrooms = 2
-digest_max_price = 5200
+digest_max_price = 5500
 
 def send_email(msg: MIMEMultipart):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
@@ -97,12 +99,31 @@ def build_map_png(listings, map_html="email_map.html", map_png="email_map.png"):
     driver.quit()
     return map_png
 
+def is_listing_active(url):
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        flagged_text = "This posting has been flagged for removal."
+        removed_text = "This posting has been deleted by its author."
+        return not (flagged_text in response.text or removed_text in response.text)
+    except requests.RequestException as e:
+        print(f"Error checking {url}: {e}")
+        return False
+
 
 def main():
     # Load active listings
     df = pd.read_csv(ACTIVE_PATH)
+
+    # Ensure all necessary columns exist
+    for col in ("alerted", "priority_alerted"):
+        if col not in df.columns:
+            df[col] = False
+    df[["alerted", "priority_alerted"]] = df[["alerted", "priority_alerted"]].fillna(False).astype(bool)
     print("DEBUG: initial alerted counts =", df['alerted'].value_counts(dropna=False).to_dict())
-    df = df[df['alerted'] == False]
+    # Filter out already alerted listings
+    df = df[df['alerted'] == False].copy()
     print("DEBUG: unalerted rows after filter =", len(df))
 
     # --- Send priority single emails ---
@@ -115,7 +136,10 @@ def main():
         (df['price'] <= priority_max_price) &
         (df['num_bathrooms'] >= priority_min_bathrooms)
     )
-    df_priority = df[priority_mask]
+    df_priority = df[priority_mask].copy()
+    df_priority['active'] = df_priority['url'].apply(is_listing_active)
+    df_priority = df_priority[df_priority['active']]
+    df_priority.drop(columns='active', inplace=True)
     print("DEBUG: priority listings count =", len(df_priority))
 
     if not df_priority.empty:
@@ -160,12 +184,27 @@ def main():
 
     if send_digest:
         df = pd.read_csv(ACTIVE_PATH)
-        df = df[df['alerted'] == False]
-        digest_mask = (
-            (df['price'] <= digest_max_price)
+        # only not-yet-digested rows
+        df = df.loc[df['alerted'] == False].copy()
+       
+        # neighborhood filter
+        def in_known_hoods(s: str) -> bool:
+            if not isinstance(s, str) or not s.strip():
+                return False
+            return any(h in neighborhood_shapes for h in (t.strip() for t in s.split(',')))
+
+        mask = (df['price'] <= digest_max_price) & df['neighborhoods'].apply(in_known_hoods)
+
+        df_digest = (
+            df.loc[mask].copy()
+            .assign(active=lambda d: d['url'].apply(is_listing_active))
+            .query('active')
+            .drop(columns='active')
         )
-        df_priority = df[digest_mask]
-        df_digest = df[df.apply(lambda r: not pd.isnull(r['neighborhoods']) and any(h in neighborhood_shapes for h in r['neighborhoods'].split(',')), axis=1)]
+
+        print("df_digest shape:", df_digest.shape)
+        print("df_digest columns:", df_digest.columns)
+
         print("DEBUG: digest listings count =", len(df_digest))
         if not df_digest.empty:
             listings = df_digest.to_dict('records')

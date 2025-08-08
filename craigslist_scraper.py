@@ -11,7 +11,7 @@ from zoneinfo import ZoneInfo
 
 # ----- Configurable parameters -----
 max_price = "5600"
-min_bedrooms = "3"
+min_bedrooms = "2"
 BASE_DIR = os.path.expanduser("~/craigslist_alert")
 DATA_ACTIVE  = os.path.join(BASE_DIR, "craigslist_data", "listings_active.csv")
 DATA_ARCHIVE = os.path.join(BASE_DIR, "craigslist_data", "listings_archive.csv")
@@ -115,7 +115,8 @@ def main():
             'lon': lon,
             'city': city,
             'time_posted': post_time,
-            'alerted': False
+            'alerted': False,
+            'priority_alerted': False
         })
 
     df_new = pd.DataFrame(listings)
@@ -126,6 +127,16 @@ def main():
         df_result = pd.concat([df_old, df_new[new_mask]], ignore_index=True)
     else:
         df_result = df_new
+
+    # Ensure all necessary columns exist
+    for col in ("alerted", "priority_alerted"):
+        if col not in df_result.columns:
+            df_result[col] = False
+    df_result[["alerted", "priority_alerted"]] = (
+        df_result[["alerted", "priority_alerted"]]
+        .fillna(False)
+        .astype(bool)
+    )
 
     # Split into active and archive
     df_result = df_result.sort_values('time_posted', ascending=False)
