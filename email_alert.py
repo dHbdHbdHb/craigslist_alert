@@ -60,6 +60,12 @@ def is_listing_active(url: str) -> bool:
         flagged  = "This posting has been flagged for removal."
         deleted  = "This posting has been deleted by its author."
         return not (flagged in response.text or deleted in response.text)
+    except requests.HTTPError as e:
+        if e.response is not None and e.response.status_code == 410:
+            print(f"  Listing confirmed gone (410): {url}")
+        else:
+            print(f"  Could not check listing ({e}): {url}")
+        return False
     except requests.RequestException as e:
         print(f"  Could not check listing ({e}): {url}")
         return False
