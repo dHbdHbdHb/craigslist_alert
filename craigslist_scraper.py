@@ -30,6 +30,7 @@ headers = {
 }
 
 def assign_neighborhoods(lon, lat, hood_shapes):
+    """Return list of neighborhood names whose polygons contain this point."""
     pt = Point(lon, lat)
     hoods = [hood for hood, poly in hood_shapes.items() if poly.contains(pt)]
     return hoods if hoods else [None]
@@ -46,15 +47,13 @@ def parse_num(s):
 def clean_price(price_str):
     if not price_str:
         return None
-    # Remove dollar sign and commas
-    clean = price_str.replace('$', '').replace(',', '')
-    return parse_num(clean)
+    return parse_num(price_str.replace('$', '').replace(',', ''))
 
 def main():
     # Ensure data directory exists
     os.makedirs(os.path.dirname(DATA_ACTIVE), exist_ok=True)
 
-    # Load existing active listings
+    # Load existing active listings, gracefully handling empty or malformed files
     if os.path.exists(DATA_ACTIVE):
         try:
             df_old = pd.read_csv(DATA_ACTIVE)
@@ -63,9 +62,11 @@ def main():
     else:
         df_old = pd.DataFrame()
 
-    # Fetch Craigslist search results
+    # Fetch Craigslist search results page
     resp = requests.get(SEARCH_URL, headers=headers)
     soup = BeautifulSoup(resp.text, "html.parser")
+
+    # Listings are embedded as JSON-LD in a <script> tag
     script = soup.find("script", {"id": "ld_searchpage_results"})
     if not script:
         print("No search results found in JSON-LD!")
@@ -73,7 +74,8 @@ def main():
     data = json.loads(script.string)
     items = data.get("itemListElement", [])
 
-    # Extract post links, titles, and prices from HTML
+    # Extract titles and prices from the HTML listing cards.
+    # Note: these are ordered to match the JSON-LD items by index.
     post_links = []
     for a in soup.find_all('a', href=True):
         if re.search(r'/apa/d/.+?/\d+\.html', a['href']):
@@ -83,7 +85,7 @@ def main():
             price_html = price_div.text.strip() if price_div else None
             post_links.append({'url': a['href'], 'title': title, 'raw_price': price_html})
 
-    # Build new listings DataFrame with city filter
+    # Build new listings, filtering to SF only and assigning neighborhoods
     listings = []
     for idx, item in enumerate(items):
         info = item.get("item", {})
@@ -91,80 +93,66 @@ def main():
         lon = info.get("longitude")
         if lat is None or lon is None:
             continue
-        city = info.get('address', {}).get('addressLocality', '')
-        # Only include SF listings
-        if city != 'San Francisco':
+        if info.get('address', {}).get('addressLocality', '') != 'San Francisco':
             continue
 
-        # Capture overlapping neighborhoods
         hoods = assign_neighborhoods(lon, lat, neighborhood_shapes)
         hood_str = ",".join([h for h in hoods if h and h != 'None'])
 
-        # Get HTML-derived data
         link_info = post_links[idx] if idx < len(post_links) else {}
-        price = clean_price(link_info.get('raw_price'))
-        beds = parse_num(info.get('numberOfBedrooms'))
-        baths = parse_num(info.get('numberOfBathroomsTotal'))
         post_time = info.get('datePosted') or datetime.now(ZoneInfo("America/Los_Angeles")).isoformat()
 
         listings.append({
+            'source': 'craigslist',  # identifies origin for multi-source support
             'title': info.get('name', 'No title'),
             'neighborhoods': hood_str,
-            'price': price,
-            'num_bedrooms': beds,
-            'num_bathrooms': baths,
+            'price': clean_price(link_info.get('raw_price')),
+            'num_bedrooms': parse_num(info.get('numberOfBedrooms')),
+            'num_bathrooms': parse_num(info.get('numberOfBathroomsTotal')),
             'url': link_info.get('url'),
             'lat': lat,
             'lon': lon,
-            'city': city,
+            'city': info.get('address', {}).get('addressLocality', ''),
             'time_posted': post_time,
             'alerted': False,
-            'priority_alerted': False
         })
 
     df_new = pd.DataFrame(listings)
 
-    # Deduplicate by URL
-    if not df_old.empty:
+    # Merge with existing listings, deduplicating by URL
+    if not df_old.empty and not df_new.empty:
         new_mask = ~df_new['url'].isin(df_old['url'])
         df_result = pd.concat([df_old, df_new[new_mask]], ignore_index=True)
-    else:
+    elif not df_new.empty:
         df_result = df_new
+    else:
+        df_result = df_old
 
-    # Ensure all necessary columns exist
-    for col in ("alerted", "priority_alerted"):
-        if col not in df_result.columns:
-            df_result[col] = False
-    df_result[["alerted", "priority_alerted"]] = (
-        df_result[["alerted", "priority_alerted"]]
-        .fillna(False)
-        .astype(bool)
-    )
+    # Ensure alerted column exists and is boolean
+    if 'alerted' not in df_result.columns:
+        df_result['alerted'] = False
+    df_result['alerted'] = df_result['alerted'].fillna(False).astype(bool)
 
-    # Split into active and archive
+    # Keep only the most recent MAX_ACTIVE_ROWS; overflow goes to archive
     df_result = df_result.sort_values('time_posted', ascending=False)
     df_active = df_result.head(MAX_ACTIVE_ROWS)
     df_archive_candidates = df_result.iloc[MAX_ACTIVE_ROWS:]
 
-    # Save active listings
-    print(
-        f"Writing {len(df_active)} rows to {DATA_ACTIVE} "
-        f"at {datetime.now(ZoneInfo('America/Los_Angeles')).strftime('%Y-%m-%d %H:%M:%S')}"
-    )
     df_active.to_csv(DATA_ACTIVE, index=False)
+    print(f"Scraped {len(df_new)} listings; {len(df_active)} active.")
 
-    # Append new to archive
-    if os.path.exists(DATA_ARCHIVE):
-        df_archive = pd.read_csv(DATA_ARCHIVE)
-        to_add = df_archive_candidates[~df_archive_candidates['url'].isin(df_archive['url'])]
-        df_archive = pd.concat([df_archive, to_add], ignore_index=True)
-    else:
-        df_archive = df_archive_candidates
-    df_archive.to_csv(DATA_ARCHIVE, index=False)
-
-    # Summary
-    print(f"Scraped {len(df_new)} listings; {len(df_active)} active; {len(df_archive)} archived.")
-    print(df_active.head())
+    # Append overflow to archive (avoid duplicates)
+    if not df_archive_candidates.empty:
+        if os.path.exists(DATA_ARCHIVE):
+            try:
+                df_archive = pd.read_csv(DATA_ARCHIVE)
+                to_add = df_archive_candidates[~df_archive_candidates['url'].isin(df_archive['url'])]
+                df_archive = pd.concat([df_archive, to_add], ignore_index=True)
+            except (pd.errors.EmptyDataError, pd.errors.ParserError):
+                df_archive = df_archive_candidates
+        else:
+            df_archive = df_archive_candidates
+        df_archive.to_csv(DATA_ARCHIVE, index=False)
 
 if __name__ == '__main__':
     main()

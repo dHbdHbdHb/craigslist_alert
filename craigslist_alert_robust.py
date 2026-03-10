@@ -1,3 +1,16 @@
+"""
+craigslist_alert_robust.py
+
+Two-phase alert system:
+  1. Priority alerts  — individual emails sent immediately when a new listing
+                        matches priority neighborhoods, price, and bathroom criteria.
+  2. Daily digest     — one email per day grouping all new unalerted listings by
+                        neighborhood, with a biking-time map from Caltrain.
+
+Runs via cron after each scraper run. Tracks sent alerts in listings_active.csv
+('alerted' column) and the digest date in last_digest_date.txt.
+"""
+
 import os
 import datetime
 from zoneinfo import ZoneInfo
@@ -12,39 +25,44 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 import requests
-from bs4 import BeautifulSoup
 import time
 import openrouteservice
 from neighborhoods.neighborhood_shapes import neighborhood_shapes
 
 # ----- Configurable -----
 GMAIL_ADDRESS = "hillsbunnell@gmail.com"
-GMAIL_APP_PASSWORD = "eknq yzlh jkop vkdg" # https://myaccount.google.com/apppasswords
+GMAIL_APP_PASSWORD = "eknq yzlh jkop vkdg"  # https://myaccount.google.com/apppasswords
 DIGEST_RECIPIENT_EMAILS = [
     # "Natasha.ma.batista@gmail.com",
     # "Max.Drimmer@gmail.com",
-    "hillsbunnell@gmail.com"
-    # Could add more addresses here
-    ]
+    "hillsbunnell@gmail.com",
+]
 ALERT_RECIPIENT_EMAILS = [
     # "Natasha.ma.batista@gmail.com",
     # "Max.Drimmer@gmail.com",
-    "hillsbunnell@gmail.com"
-    # Could add more addresses here
-    ]
+    "hillsbunnell@gmail.com",
+]
+
 BASE_DIR = os.path.expanduser("~/craigslist_alert")
-ACTIVE_PATH  = os.path.join(BASE_DIR, "craigslist_data", "listings_active.csv")
+ACTIVE_PATH      = os.path.join(BASE_DIR, "craigslist_data", "listings_active.csv")
 LAST_DIGEST_FILE = os.path.join(BASE_DIR, "last_digest_date.txt")
 
-ORS_API_KEY = '5b3ce3597851110001cf624809183d29fbaa46ecb0f48f56e62f89cb'  # OpenRouteService API key https://account.heigit.org/manage/key
-CALTRAIN_COORDS = [-122.3942, 37.7763]  # lon, lat
+ORS_API_KEY    = '5b3ce3597851110001cf624809183d29fbaa46ecb0f48f56e62f89cb'  # https://account.heigit.org/manage/key
+CALTRAIN_COORDS = [-122.3942, 37.7763]  # [lon, lat]
 CHROMEDRIVER_PATH = '/usr/bin/chromedriver'
 
-# Priority & Digest criteria
-priority_neighborhoods = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal"}
-priority_max_price = 3000
-priority_min_bathrooms = 2
+# Priority criteria — listings matching all three get an immediate individual email
+priority_neighborhoods  = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal"}
+priority_max_price      = 3000
+priority_min_bathrooms  = 2
+
+# Digest criteria — all unalerted listings under this price get included in the daily digest
 digest_max_price = 5500
+
+
+# ──────────────────────────────────────────────
+# Helpers
+# ──────────────────────────────────────────────
 
 def send_email(msg: MIMEMultipart):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
@@ -52,21 +70,43 @@ def send_email(msg: MIMEMultipart):
         server.send_message(msg)
 
 
-def build_map_png(listings, map_html="email_map.html", map_png="email_map.png"):
+def is_listing_active(url: str) -> bool:
+    """Return False if the listing has been flagged or deleted, True otherwise."""
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        flagged  = "This posting has been flagged for removal."
+        deleted  = "This posting has been deleted by its author."
+        return not (flagged in response.text or deleted in response.text)
+    except requests.RequestException as e:
+        print(f"  Could not check listing ({e}): {url}")
+        return False
+
+
+def build_map_png(listings, map_html="email_map.html", map_png="email_map.png") -> str:
+    """
+    Generate a map PNG showing biking routes from each listing to Caltrain.
+    Returns the path to the saved PNG.
+    """
     ors = openrouteservice.Client(key=ORS_API_KEY)
-    lats = [r['lat'] for r in listings] + [CALTRAIN_COORDS[1]]
-    lons = [r['lon'] for r in listings] + [CALTRAIN_COORDS[0]]
-    center = [sum(lats)/len(lats), sum(lons)/len(lons)]
+    lats   = [r['lat'] for r in listings] + [CALTRAIN_COORDS[1]]
+    lons   = [r['lon'] for r in listings] + [CALTRAIN_COORDS[0]]
+    center = [sum(lats) / len(lats), sum(lons) / len(lons)]
+
     m = folium.Map(location=center, zoom_start=14, tiles="CartoDB positron")
+
+    # Caltrain station marker
     folium.CircleMarker(
         [CALTRAIN_COORDS[1], CALTRAIN_COORDS[0]], radius=6,
         color='#D99441', fill=True, fill_color='#D99441'
     ).add_to(m)
+
     for pt in listings:
         coords = [(pt['lon'], pt['lat']), (CALTRAIN_COORDS[0], CALTRAIN_COORDS[1])]
-        route = ors.directions(coords, profile='cycling-regular', format='geojson')
-        geom = route['features'][0]['geometry']['coordinates']
+        route    = ors.directions(coords, profile='cycling-regular', format='geojson')
+        geom     = route['features'][0]['geometry']['coordinates']
         duration = int(route['features'][0]['properties']['summary']['duration'] / 60)
+
         folium.PolyLine(
             [(c[1], c[0]) for c in geom], color='#A67D4B', weight=4, opacity=0.7
         ).add_to(m)
@@ -80,191 +120,188 @@ def build_map_png(listings, map_html="email_map.html", map_png="email_map.png"):
                              font-size:16px;color:#262312;
                              background:rgba(197,217,213,0.9);
                              padding:8px 14px;border-radius:6px;
-                             text-align:center;font-weight:bold; min-width:50px;">
+                             text-align:center;font-weight:bold;min-width:50px;">
                   {duration} min
                 </div>
             """)
         ).add_to(m)
+
     m.save(map_html)
+
+    # Screenshot the map using headless Chrome
     options = Options()
     options.add_argument('--headless=new')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
-    service = Service(CHROMEDRIVER_PATH)
-    driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome(service=Service(CHROMEDRIVER_PATH), options=options)
     driver.set_window_size(1200, 900)
     driver.get('file://' + os.path.abspath(map_html))
     time.sleep(4)
     driver.save_screenshot(map_png)
     driver.quit()
+
     return map_png
 
-def is_listing_active(url):
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.text, 'html.parser')
-        flagged_text = "This posting has been flagged for removal."
-        removed_text = "This posting has been deleted by its author."
-        return not (flagged_text in response.text or removed_text in response.text)
-    except requests.RequestException as e:
-        print(f"Error checking {url}: {e}")
-        return False
 
+# ──────────────────────────────────────────────
+# Main
+# ──────────────────────────────────────────────
 
 def main():
-    # Load active listings
     df = pd.read_csv(ACTIVE_PATH)
 
-    # Ensure all necessary columns exist
-    for col in ("alerted", "priority_alerted"):
-        if col not in df.columns:
-            df[col] = False
-    df[["alerted", "priority_alerted"]] = df[["alerted", "priority_alerted"]].fillna(False).astype(bool)
-    print("DEBUG: initial alerted counts =", df['alerted'].value_counts(dropna=False).to_dict())
-    # Filter out already alerted listings
-    df = df[df['alerted'] == False].copy()
-    print("DEBUG: unalerted rows after filter =", len(df))
+    # Ensure alerted column exists and is boolean
+    if 'alerted' not in df.columns:
+        df['alerted'] = False
+    df['alerted'] = df['alerted'].fillna(False).astype(bool)
 
-    # --- Send priority single emails ---
-    def hood_match(row):
-        if pd.isnull(row['neighborhoods']): return False
+    # Work only with listings not yet alerted
+    unalerted = df[~df['alerted']].copy()
+    print(f"Unalerted listings: {len(unalerted)}")
+
+    # ── Phase 1: Priority alerts ──────────────────────────────────────────
+    # Send an individual email for each new listing in a priority neighborhood
+    # that meets price and bathroom thresholds.
+
+    def in_priority_hood(row) -> bool:
+        if pd.isnull(row['neighborhoods']):
+            return False
         return any(h in priority_neighborhoods for h in row['neighborhoods'].split(','))
 
     priority_mask = (
-        df.apply(hood_match, axis=1) &
-        (df['price'] <= priority_max_price) &
-        (df['num_bathrooms'] >= priority_min_bathrooms)
+        unalerted.apply(in_priority_hood, axis=1) &
+        (unalerted['price'] <= priority_max_price) &
+        (unalerted['num_bathrooms'] >= priority_min_bathrooms)
     )
-    df_priority = df[priority_mask].copy()
+    df_priority = unalerted[priority_mask].copy()
+
     if not df_priority.empty:
         df_priority['active'] = df_priority['url'].apply(is_listing_active)
         df_priority = df_priority[df_priority['active']].drop(columns='active')
-    print("DEBUG: priority listings count =", len(df_priority))
 
+    print(f"Priority listings to alert: {len(df_priority)}")
+
+    for _, row in df_priority.iterrows():
+        subject   = f"New High-Priority Listing: {row['title'][:50]}"
+        html_body = f"""
+        <html><body style="font-family:'Helvetica Neue',Arial,sans-serif;">
+        <h2 style="color:#262312;">{row['title']}</h2>
+        <div><strong>Neighborhoods:</strong> {row['neighborhoods']}</div>
+        <div><strong>Price:</strong> ${row['price']}</div>
+        <div><strong>Beds/Baths:</strong> {row['num_bedrooms']}/{row['num_bathrooms']}</div>
+        <div><strong>Posted:</strong> {row['time_posted']}</div>
+        <div><a href="{row['url']}" style="color:#A67D4B;">View Listing</a></div>
+        </body></html>
+        """
+        msg = MIMEMultipart('alternative')
+        msg['From']    = GMAIL_ADDRESS
+        msg['To']      = ', '.join(ALERT_RECIPIENT_EMAILS)
+        msg['Subject'] = subject
+        msg.attach(MIMEText(html_body, 'html'))
+        send_email(msg)
+        print(f"  Sent priority alert: {row['title'][:50]}")
+
+    # Mark priority listings as alerted and save
     if not df_priority.empty:
         df.loc[df_priority.index, 'alerted'] = True
-        print("DEBUG: alerted counts after priority =", df['alerted'].value_counts(dropna=False).to_dict())
         df.to_csv(ACTIVE_PATH, index=False)
 
-        for _, row in df_priority.iterrows():
-        # send priority email
-            subject = f"🚨 New High-Priority Craigslist Listing: {row['title'][:40]}"
-            html_body = f"""
-            <html><body style="font-family:'Helvetica Neue',Arial,sans-serif;">
-            <h2 style="color:#262312; margin-bottom:10px;">{row['title']}</h2>
-            <div style="margin-bottom:8px;"><strong>Neighborhoods:</strong> {row['neighborhoods']}</div>
-            <div style="margin-bottom:8px;"><strong>Price:</strong> ${row['price']}</div>
-            <div style="margin-bottom:8px;"><strong>Beds/Baths:</strong> {row['num_bedrooms']}/{row['num_bathrooms']}</div>
-            <div style="margin-bottom:8px;"><strong>City:</strong> {row['city']}</div>
-            <div style="margin-bottom:8px;"><strong>Posted:</strong> {row['time_posted']}</div>
-            <div style="margin-bottom:8px;"><strong>URL:</strong> <a href="{row['url']}" style="color:#A67D4B;">View Listing</a></div>
-            <div style="margin-bottom:8px;"><strong>Location:</strong> ({row['lat']}, {row['lon']})</div>
-            </body></html>
-            """
-            msg = MIMEMultipart('alternative')
-            msg['From'] = GMAIL_ADDRESS
-            msg['To'] = ', '.join(ALERT_RECIPIENT_EMAILS)
-            msg['Subject'] = subject
-            msg.attach(MIMEText(html_body, 'html'))
-            send_email(msg)
-            print(f"Sent single alert: {row['title'][:40]}")
-        pass
-    
-    # --- Digest by neighborhood (once a day) ---
+    # ── Phase 2: Daily digest ─────────────────────────────────────────────
+    # Once per day, send a grouped digest of all new unalerted listings
+    # that fall within any known neighborhood and are under the digest price cap.
+
     try:
         with open(LAST_DIGEST_FILE, 'r') as f:
             last_date = f.read().strip()
     except FileNotFoundError:
         last_date = None
-    today = datetime.datetime.now(ZoneInfo("America/Los_Angeles")).date()
+
+    today     = datetime.datetime.now(ZoneInfo("America/Los_Angeles")).date()
     today_str = today.isoformat()
-    send_digest = (last_date != today_str)
-    print(f"DEBUG: last_date={last_date}, today_str={today_str}, send_digest={send_digest}")
 
-    if send_digest:
-        df = pd.read_csv(ACTIVE_PATH)
-        # only not-yet-digested rows
-        df = df.loc[df['alerted'] == False].copy()
-       
-        # neighborhood filter
-        def in_known_hoods(s: str) -> bool:
-            if not isinstance(s, str) or not s.strip():
-                return False
-            return any(h in neighborhood_shapes for h in (t.strip() for t in s.split(',')))
+    if last_date == today_str:
+        print("Digest already sent today, skipping.")
+        return
 
-        mask = (df['price'] <= digest_max_price) & df['neighborhoods'].apply(in_known_hoods)
+    # Re-read from disk so priority alerts marked above are reflected
+    df = pd.read_csv(ACTIVE_PATH)
+    df['alerted'] = df['alerted'].fillna(False).astype(bool)
+    unalerted = df[~df['alerted']].copy()
 
-        df_digest = (
-            df.loc[mask].copy()
-            .assign(active=lambda d: d['url'].apply(is_listing_active))
-            .query('active')
-            .drop(columns='active')
-        )
+    def in_known_hood(s) -> bool:
+        if not isinstance(s, str) or not s.strip():
+            return False
+        return any(h in neighborhood_shapes for h in (t.strip() for t in s.split(',')))
 
-        print("df_digest shape:", df_digest.shape)
-        print("df_digest columns:", df_digest.columns)
+    digest_mask = (unalerted['price'] <= digest_max_price) & unalerted['neighborhoods'].apply(in_known_hood)
+    df_digest = unalerted[digest_mask].copy()
 
-        print("DEBUG: digest listings count =", len(df_digest))
-        if not df_digest.empty:
-            listings = df_digest.to_dict('records')
-            map_png = build_map_png(listings)
-            msg = MIMEMultipart('related')
-            msg['From'] = GMAIL_ADDRESS
-            msg['To'] = ', '.join(DIGEST_RECIPIENT_EMAILS)
-            subject_date = today.strftime('%B %d')
-            msg['Subject'] = f"Craigslist Daily Digest, {subject_date}"
+    if not df_digest.empty:
+        df_digest['active'] = df_digest['url'].apply(is_listing_active)
+        df_digest = df_digest[df_digest['active']].drop(columns='active')
 
-            # ---- Group by neighborhood ----
-            hood_to_listings = {hood: [] for hood in neighborhood_shapes.keys()}
-            for row in listings:
-                # Filter neighborhoods to only those in neighborhood_shapes
-                hoods = [h.strip() for h in (row.get('neighborhoods') or '').split(',') if h.strip() in neighborhood_shapes]
-                for hood in hoods:
-                    hood_to_listings[hood].append(row)
+    print(f"Digest listings: {len(df_digest)}")
 
-            # ---- Build HTML ----
-            html = '<html><body style="font-family:Arial,sans-serif; margin:0; padding:10px;">'
-            html += '<h2 style="color:#262312;">New Craigslist Listings by Neighborhood</h2>'
+    if df_digest.empty:
+        print("No digest listings to send.")
+        # Still record today so we don't re-check until tomorrow
+        with open(LAST_DIGEST_FILE, 'w') as f:
+            f.write(today_str)
+        return
 
-            for hood, hood_listings in hood_to_listings.items():
-                if not hood_listings:
-                    continue
-                html += f"<h3 style='margin:20px 0 6px 0; color:#D99441;'>{hood}</h3>"
-                for row in hood_listings:
-                    html += (
-                        "<div style='border:1px solid #262312; border-radius:6px; "
-                        "padding:8px; margin-bottom:8px;'>"
-                        f"<div style='font-weight:bold; color:#262312;'>{row['title']}</div>"
-                        f"<div style='color:#A8BFB9;'>${row['price']} &nbsp; {row['num_bedrooms']}bd/{row['num_bathrooms']}ba</div>"
-                        f"<div><a href='{row['url']}' style='color:#A67D4B;'>View Listing</a></div>"
-                        "</div>"
-                    )
+    listings  = df_digest.to_dict('records')
+    map_png   = build_map_png(listings)
+
+    # Group listings by neighborhood for the email body
+    hood_to_listings = {hood: [] for hood in neighborhood_shapes}
+    for row in listings:
+        hoods = [h.strip() for h in (row.get('neighborhoods') or '').split(',') if h.strip() in neighborhood_shapes]
+        for hood in hoods:
+            hood_to_listings[hood].append(row)
+
+    html = '<html><body style="font-family:Arial,sans-serif;margin:0;padding:10px;">'
+    html += f'<h2 style="color:#262312;">New Listings — {today.strftime("%B %d")}</h2>'
+
+    for hood, hood_listings in hood_to_listings.items():
+        if not hood_listings:
+            continue
+        html += f"<h3 style='margin:20px 0 6px 0;color:#D99441;'>{hood}</h3>"
+        for row in hood_listings:
             html += (
-                "<div style='margin:24px 0 8px 0; font-size:18px; font-weight:bold; color:#262312;'>"
-                "Biking Times:"
+                "<div style='border:1px solid #262312;border-radius:6px;padding:8px;margin-bottom:8px;'>"
+                f"<div style='font-weight:bold;color:#262312;'>{row['title']}</div>"
+                f"<div style='color:#A8BFB9;'>${row['price']} &nbsp; {row['num_bedrooms']}bd/{row['num_bathrooms']}ba</div>"
+                f"<div><a href='{row['url']}' style='color:#A67D4B;'>View Listing</a></div>"
                 "</div>"
-                "<div><img src='cid:mapimage' "
-                "style='width:100%;max-width:800px;border-radius:8px;' /></div>"
             )
-            html += '</body></html>'
 
-            body = MIMEMultipart('alternative')
-            body.attach(MIMEText(html, 'html'))
-            msg.attach(body)
+    html += (
+        "<div style='margin:24px 0 8px 0;font-size:18px;font-weight:bold;color:#262312;'>Biking Times from Caltrain:</div>"
+        "<div><img src='cid:mapimage' style='width:100%;max-width:800px;border-radius:8px;'/></div>"
+        "</body></html>"
+    )
 
-            with open(map_png, 'rb') as f:
-                img = MIMEImage(f.read())
-                img.add_header('Content-ID', '<mapimage>')
-                msg.attach(img)
-            send_email(msg)
-            print('Sent digest email.')
-            df_all = pd.read_csv(ACTIVE_PATH)
-            df_all.loc[df_all.index.isin(df_digest.index), 'alerted'] = True
-            df_all.to_csv(ACTIVE_PATH, index=False)
-            with open(LAST_DIGEST_FILE, 'w') as f:
-                f.write(today_str)
-            print(f"DEBUG: flagged {len(df_digest)} digest listings and updated LAST_DIGEST_FILE")
+    msg = MIMEMultipart('related')
+    msg['From']    = GMAIL_ADDRESS
+    msg['To']      = ', '.join(DIGEST_RECIPIENT_EMAILS)
+    msg['Subject'] = f"Housing Digest — {today.strftime('%B %d')}"
+    body = MIMEMultipart('alternative')
+    body.attach(MIMEText(html, 'html'))
+    msg.attach(body)
+    with open(map_png, 'rb') as f:
+        img = MIMEImage(f.read())
+        img.add_header('Content-ID', '<mapimage>')
+        msg.attach(img)
+
+    send_email(msg)
+    print(f"Sent digest email with {len(df_digest)} listings.")
+
+    # Mark digest listings as alerted and record today's date
+    df.loc[df.index.isin(df_digest.index), 'alerted'] = True
+    df.to_csv(ACTIVE_PATH, index=False)
+    with open(LAST_DIGEST_FILE, 'w') as f:
+        f.write(today_str)
+
 
 if __name__ == '__main__':
     main()
