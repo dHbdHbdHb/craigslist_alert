@@ -56,7 +56,10 @@ def main():
 
     # Load existing active listings
     if os.path.exists(DATA_ACTIVE):
-        df_old = pd.read_csv(DATA_ACTIVE)
+        try:
+            df_old = pd.read_csv(DATA_ACTIVE)
+        except (pd.errors.EmptyDataError, pd.errors.ParserError):
+            df_old = pd.DataFrame()
     else:
         df_old = pd.DataFrame()
 
