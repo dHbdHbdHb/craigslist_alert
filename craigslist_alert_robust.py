@@ -137,8 +137,9 @@ def main():
         (df['num_bathrooms'] >= priority_min_bathrooms)
     )
     df_priority = df[priority_mask].copy()
-    df_priority['active'] = df_priority['url'].apply(is_listing_active)
-    df_priority = df_priority[df_priority['active']].drop(columns='active')
+    if not df_priority.empty:
+        df_priority['active'] = df_priority['url'].apply(is_listing_active)
+        df_priority = df_priority[df_priority['active']].drop(columns='active')
     print("DEBUG: priority listings count =", len(df_priority))
 
     if not df_priority.empty:
