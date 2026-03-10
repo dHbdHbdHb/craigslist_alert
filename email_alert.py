@@ -13,6 +13,7 @@ Runs via cron after each scraper run. Tracks sent alerts in listings_active.csv
 
 import os
 import datetime
+from pathlib import Path
 from zoneinfo import ZoneInfo
 import pandas as pd
 import smtplib
@@ -62,6 +63,114 @@ def is_listing_active(url: str) -> bool:
     except requests.RequestException as e:
         print(f"  Could not check listing ({e}): {url}")
         return False
+
+
+def build_price_summary_html(df: pd.DataFrame) -> str:
+    """
+    Compact price-context tables appended to the digest email.
+    Shows median rent by neighborhood and by BR/bath type, using
+    all active listings above the $2,100 floor (same as the dashboard).
+    """
+    df = df.copy()
+    df['price']         = pd.to_numeric(df['price'],         errors='coerce')
+    df['num_bedrooms']  = pd.to_numeric(df['num_bedrooms'],  errors='coerce')
+    df['num_bathrooms'] = pd.to_numeric(df['num_bathrooms'], errors='coerce')
+    df = df[df['price'] >= 2100].dropna(subset=['price', 'num_bedrooms'])
+
+    # Expand comma-separated neighborhoods into one row each
+    df['neighborhoods'] = df['neighborhoods'].fillna('')
+    rows = []
+    for _, row in df.iterrows():
+        hoods = [h.strip() for h in row['neighborhoods'].split(',') if h.strip()] or ['Way Out There']
+        for hood in hoods:
+            rows.append({
+                'neighborhood':  hood,
+                'price':         row['price'],
+                'num_bedrooms':  row['num_bedrooms'],
+                'num_bathrooms': row['num_bathrooms'],
+            })
+    if not rows:
+        return ''
+    exp = pd.DataFrame(rows)
+
+    # ── Inline style constants (email-safe, no classes) ──
+    S = {
+        'section': 'margin:28px 0 10px 0;font-size:15px;font-weight:bold;color:#262312;border-bottom:2px solid #D99441;padding-bottom:4px;',
+        'table':   'border-collapse:collapse;width:100%;max-width:580px;margin-bottom:8px;font-family:Arial,sans-serif;',
+        'th':      'padding:7px 12px;background:#262312;color:#f5f0e8;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;',
+        'th_r':    'padding:7px 12px;background:#262312;color:#f5f0e8;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;text-align:right;',
+        'td':      'padding:6px 12px;font-size:12px;color:#262312;border-bottom:1px solid #e8e2d8;',
+        'td_r':    'padding:6px 12px;font-size:12px;color:#262312;border-bottom:1px solid #e8e2d8;text-align:right;',
+        'td_alt':  'padding:6px 12px;font-size:12px;color:#262312;border-bottom:1px solid #e8e2d8;background:#faf8f5;',
+        'td_alt_r':'padding:6px 12px;font-size:12px;color:#262312;border-bottom:1px solid #e8e2d8;background:#faf8f5;text-align:right;',
+    }
+
+    def td(val, right=False, alt=False):
+        key = ('td_alt_r' if right else 'td_alt') if alt else ('td_r' if right else 'td')
+        return f'<td style="{S[key]}">{val}</td>'
+
+    html = f'<div style="{S["section"]}">Historical Price Context</div>'
+
+    # Table 1 — by neighborhood (excluding Way Out There)
+    known = exp[exp['neighborhood'] != 'Way Out There']
+    if not known.empty:
+        g = known.groupby('neighborhood')['price']
+        stats = pd.DataFrame({
+            'n':   g.count(),
+            'med': g.median(),
+            'min': g.min(),
+            'max': g.max(),
+        }).sort_values('n', ascending=False)
+
+        html += (
+            f'<table style="{S["table"]}">'
+            f'<thead><tr>'
+            f'<th style="{S["th"]}">Neighborhood</th>'
+            f'<th style="{S["th_r"]}">Listings</th>'
+            f'<th style="{S["th_r"]}">Median</th>'
+            f'<th style="{S["th_r"]}">Range</th>'
+            f'</tr></thead><tbody>'
+        )
+        for i, (hood, row) in enumerate(stats.iterrows()):
+            alt = (i % 2 == 1)
+            html += (
+                f'<tr>'
+                + td(hood, alt=alt)
+                + td(int(row['n']), right=True, alt=alt)
+                + td(f"${row['med']:,.0f}", right=True, alt=alt)
+                + td(f"${row['min']:,.0f}–${row['max']:,.0f}", right=True, alt=alt)
+                + '</tr>'
+            )
+        html += '</tbody></table>'
+
+    # Table 2 — by BR/bath
+    exp['br_bath'] = (
+        exp['num_bedrooms'].astype(int).astype(str) + 'BR / '
+        + exp['num_bathrooms'].fillna(0).astype(int).astype(str) + 'BA'
+    )
+    g2 = exp.groupby('br_bath')['price']
+    stats2 = pd.DataFrame({'n': g2.count(), 'med': g2.median()}).sort_index()
+
+    html += (
+        f'<table style="{S["table"]}">'
+        f'<thead><tr>'
+        f'<th style="{S["th"]}">Type</th>'
+        f'<th style="{S["th_r"]}">Listings</th>'
+        f'<th style="{S["th_r"]}">Median</th>'
+        f'</tr></thead><tbody>'
+    )
+    for i, (brt, row) in enumerate(stats2.iterrows()):
+        alt = (i % 2 == 1)
+        html += (
+            f'<tr>'
+            + td(brt, alt=alt)
+            + td(int(row['n']), right=True, alt=alt)
+            + td(f"${row['med']:,.0f}", right=True, alt=alt)
+            + '</tr>'
+        )
+    html += '</tbody></table>'
+
+    return html
 
 
 def build_map_png(listings, map_html="email_map.html", map_png="email_map.png") -> str:
@@ -256,23 +365,41 @@ def main():
                 "</div>"
             )
 
+    # Re-read full active CSV for historical price context (not just today's digest)
+    df_all = pd.read_csv(ACTIVE_PATH)
+    html += build_price_summary_html(df_all)
+
     html += (
         "<div style='margin:24px 0 8px 0;font-size:18px;font-weight:bold;color:#262312;'>Biking Times from Caltrain:</div>"
         "<div><img src='cid:mapimage' style='width:100%;max-width:800px;border-radius:8px;'/></div>"
         "</body></html>"
     )
 
-    msg = MIMEMultipart('related')
+    # Outer multipart/mixed allows both inline images and file attachments
+    msg = MIMEMultipart('mixed')
     msg['From']    = GMAIL_ADDRESS
     msg['To']      = ', '.join(DIGEST_RECIPIENT_EMAILS)
     msg['Subject'] = f"Housing Digest — {today.strftime('%B %d')}"
+
+    # Inner multipart/related keeps the inline map image working
+    related = MIMEMultipart('related')
     body = MIMEMultipart('alternative')
     body.attach(MIMEText(html, 'html'))
-    msg.attach(body)
+    related.attach(body)
     with open(map_png, 'rb') as f:
         img = MIMEImage(f.read())
         img.add_header('Content-ID', '<mapimage>')
-        msg.attach(img)
+        related.attach(img)
+    msg.attach(related)
+
+    # Attach the interactive dashboard HTML if it has been generated
+    dashboard_path = Path(__file__).parent / "analysis_dashboard.html"
+    if dashboard_path.exists():
+        with open(dashboard_path, 'r', encoding='utf-8') as f:
+            attachment = MIMEText(f.read(), 'html', 'utf-8')
+        attachment.add_header('Content-Disposition', 'attachment', filename='price_dashboard.html')
+        msg.attach(attachment)
+        print("  Attached price_dashboard.html")
 
     send_email(msg)
     print(f"Sent digest email with {len(df_digest)} listings.")
