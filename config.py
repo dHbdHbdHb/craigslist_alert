@@ -33,7 +33,7 @@ CHROMEDRIVER_PATH = '/usr/bin/chromedriver'
 
 # ----- Alert criteria -----
 # Priority: listings matching all three criteria trigger an immediate individual email
-priority_neighborhoods = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal"}
+priority_neighborhoods = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal", "Potrero Hill"}
 priority_max_price     = 4000
 priority_min_bathrooms = 2
 
