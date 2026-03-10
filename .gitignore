@@ -1,0 +1,14 @@
+# Generated map artifacts (recreated on each digest run)
+email_map.html
+email_map.png
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+
+# Logs (tracked separately if needed)
+# logs/

@@ -29,35 +29,16 @@ import time
 import openrouteservice
 from neighborhoods.neighborhood_shapes import neighborhood_shapes
 
-# ----- Configurable -----
-GMAIL_ADDRESS = "hillsbunnell@gmail.com"
-GMAIL_APP_PASSWORD = "eknq yzlh jkop vkdg"  # https://myaccount.google.com/apppasswords
-DIGEST_RECIPIENT_EMAILS = [
-    # "Natasha.ma.batista@gmail.com",
-    # "Max.Drimmer@gmail.com",
-    "hillsbunnell@gmail.com",
-]
-ALERT_RECIPIENT_EMAILS = [
-    # "Natasha.ma.batista@gmail.com",
-    # "Max.Drimmer@gmail.com",
-    "hillsbunnell@gmail.com",
-]
+from config import (
+    GMAIL_ADDRESS, GMAIL_APP_PASSWORD,
+    DIGEST_RECIPIENT_EMAILS, ALERT_RECIPIENT_EMAILS,
+    DATA_ACTIVE, LAST_DIGEST_FILE,
+    ORS_API_KEY, CALTRAIN_COORDS, CHROMEDRIVER_PATH,
+    priority_neighborhoods, priority_max_price, priority_min_bathrooms,
+    digest_max_price,
+)
 
-BASE_DIR = os.path.expanduser("~/craigslist_alert")
-ACTIVE_PATH      = os.path.join(BASE_DIR, "craigslist_data", "listings_active.csv")
-LAST_DIGEST_FILE = os.path.join(BASE_DIR, "last_digest_date.txt")
-
-ORS_API_KEY    = '5b3ce3597851110001cf624809183d29fbaa46ecb0f48f56e62f89cb'  # https://account.heigit.org/manage/key
-CALTRAIN_COORDS = [-122.3942, 37.7763]  # [lon, lat]
-CHROMEDRIVER_PATH = '/usr/bin/chromedriver'
-
-# Priority criteria — listings matching all three get an immediate individual email
-priority_neighborhoods  = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal"}
-priority_max_price      = 3000
-priority_min_bathrooms  = 2
-
-# Digest criteria — all unalerted listings under this price get included in the daily digest
-digest_max_price = 5500
+ACTIVE_PATH = DATA_ACTIVE  # local alias used throughout this file
 
 
 # ──────────────────────────────────────────────

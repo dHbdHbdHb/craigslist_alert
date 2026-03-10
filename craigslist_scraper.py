@@ -9,17 +9,12 @@ import os
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-# ----- Configurable parameters -----
-max_price = "5600"
-min_bedrooms = "2"
-BASE_DIR = os.path.expanduser("~/craigslist_alert")
-DATA_ACTIVE  = os.path.join(BASE_DIR, "craigslist_data", "listings_active.csv")
-DATA_ARCHIVE = os.path.join(BASE_DIR, "craigslist_data", "listings_archive.csv")
-MAX_ACTIVE_ROWS = 1000
+from config import DATA_ACTIVE, DATA_ARCHIVE, MAX_ACTIVE_ROWS
 
-SEARCH_URL = (
-    f"https://sfbay.craigslist.org/search/apa?max_price={max_price}&min_bedrooms={min_bedrooms}"
-)
+# ----- Craigslist-specific parameters -----
+max_price    = "5600"
+min_bedrooms = "2"
+SEARCH_URL   = f"https://sfbay.craigslist.org/search/apa?max_price={max_price}&min_bedrooms={min_bedrooms}"
 
 headers = {
     "User-Agent": (
