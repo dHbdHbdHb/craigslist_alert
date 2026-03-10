@@ -1,4 +1,3 @@
-import folium
 from shapely.geometry import Polygon, mapping
 
 neighborhood_shapes = {
@@ -103,6 +102,26 @@ neighborhood_shapes = {
         [-122.42481867528606, 37.747949339862345]
     ]),
 
+    "Potrero Hill": Polygon([
+        [-122.40525224482334, 37.76975158909433],
+        [-122.40495507305693, 37.76697882755316],
+        [-122.40465821038020, 37.76425274835925],
+        [-122.40549037570520, 37.76223242567893],
+        [-122.40602511292022, 37.76129303672825],
+        [-122.40602510946368, 37.75960210129369],
+        [-122.40347062969445, 37.75725395315844],
+        [-122.40275734901218, 37.75490472437822],
+        [-122.40281587115632, 37.75100284182821],
+        [-122.40323133273878, 37.74968485452959],
+        [-122.39229349220142, 37.74996623424130],
+        [-122.39134414035097, 37.75264636096667],
+        [-122.39187882915698, 37.75466697504221],
+        [-122.38670583828272, 37.75541826037808],
+        [-122.38498016442801, 37.77106776376823],
+        [-122.38777393961288, 37.77764644183023],
+        [-122.40525224482334, 37.76975158909433],
+    ]),
+
     "Way Out There": Polygon([
         [-122.47335277238611,37.78714968248258],
         [-122.49670151781302,37.792980873565185],
@@ -122,17 +141,17 @@ neighborhood_shapes = {
 }
 
 
-# Create a folium map centered on San Francisco
-m = folium.Map(location=[37.76, -122.44], zoom_start=13)
-
-# Add polygons to the map
-for name, polygon in neighborhood_shapes.items():
-    folium.GeoJson(
-        mapping(polygon),              # Convert shapely Polygon to GeoJSON format
-        name=name,
-        tooltip=name,                 # Show name when hovering
-        popup=folium.Popup(name)      # Show name in a popup when clicked
-    ).add_to(m)
-
-# Save to HTML file
-# m.save("sf_neighborhoods_map.html")
+if __name__ == '__main__':
+    # Run directly to generate a reference map: python neighborhood_shapes.py
+    import folium
+    m = folium.Map(location=[37.76, -122.44], zoom_start=13)
+    for name, polygon in neighborhood_shapes.items():
+        folium.GeoJson(
+            mapping(polygon),
+            name=name,
+            tooltip=name,
+            popup=folium.Popup(name)
+        ).add_to(m)
+    out = "sf_neighborhoods_map.html"
+    m.save(out)
+    print(f"Saved: {out}")
