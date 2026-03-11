@@ -585,6 +585,7 @@ HTML_TEMPLATE = """\
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
       "box    box"
+      "time   time"
       "heat   heat"
       "brbath hist"
       "scatter count"
@@ -609,7 +610,7 @@ HTML_TEMPLATE = """\
   .area-count   { grid-area: count; }
   .area-bike    { grid-area: bike; }
   .area-map     { grid-area: map; min-height: 540px; }
-  .area-time    { grid-column: 1 / -1; }
+  .area-time    { grid-area: time; }
 
   .plotly-chart { width: 100%; height: 340px; }
 
@@ -626,9 +627,10 @@ HTML_TEMPLATE = """\
 <div class="cards" id="cards"></div>
 
 <div class="grid">
-  <div class="chart-card area-box"> 
+  <div class="chart-card area-box">
     <div class="plotly-chart" id="chart-box"></div>
   </div>
+  __TIME_SLOT__
   <div class="chart-card area-heat">
     <div class="plotly-chart" id="chart-heat" style="height:400px"></div>
   </div>
@@ -644,7 +646,6 @@ HTML_TEMPLATE = """\
   <div class="chart-card area-count">
     <div class="plotly-chart" id="chart-count"></div>
   </div>
-  __TIME_SLOT__
   __BIKE_SLOT__
   <div class="chart-card area-map" style="padding:12px 14px 10px;">
     <div style="font-size:15px;font-weight:700;margin-bottom:8px;color:#1a1a2e;">
