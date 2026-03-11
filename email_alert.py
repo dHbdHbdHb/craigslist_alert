@@ -11,9 +11,9 @@ Runs via cron after each scraper run. Tracks sent alerts in listings_active.csv
 ('alerted' column) and the digest date in last_digest_date.txt.
 """
 
+import argparse
 import os
 import datetime
-from pathlib import Path
 from zoneinfo import ZoneInfo
 import pandas as pd
 import smtplib
@@ -36,7 +36,7 @@ from config import (
     DATA_ACTIVE, LAST_DIGEST_FILE,
     ORS_API_KEY, CALTRAIN_COORDS, CHROMEDRIVER_PATH,
     priority_neighborhoods, priority_max_price, priority_min_bathrooms,
-    digest_max_price,
+    digest_max_price, DASHBOARD_URL,
 )
 
 ACTIVE_PATH = DATA_ACTIVE  # local alias used throughout this file
@@ -179,10 +179,11 @@ def build_price_summary_html(df: pd.DataFrame) -> str:
     return html
 
 
-def build_map_png(listings, map_html="email_map.html", map_png="email_map.png") -> str:
+def build_map_png(listings, map_html="email_map.html", map_png="email_map.png") -> tuple[str, dict]:
     """
     Generate a map PNG showing biking routes from each listing to Caltrain.
-    Returns the path to the saved PNG.
+    Returns (path_to_png, {url: bike_time_minutes}) so callers can persist
+    the computed bike times to the CSV.
     """
     ors = openrouteservice.Client(key=ORS_API_KEY)
     lats   = [r['lat'] for r in listings] + [CALTRAIN_COORDS[1]]
@@ -197,11 +198,13 @@ def build_map_png(listings, map_html="email_map.html", map_png="email_map.png") 
         color='#D99441', fill=True, fill_color='#D99441'
     ).add_to(m)
 
+    bike_times = {}  # url -> minutes
     for pt in listings:
         coords = [(pt['lon'], pt['lat']), (CALTRAIN_COORDS[0], CALTRAIN_COORDS[1])]
         route    = ors.directions(coords, profile='cycling-regular', format='geojson')
         geom     = route['features'][0]['geometry']['coordinates']
         duration = int(route['features'][0]['properties']['summary']['duration'] / 60)
+        bike_times[pt['url']] = duration
 
         folium.PolyLine(
             [(c[1], c[0]) for c in geom], color='#A67D4B', weight=4, opacity=0.7
@@ -236,7 +239,7 @@ def build_map_png(listings, map_html="email_map.html", map_png="email_map.png") 
     driver.save_screenshot(map_png)
     driver.quit()
 
-    return map_png
+    return map_png, bike_times
 
 
 # ──────────────────────────────────────────────
@@ -244,6 +247,18 @@ def build_map_png(listings, map_html="email_map.html", map_png="email_map.png") 
 # ──────────────────────────────────────────────
 
 def main():
+    parser = argparse.ArgumentParser(description="Send housing alerts and digest email.")
+    parser.add_argument(
+        "--dry-run", action="store_true",
+        help="Simulate a full run: bypass the daily date check, build the map and "
+             "compute bike times, but do not send any emails or write to any files.",
+    )
+    args = parser.parse_args()
+    dry_run = args.dry_run
+
+    if dry_run:
+        print("[DRY RUN] No emails will be sent and no files will be modified.")
+
     df = pd.read_csv(ACTIVE_PATH)
 
     # Ensure alerted column exists and is boolean
@@ -289,16 +304,19 @@ def main():
         <div><a href="{row['url']}" style="color:#A67D4B;">View Listing</a></div>
         </body></html>
         """
-        msg = MIMEMultipart('alternative')
-        msg['From']    = GMAIL_ADDRESS
-        msg['To']      = ', '.join(ALERT_RECIPIENT_EMAILS)
-        msg['Subject'] = subject
-        msg.attach(MIMEText(html_body, 'html'))
-        send_email(msg)
-        print(f"  Sent priority alert: {row['title'][:50]}")
+        if dry_run:
+            print(f"  [DRY RUN] Would send priority alert: {subject}")
+        else:
+            msg = MIMEMultipart('alternative')
+            msg['From']    = GMAIL_ADDRESS
+            msg['To']      = ', '.join(ALERT_RECIPIENT_EMAILS)
+            msg['Subject'] = subject
+            msg.attach(MIMEText(html_body, 'html'))
+            send_email(msg)
+            print(f"  Sent priority alert: {row['title'][:50]}")
 
-    # Mark priority listings as alerted and save
-    if not df_priority.empty:
+    # Mark priority listings as alerted and save (skipped in dry run)
+    if not dry_run and not df_priority.empty:
         df.loc[df_priority.index, 'alerted'] = True
         df.to_csv(ACTIVE_PATH, index=False)
 
@@ -315,11 +333,12 @@ def main():
     today     = datetime.datetime.now(ZoneInfo("America/Los_Angeles")).date()
     today_str = today.isoformat()
 
-    if last_date == today_str:
+    if not dry_run and last_date == today_str:
         print("Digest already sent today, skipping.")
         return
 
     # Re-read from disk so priority alerts marked above are reflected
+    # (in dry run the CSV wasn't written, so re-read is a no-op but harmless)
     df = pd.read_csv(ACTIVE_PATH)
     df['alerted'] = df['alerted'].fillna(False).astype(bool)
     unalerted = df[~df['alerted']].copy()
@@ -340,13 +359,24 @@ def main():
 
     if df_digest.empty:
         print("No digest listings to send.")
-        # Still record today so we don't re-check until tomorrow
-        with open(LAST_DIGEST_FILE, 'w') as f:
-            f.write(today_str)
+        if not dry_run:
+            with open(LAST_DIGEST_FILE, 'w') as f:
+                f.write(today_str)
         return
 
     listings  = df_digest.to_dict('records')
-    map_png   = build_map_png(listings)
+    map_png, bike_times = build_map_png(listings)
+
+    # Persist bike times back to the active CSV (skipped in dry run)
+    if not dry_run:
+        if 'bike_time_minutes' not in df.columns:
+            df['bike_time_minutes'] = None
+        for url, minutes in bike_times.items():
+            df.loc[df['url'] == url, 'bike_time_minutes'] = minutes
+        df.to_csv(ACTIVE_PATH, index=False)
+        print(f"  Saved bike times for {len(bike_times)} listings.")
+    else:
+        print(f"  [DRY RUN] Computed bike times for {len(bike_times)} listings (not saved).")
 
     # Group listings by neighborhood for the email body
     hood_to_listings = {hood: [] for hood in neighborhood_shapes}
@@ -363,10 +393,12 @@ def main():
             continue
         html += f"<h3 style='margin:20px 0 6px 0;color:#D99441;'>{hood}</h3>"
         for row in hood_listings:
+            bike_min = bike_times.get(row.get('url'))
+            bike_str = f" &nbsp;·&nbsp; {bike_min} min to 4th &amp; King" if bike_min is not None else ""
             html += (
                 "<div style='border:1px solid #262312;border-radius:6px;padding:8px;margin-bottom:8px;'>"
                 f"<div style='font-weight:bold;color:#262312;'>{row['title']}</div>"
-                f"<div style='color:#A8BFB9;'>${row['price']} &nbsp; {row['num_bedrooms']}bd/{row['num_bathrooms']}ba</div>"
+                f"<div style='color:#A8BFB9;'>${row['price']} &nbsp; {row['num_bedrooms']}bd/{row['num_bathrooms']}ba{bike_str}</div>"
                 f"<div><a href='{row['url']}' style='color:#A67D4B;'>View Listing</a></div>"
                 "</div>"
             )
@@ -375,11 +407,28 @@ def main():
     df_all = pd.read_csv(ACTIVE_PATH)
     html += build_price_summary_html(df_all)
 
+    dashboard_link = (
+        f"<div style='margin:20px 0 4px 0;font-size:11px;color:#9ca3af;'>"
+        f"<a href='{DASHBOARD_URL}' style='color:#9ca3af;'>price dashboard</a>"
+        f"</div>"
+    ) if DASHBOARD_URL else ""
+
     html += (
         "<div style='margin:24px 0 8px 0;font-size:18px;font-weight:bold;color:#262312;'>Biking Times from Caltrain:</div>"
         "<div><img src='cid:mapimage' style='width:100%;max-width:800px;border-radius:8px;'/></div>"
+        + dashboard_link +
         "</body></html>"
     )
+
+    if dry_run:
+        # Save the rendered HTML so you can open it in a browser and inspect it
+        preview_path = os.path.join(os.path.dirname(ACTIVE_PATH), "digest_preview.html")
+        with open(preview_path, 'w', encoding='utf-8') as f:
+            # Swap the cid: image reference for the local PNG so it renders in a browser
+            f.write(html.replace("cid:mapimage", os.path.abspath(map_png)))
+        print(f"  [DRY RUN] Digest HTML saved for preview → {preview_path}")
+        print(f"  [DRY RUN] Would send digest to: {', '.join(DIGEST_RECIPIENT_EMAILS)}")
+        return
 
     # Outer multipart/mixed allows both inline images and file attachments
     msg = MIMEMultipart('mixed')
@@ -397,15 +446,6 @@ def main():
         img.add_header('Content-ID', '<mapimage>')
         related.attach(img)
     msg.attach(related)
-
-    # Attach the interactive dashboard HTML if it has been generated
-    dashboard_path = Path(__file__).parent / "analysis_dashboard.html"
-    if dashboard_path.exists():
-        with open(dashboard_path, 'r', encoding='utf-8') as f:
-            attachment = MIMEText(f.read(), 'html', 'utf-8')
-        attachment.add_header('Content-Disposition', 'attachment', filename='price_dashboard.html')
-        msg.attach(attachment)
-        print("  Attached price_dashboard.html")
 
     send_email(msg)
     print(f"Sent digest email with {len(df_digest)} listings.")

@@ -14,6 +14,11 @@ DATA_ARCHIVE     = os.path.join(BASE_DIR, "craigslist_data", "listings_archive.c
 LAST_DIGEST_FILE = os.path.join(BASE_DIR, "last_digest_date.txt")
 MAX_ACTIVE_ROWS  = 1000
 
+# ----- Dashboard server -----
+# URL of the Pi's web server (via Tailscale) serving analysis_dashboard.html.
+# Set to None to omit the link from digest emails.
+DASHBOARD_URL = "http://100.101.197.66/analysis_dashboard.html"  #  Pi's Tailscale IP
+
 # ----- Email -----
 GMAIL_ADDRESS           = "hillsbunnell@gmail.com"
 GMAIL_APP_PASSWORD      = "eknq yzlh jkop vkdg"  # https://myaccount.google.com/apppasswords

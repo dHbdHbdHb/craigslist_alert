@@ -110,6 +110,7 @@ def main():
             'city': info.get('address', {}).get('addressLocality', ''),
             'time_posted': post_time,
             'alerted': False,
+            'bike_time_minutes': None,  # filled in by email_alert.py when digest is sent
         })
 
     df_new = pd.DataFrame(listings)

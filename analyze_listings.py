@@ -46,11 +46,12 @@ def load_data() -> pd.DataFrame:
     df = pd.concat(dfs, ignore_index=True)
     df = df.drop_duplicates(subset="url", keep="first")
 
-    df["time_posted"]   = pd.to_datetime(df["time_posted"], utc=True, errors="coerce")
-    df["date"]          = df["time_posted"].dt.date
-    df["price"]         = pd.to_numeric(df["price"],         errors="coerce")
-    df["num_bedrooms"]  = pd.to_numeric(df["num_bedrooms"],  errors="coerce").astype("Int64")
-    df["num_bathrooms"] = pd.to_numeric(df["num_bathrooms"], errors="coerce").astype("Int64")
+    df["time_posted"]       = pd.to_datetime(df["time_posted"], utc=True, errors="coerce")
+    df["date"]              = df["time_posted"].dt.date
+    df["price"]             = pd.to_numeric(df["price"],             errors="coerce")
+    df["num_bedrooms"]      = pd.to_numeric(df["num_bedrooms"],      errors="coerce").astype("Int64")
+    df["num_bathrooms"]     = pd.to_numeric(df["num_bathrooms"],     errors="coerce").astype("Int64")
+    df["bike_time_minutes"] = pd.to_numeric(df.get("bike_time_minutes"), errors="coerce")
 
     df = df.dropna(subset=["price", "num_bedrooms"])
     df = df[(df["price"] >= PRICE_FLOOR) & (df["price"] <= PRICE_CEIL)]
@@ -365,6 +366,38 @@ def chart_price_over_time(df: pd.DataFrame):
     }
 
 
+def chart_bike_times(df: pd.DataFrame):
+    """Bar chart of median biking time to Caltrain by neighborhood (listings with known times only)."""
+    sub = df[df["bike_time_minutes"].notna() & (df["neighborhood"] != CATCHALL_HOOD)]
+    if sub.empty:
+        return None
+    hoods  = _hood_order(sub)
+    colors = _hood_colors(hoods)
+    g = sub.groupby("neighborhood")["bike_time_minutes"]
+    stats = pd.DataFrame({"median": g.median(), "count": g.count()}).reindex(hoods).dropna()
+    if stats.empty:
+        return None
+    return {
+        "data": [{
+            "type": "bar",
+            "x": stats.index.tolist(),
+            "y": stats["median"].round(1).tolist(),
+            "marker": {"color": [colors.get(h, "#AAAAAA") for h in stats.index]},
+            "text": [f"{v:.0f} min" for v in stats["median"]],
+            "textposition": "outside",
+            "cliponaxis": False,
+            "hovertemplate": "<b>%{x}</b><br>Median bike: %{y:.0f} min<extra></extra>",
+        }],
+        "layout": {
+            "title":      {"text": "Median Bike Time to Caltrain by Neighborhood", "font": {"size": 15}},
+            "yaxis":      {"title": "Minutes", "automargin": True},
+            "xaxis":      {"automargin": True, "tickangle": -30},
+            "showlegend": False,
+            "margin":     {"t": 50, "b": 20, "l": 60, "r": 20},
+        },
+    }
+
+
 def build_folium_map_iframe(df: pd.DataFrame) -> str:
     """
     Builds a Folium neighborhood map (CartoDB Positron tiles, light-opacity
@@ -555,6 +588,7 @@ HTML_TEMPLATE = """\
       "heat   heat"
       "brbath hist"
       "scatter count"
+      "bike   bike"
       "map    map";
   }
 
@@ -573,6 +607,7 @@ HTML_TEMPLATE = """\
   .area-hist    { grid-area: hist; }
   .area-scatter { grid-area: scatter; }
   .area-count   { grid-area: count; }
+  .area-bike    { grid-area: bike; }
   .area-map     { grid-area: map; min-height: 540px; }
   .area-time    { grid-column: 1 / -1; }
 
@@ -610,6 +645,7 @@ HTML_TEMPLATE = """\
     <div class="plotly-chart" id="chart-count"></div>
   </div>
   __TIME_SLOT__
+  __BIKE_SLOT__
   <div class="chart-card area-map" style="padding:12px 14px 10px;">
     <div style="font-size:15px;font-weight:700;margin-bottom:8px;color:#1a1a2e;">
       Neighborhood Map &nbsp;<span style="font-size:11px;font-weight:400;color:#9ca3af;">hover polygons for price stats</span>
@@ -618,7 +654,7 @@ HTML_TEMPLATE = """\
   </div>
 </div>
 
-<footer>Built with Python + Plotly.js &nbsp;·&nbsp; Data: SF Craigslist</footer>
+<footer>can't wait to live somewhere someday</footer>
 
 <script>
 const COMMON_CONFIG = { responsive: true, displayModeBar: false };
@@ -654,6 +690,7 @@ renderChart("chart-hist",    __CHART_HIST__);
 renderChart("chart-scatter", __CHART_SCATTER__);
 renderChart("chart-count",   __CHART_COUNT__);
 __TIME_JS__
+__BIKE_JS__
 </script>
 </body>
 </html>"""
@@ -673,6 +710,17 @@ def build_html(df: pd.DataFrame) -> str:
         time_slot = ""
         time_js   = ""
 
+    bike_chart = chart_bike_times(df)
+    if bike_chart:
+        bike_slot = (
+            '<div class="chart-card area-bike">'
+            '<div class="plotly-chart" id="chart-bike"></div></div>'
+        )
+        bike_js = f'renderChart("chart-bike", {json.dumps(bike_chart)});'
+    else:
+        bike_slot = ""
+        bike_js   = ""
+
     print("Building neighborhood map…")
     map_iframe = build_folium_map_iframe(df)
 
@@ -687,6 +735,8 @@ def build_html(df: pd.DataFrame) -> str:
     html = html.replace("__MAP_IFRAME__",    map_iframe)
     html = html.replace("__TIME_SLOT__",     time_slot)
     html = html.replace("__TIME_JS__",       time_js)
+    html = html.replace("__BIKE_SLOT__",     bike_slot)
+    html = html.replace("__BIKE_JS__",       bike_js)
     return html
 
 
