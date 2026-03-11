@@ -65,7 +65,7 @@ def load_data() -> pd.DataFrame:
 
     df["br_bath"] = (
         df["num_bedrooms"].astype(str) + "BR / "
-        + df["num_bathrooms"].fillna("?").astype(str) + "BA"
+        + df["num_bathrooms"].astype(str).str.replace("<NA>", "?", regex=False) + "BA"
     )
     return df
 
