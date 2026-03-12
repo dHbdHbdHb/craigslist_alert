@@ -427,7 +427,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
 
     for hood in known_hoods:
         poly  = neighborhood_shapes[hood]
-        color = colors[hood]
+        color = colors.get(hood, _WOT_COLOR)
         sub   = df_known[df_known["neighborhood"] == hood]
 
         # Stats for tooltip
