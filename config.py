@@ -17,7 +17,7 @@ MAX_ACTIVE_ROWS  = 1000
 # ----- Dashboard server -----
 # URL of the Pi's web server (via Tailscale) serving analysis_dashboard.html.
 # Set to None to omit the link from digest emails.
-DASHBOARD_URL = "http://100.101.197.66:8080/analysis_dashboard.html"  #  Pi's Tailscale IP
+DASHBOARD_URL = "https://dhbdhbdhb.github.io/craigslist_alert/analysis_dashboard.html"  #"http://100.101.197.66:8080/analysis_dashboard.html"  #  Pi's Tailscale IP
 
 # ----- Email -----
 GMAIL_ADDRESS           = "hillsbunnell@gmail.com"
