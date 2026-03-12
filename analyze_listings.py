@@ -414,7 +414,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         return f'<p style="color:#888">Map unavailable: {e}</p>'
 
     known_hoods = [h for h in neighborhood_shapes if h != CATCHALL_HOOD]
-    colors      = _hood_colors(known_hoods)
+    colors      = _hood_colors(_hood_order(df))
     df_known    = df[df["neighborhood"] != CATCHALL_HOOD]
 
     m = folium.Map(
