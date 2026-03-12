@@ -367,16 +367,13 @@ def main():
     listings  = df_digest.to_dict('records')
     map_png, bike_times = build_map_png(listings)
 
-    # Persist bike times back to the active CSV (skipped in dry run)
-    if not dry_run:
-        if 'bike_time_minutes' not in df.columns:
-            df['bike_time_minutes'] = None
-        for url, minutes in bike_times.items():
-            df.loc[df['url'] == url, 'bike_time_minutes'] = minutes
-        df.to_csv(ACTIVE_PATH, index=False)
-        print(f"  Saved bike times for {len(bike_times)} listings.")
-    else:
-        print(f"  [DRY RUN] Computed bike times for {len(bike_times)} listings (not saved).")
+    # Persist bike times back to the active CSV (always, even in dry run)
+    if 'bike_time_minutes' not in df.columns:
+        df['bike_time_minutes'] = None
+    for url, minutes in bike_times.items():
+        df.loc[df['url'] == url, 'bike_time_minutes'] = minutes
+    df.to_csv(ACTIVE_PATH, index=False)
+    print(f"  Saved bike times for {len(bike_times)} listings.")
 
     # Group listings by neighborhood for the email body
     hood_to_listings = {hood: [] for hood in neighborhood_shapes}

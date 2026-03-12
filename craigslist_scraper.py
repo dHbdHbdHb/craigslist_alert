@@ -129,6 +129,10 @@ def main():
         df_result['alerted'] = False
     df_result['alerted'] = df_result['alerted'].fillna(False).astype(bool)
 
+    # Ensure bike_time_minutes column exists (filled in by email_alert.py)
+    if 'bike_time_minutes' not in df_result.columns:
+        df_result['bike_time_minutes'] = None
+
     # Keep only the most recent MAX_ACTIVE_ROWS; overflow goes to archive
     df_result = df_result.sort_values('time_posted', ascending=False)
     df_active = df_result.head(MAX_ACTIVE_ROWS)
