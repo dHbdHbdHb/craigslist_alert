@@ -182,7 +182,7 @@ def chart_boxplots(df: pd.DataFrame) -> dict:
 
 
 def chart_count_bar(df: pd.DataFrame) -> dict:
-    hoods  = _hood_order(df)
+    hoods  = [h for h in _hood_order(df) if h != CATCHALL_HOOD]
     colors = _hood_colors(hoods)
     counts = [int((df["neighborhood"] == h).sum()) for h in hoods]
     return {
