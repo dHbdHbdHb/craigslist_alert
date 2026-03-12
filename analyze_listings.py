@@ -410,8 +410,8 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         import folium
         from shapely.geometry import mapping
         from neighborhoods.neighborhood_shapes import neighborhood_shapes
-    except ImportError as e:
-        return f'<p style="color:#888">Map unavailable: {e}</p>'
+    except Exception as e:
+        return f'<p style="color:#888">Map unavailable: {type(e).__name__}: {e}</p>'
 
     known_hoods = [h for h in neighborhood_shapes if h != CATCHALL_HOOD]
     colors      = _hood_colors(_hood_order(df))
