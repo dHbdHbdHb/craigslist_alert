@@ -4,8 +4,13 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
 
+source /home/pi/miniforge3/etc/profile.d/conda.sh
+conda activate craigslist
+
 cd "$REPO_ROOT"
+python /home/pi/craigslist_alert/analyze_listings.py
+
 git pull origin main
-git add craigslist_data/listings_active.csv
-git commit -m "Auto-update listings: $(date '+%Y-%m-%d %H:%M:%S')"
+git add craigslist_data/listings_active.csv analysis_dashboard.html
+git diff --cached --quiet || git commit -m "Auto-update listings: $(date '+%Y-%m-%d %H:%M:%S')"
 git push origin main
