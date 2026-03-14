@@ -1,4 +1,6 @@
 title,neighborhoods,price,num_bedrooms,num_bathrooms,url,lat,lon,city,time_posted,alerted,priority_alerted,source,bike_time_minutes
+"Available Now – 2 BEDROOM, 2 BATH",,975,2,2.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-available-now-bedroom-bath/7921137810.html,37.7974848705884,-122.442341320019,San Francisco,2026-03-14T05:10:05.598924-07:00,False,,craigslist,
+Bright 2Bed 2Bath Apartment,,1575,2,1.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-bright-2bed-2bath/7921138570.html,37.7989871659272,-122.420608457893,San Francisco,2026-03-14T05:10:05.598184-07:00,False,,craigslist,
 "Classic SF Charm – Fireplace, Hardwood Floors, Bright Windows",,1415,2,2.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-classic-sf-charm/7921135178.html,37.8031164727565,-122.4256218386,San Francisco,2026-03-14T04:50:04.972237-07:00,False,,craigslist,
 Modern 2Bed 2Bath Apartment,Way Out There,1680,2,2.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-modern-2bed-2bath/7921135294.html,37.7428023515819,-122.481329379102,San Francisco,2026-03-14T04:30:05.430275-07:00,False,,craigslist,
 Brand New 2Bed 2Bath Apartment Russian Hill,,1569,2,2.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-brand-new-2bed-2bath/7921135363.html,37.8016479819276,-122.422152579151,San Francisco,2026-03-14T04:30:05.429509-07:00,False,,craigslist,
