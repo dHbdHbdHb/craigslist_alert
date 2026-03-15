@@ -1,4 +1,5 @@
 title,neighborhoods,price,num_bedrooms,num_bathrooms,url,lat,lon,city,time_posted,alerted,priority_alerted,source,bike_time_minutes
+Welcome to 2-bedroom apartment Nob Hill,Castro/Noe,1290,2,1.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-welcome-to-bedroom/7921319150.html,37.7662707028692,-122.428832121126,San Francisco,2026-03-14T22:50:04.740103-07:00,False,,craigslist,
 Charming 2Bedroom\1Bathroom Apartment in Nob Hill,,1261,2,1.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-charming/7921318031.html,37.7924852408684,-122.420240046031,San Francisco,2026-03-14T22:30:05.055749-07:00,False,,craigslist,
 Modern Berry St Two bed Two bath Apartment,Potrero Hill,4005,2,2.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-modern-berry-st-two-bed/7921318038.html,37.7736475344811,-122.396061227078,San Francisco,2026-03-14T22:30:05.055159-07:00,False,,craigslist,
 Iconic 2 bed 2 bathroom King St Apt Unit,,3465,2,2.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-iconic-bed-bathroom-king/7921318040.html,37.7780151917531,-122.39197832983,San Francisco,2026-03-14T22:30:05.054522-07:00,False,,craigslist,
