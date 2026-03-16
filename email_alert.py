@@ -19,14 +19,7 @@ import pandas as pd
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
-import folium
-from folium.features import DivIcon
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 import requests
-import time
 import openrouteservice
 from neighborhoods.neighborhood_shapes import neighborhood_shapes
 
@@ -34,9 +27,9 @@ from config import (
     GMAIL_ADDRESS, GMAIL_APP_PASSWORD,
     DIGEST_RECIPIENT_EMAILS, ALERT_RECIPIENT_EMAILS,
     DATA_ACTIVE, LAST_DIGEST_FILE,
-    ORS_API_KEY, CALTRAIN_COORDS, CHROMEDRIVER_PATH,
+    ORS_API_KEY, CALTRAIN_4TH_KING_COORDS, CALTRAIN_22ND_ST_COORDS,
     priority_neighborhoods, priority_max_price, priority_min_bathrooms,
-    digest_max_price, DASHBOARD_URL,
+    digest_min_price, digest_max_price, DASHBOARD_URL,
 )
 
 ACTIVE_PATH = DATA_ACTIVE  # local alias used throughout this file
@@ -179,67 +172,37 @@ def build_price_summary_html(df: pd.DataFrame) -> str:
     return html
 
 
-def build_map_png(listings, map_html="email_map.html", map_png="email_map.png") -> tuple[str, dict]:
+_CALTRAIN_STATIONS = [
+    ('4th & King', CALTRAIN_4TH_KING_COORDS),
+    ('22nd St',    CALTRAIN_22ND_ST_COORDS),
+]
+
+
+def compute_bike_times(listings) -> dict:
     """
-    Generate a map PNG showing biking routes from each listing to Caltrain.
-    Returns (path_to_png, {url: bike_time_minutes}) so callers can persist
-    the computed bike times to the CSV.
+    For each listing, compute cycling time to both Caltrain stations via ORS
+    and return the faster result.
+    Returns {url: {'minutes': int, 'station': str}}.
     """
-    ors = openrouteservice.Client(key=ORS_API_KEY)
-    lats   = [r['lat'] for r in listings] + [CALTRAIN_COORDS[1]]
-    lons   = [r['lon'] for r in listings] + [CALTRAIN_COORDS[0]]
-    center = [sum(lats) / len(lats), sum(lons) / len(lons)]
+    ors    = openrouteservice.Client(key=ORS_API_KEY)
+    result = {}
 
-    m = folium.Map(location=center, zoom_start=14, tiles="CartoDB positron")
-
-    # Caltrain station marker
-    folium.CircleMarker(
-        [CALTRAIN_COORDS[1], CALTRAIN_COORDS[0]], radius=6,
-        color='#D99441', fill=True, fill_color='#D99441'
-    ).add_to(m)
-
-    bike_times = {}  # url -> minutes
     for pt in listings:
-        coords = [(pt['lon'], pt['lat']), (CALTRAIN_COORDS[0], CALTRAIN_COORDS[1])]
-        route    = ors.directions(coords, profile='cycling-regular', format='geojson')
-        geom     = route['features'][0]['geometry']['coordinates']
-        duration = int(route['features'][0]['properties']['summary']['duration'] / 60)
-        bike_times[pt['url']] = duration
+        best_minutes = None
+        best_station = None
+        for name, coords in _CALTRAIN_STATIONS:
+            route   = ors.directions(
+                [(pt['lon'], pt['lat']), (coords[0], coords[1])],
+                profile='cycling-regular', format='geojson',
+            )
+            minutes = int(route['features'][0]['properties']['summary']['duration'] / 60)
+            if best_minutes is None or minutes < best_minutes:
+                best_minutes = minutes
+                best_station = name
+        result[pt['url']] = {'minutes': best_minutes, 'station': best_station}
+        print(f"  Bike: {pt['url'][-30:]} → {best_minutes} min to {best_station}")
 
-        folium.PolyLine(
-            [(c[1], c[0]) for c in geom], color='#A67D4B', weight=4, opacity=0.7
-        ).add_to(m)
-        folium.CircleMarker(
-            [pt['lat'], pt['lon']], radius=6, color='#262312', fill=True, fill_color='#262312'
-        ).add_to(m)
-        folium.map.Marker(
-            [pt['lat'], pt['lon']],
-            icon=DivIcon(html=f"""
-                <div style="font-family:'Helvetica Neue',Arial,sans-serif;
-                             font-size:16px;color:#262312;
-                             background:rgba(197,217,213,0.9);
-                             padding:8px 14px;border-radius:6px;
-                             text-align:center;font-weight:bold;min-width:50px;">
-                  {duration} min
-                </div>
-            """)
-        ).add_to(m)
-
-    m.save(map_html)
-
-    # Screenshot the map using headless Chrome
-    options = Options()
-    options.add_argument('--headless=new')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
-    driver = webdriver.Chrome(service=Service(CHROMEDRIVER_PATH), options=options)
-    driver.set_window_size(1200, 900)
-    driver.get('file://' + os.path.abspath(map_html))
-    time.sleep(4)
-    driver.save_screenshot(map_png)
-    driver.quit()
-
-    return map_png, bike_times
+    return result
 
 
 # ──────────────────────────────────────────────
@@ -348,7 +311,7 @@ def main():
             return False
         return any(h in neighborhood_shapes for h in (t.strip() for t in s.split(',')))
 
-    digest_mask = (unalerted['price'] <= digest_max_price) & unalerted['neighborhoods'].apply(in_known_hood)
+    digest_mask = (unalerted['price'] >= digest_min_price) & (unalerted['price'] <= digest_max_price) & unalerted['neighborhoods'].apply(in_known_hood)
     df_digest = unalerted[digest_mask].copy()
 
     if not df_digest.empty:
@@ -364,14 +327,17 @@ def main():
                 f.write(today_str)
         return
 
-    listings  = df_digest.to_dict('records')
-    map_png, bike_times = build_map_png(listings)
+    listings   = df_digest.to_dict('records')
+    bike_times = compute_bike_times(listings)
 
     # Persist bike times back to the active CSV (always, even in dry run)
     if 'bike_time_minutes' not in df.columns:
         df['bike_time_minutes'] = None
-    for url, minutes in bike_times.items():
-        df.loc[df['url'] == url, 'bike_time_minutes'] = minutes
+    if 'bike_station' not in df.columns:
+        df['bike_station'] = None
+    for url, info in bike_times.items():
+        df.loc[df['url'] == url, 'bike_time_minutes'] = info['minutes']
+        df.loc[df['url'] == url, 'bike_station']      = info['station']
     df.to_csv(ACTIVE_PATH, index=False)
     print(f"  Saved bike times for {len(bike_times)} listings.")
 
@@ -390,8 +356,11 @@ def main():
             continue
         html += f"<h3 style='margin:20px 0 6px 0;color:#D99441;'>{hood}</h3>"
         for row in hood_listings:
-            bike_min = bike_times.get(row.get('url'))
-            bike_str = f" &nbsp;·&nbsp; {bike_min} min to 4th &amp; King" if bike_min is not None else ""
+            bike_info = bike_times.get(row.get('url'))
+            bike_str  = (
+                f" &nbsp;·&nbsp; {bike_info['minutes']} min to {bike_info['station']} Caltrain"
+                if bike_info else ""
+            )
             html += (
                 "<div style='border:1px solid #262312;border-radius:6px;padding:8px;margin-bottom:8px;'>"
                 f"<div style='font-weight:bold;color:#262312;'>{row['title']}</div>"
@@ -410,39 +379,22 @@ def main():
         f"</div>"
     ) if DASHBOARD_URL else ""
 
-    html += (
-        "<div style='margin:24px 0 8px 0;font-size:18px;font-weight:bold;color:#262312;'>Biking Times from Caltrain:</div>"
-        "<div><img src='cid:mapimage' style='width:100%;max-width:800px;border-radius:8px;'/></div>"
-        + dashboard_link +
-        "</body></html>"
-    )
+    html += dashboard_link + "</body></html>"
 
     if dry_run:
         # Save the rendered HTML so you can open it in a browser and inspect it
         preview_path = os.path.join(os.path.dirname(ACTIVE_PATH), "digest_preview.html")
         with open(preview_path, 'w', encoding='utf-8') as f:
-            # Swap the cid: image reference for the local PNG so it renders in a browser
-            f.write(html.replace("cid:mapimage", os.path.abspath(map_png)))
+            f.write(html)
         print(f"  [DRY RUN] Digest HTML saved for preview → {preview_path}")
         print(f"  [DRY RUN] Would send digest to: {', '.join(DIGEST_RECIPIENT_EMAILS)}")
         return
 
-    # Outer multipart/mixed allows both inline images and file attachments
-    msg = MIMEMultipart('mixed')
+    msg = MIMEMultipart('alternative')
     msg['From']    = GMAIL_ADDRESS
     msg['To']      = ', '.join(DIGEST_RECIPIENT_EMAILS)
     msg['Subject'] = f"Housing Digest — {today.strftime('%B %d')}"
-
-    # Inner multipart/related keeps the inline map image working
-    related = MIMEMultipart('related')
-    body = MIMEMultipart('alternative')
-    body.attach(MIMEText(html, 'html'))
-    related.attach(body)
-    with open(map_png, 'rb') as f:
-        img = MIMEImage(f.read())
-        img.add_header('Content-ID', '<mapimage>')
-        related.attach(img)
-    msg.attach(related)
+    msg.attach(MIMEText(html, 'html'))
 
     send_email(msg)
     print(f"Sent digest email with {len(df_digest)} listings.")

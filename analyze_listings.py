@@ -52,6 +52,12 @@ def load_data() -> pd.DataFrame:
     df["num_bedrooms"]      = pd.to_numeric(df["num_bedrooms"],      errors="coerce").astype("Int64")
     df["num_bathrooms"]     = pd.to_numeric(df["num_bathrooms"],     errors="coerce").astype("Int64")
     df["bike_time_minutes"] = pd.to_numeric(df.get("bike_time_minutes"), errors="coerce")
+    df["lat"]               = pd.to_numeric(df.get("lat"),               errors="coerce")
+    df["lon"]               = pd.to_numeric(df.get("lon"),               errors="coerce")
+    if "bike_station" in df.columns:
+        df["bike_station"] = df["bike_station"].fillna("")
+    else:
+        df["bike_station"] = ""
 
     df = df.dropna(subset=["price", "num_bedrooms"])
     df = df[(df["price"] >= PRICE_FLOOR) & (df["price"] <= PRICE_CEIL)]
@@ -498,6 +504,56 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             ),
         ).add_to(m)
 
+    # ── Recent listing markers (last 3 days with bike times, clickable) ──
+    recent_cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=3)
+    df_markers = (
+        df
+        .drop_duplicates(subset="url")
+        [lambda d:
+            d["bike_time_minutes"].notna() &
+            d["time_posted"].notna() &
+            (d["time_posted"] >= recent_cutoff) &
+            d["lat"].notna() &
+            d["lon"].notna()
+        ]
+    )
+
+    # Caltrain station markers
+    for sname, slat, slon in [("4th & King", 37.7763, -122.3942), ("22nd St", 37.7577, -122.3925)]:
+        folium.CircleMarker(
+            [slat, slon], radius=9,
+            color="#D99441", fill=True, fill_color="#D99441", fill_opacity=0.95,
+            tooltip=f"Caltrain: {sname}",
+        ).add_to(m)
+
+    # Listing dot markers
+    import html as _html
+    for _, row in df_markers.iterrows():
+        mins     = int(row["bike_time_minutes"])
+        station  = row["bike_station"] or "Caltrain"
+        price    = f"${int(row['price']):,}/mo" if pd.notna(row.get("price")) else "—"
+        beds     = str(row["num_bedrooms"]) if pd.notna(row.get("num_bedrooms")) else "?"
+        baths    = str(row["num_bathrooms"]) if pd.notna(row.get("num_bathrooms")) else "?"
+        title_e  = _html.escape(str(row.get("title", "")))
+        url      = str(row.get("url", ""))
+        popup_html = (
+            f'<div style="font-family:-apple-system,sans-serif;font-size:13px;'
+            f'min-width:200px;max-width:260px;line-height:1.5;">'
+            f'<a href="{url}" target="_blank" '
+            f'style="font-weight:700;color:#262312;text-decoration:none;">'
+            f'{title_e[:70]}{"…" if len(title_e) > 70 else ""}</a><br>'
+            f'<span style="color:#A67D4B;">{price}</span>'
+            f' &nbsp;·&nbsp; {beds}bd/{baths}ba<br>'
+            f'<span style="color:#555;">{mins} min to {station} Caltrain</span>'
+            f'</div>'
+        )
+        folium.CircleMarker(
+            [row["lat"], row["lon"]], radius=6,
+            color="#262312", fill=True, fill_color="#262312", fill_opacity=0.85,
+            popup=folium.Popup(popup_html, max_width=270),
+            tooltip=f"{mins} min to {station} · {price}",
+        ).add_to(m)
+
     # Encode as base64 so the iframe is fully self-contained
     map_html = m.get_root().render()
     b64      = base64.b64encode(map_html.encode("utf-8")).decode("ascii")
@@ -615,6 +671,20 @@ HTML_TEMPLATE = """\
   .plotly-chart { width: 100%; height: 340px; }
 
   footer { margin-top: 24px; text-align: center; font-size: 0.75rem; color: #9ca3af; }
+
+  /* ── Mobile ── */
+  @media (max-width: 640px) {
+    body { padding: 12px; }
+    header h1 { font-size: 1.25rem; }
+    .cards { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-bottom: 16px; }
+    /* Stack all chart cards vertically — bypasses grid-template-areas */
+    .grid { display: flex; flex-direction: column; gap: 12px; }
+    .chart-card { min-height: 280px; }
+    .plotly-chart { height: 280px; }
+    /* Heatmap and map get a bit more room since they're content-dense */
+    .area-heat .plotly-chart { height: 360px; }
+    .area-map { min-height: 460px; }
+  }
 </style>
 </head>
 <body>
@@ -649,7 +719,7 @@ HTML_TEMPLATE = """\
   __BIKE_SLOT__
   <div class="chart-card area-map" style="padding:12px 14px 10px;">
     <div style="font-size:15px;font-weight:700;margin-bottom:8px;color:#1a1a2e;">
-      Neighborhood Map &nbsp;<span style="font-size:11px;font-weight:400;color:#9ca3af;">hover polygons for price stats</span>
+      Neighborhood Map &nbsp;<span style="font-size:11px;font-weight:400;color:#9ca3af;">hover polygons for price stats &nbsp;·&nbsp; dots = recent listings (click to open) &nbsp;·&nbsp; <span style="color:#D99441;">&#9679;</span> Caltrain</span>
     </div>
     __MAP_IFRAME__
   </div>

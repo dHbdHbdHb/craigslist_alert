@@ -32,9 +32,11 @@ ALERT_RECIPIENT_EMAILS  = [
 ]
 
 # ----- Map / routing -----
-ORS_API_KEY       = '5b3ce3597851110001cf624809183d29fbaa46ecb0f48f56e62f89cb'  # https://account.heigit.org/manage/key
-CALTRAIN_COORDS   = [-122.3942, 37.7763]  # [lon, lat]
-CHROMEDRIVER_PATH = '/usr/bin/chromedriver'
+ORS_API_KEY               = '5b3ce3597851110001cf624809183d29fbaa46ecb0f48f56e62f89cb'  # https://account.heigit.org/manage/key
+CALTRAIN_4TH_KING_COORDS  = [-122.3942, 37.7763]   # [lon, lat] 4th & King
+CALTRAIN_22ND_ST_COORDS   = [-122.3925, 37.7577]   # [lon, lat] 22nd St
+CALTRAIN_COORDS           = CALTRAIN_4TH_KING_COORDS  # backward compat alias
+CHROMEDRIVER_PATH         = '/usr/bin/chromedriver'
 
 # ----- Alert criteria -----
 # Priority: listings matching all three criteria trigger an immediate individual email
@@ -42,5 +44,6 @@ priority_neighborhoods = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Hai
 priority_max_price     = 4000
 priority_min_bathrooms = 2
 
-# Digest: all unalerted listings under this price are included in the daily digest
+# Digest: listings outside this price range are excluded from the daily digest
+digest_min_price = 2100
 digest_max_price = 5500
