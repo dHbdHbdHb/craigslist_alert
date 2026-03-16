@@ -1,4 +1,5 @@
 title,neighborhoods,price,num_bedrooms,num_bathrooms,url,lat,lon,city,time_posted,alerted,priority_alerted,source,bike_time_minutes
+Classic two bed 2bath Pacific Ave Apartment,,3465,2,2.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-classic-two-bed-2bath/7921502183.html,37.7942573993286,-122.427616304685,San Francisco,2026-03-16T03:10:04.987688-07:00,False,,craigslist,
 "2 bedroom, 1 bathroom single family home",Way Out There,2355,2,1.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-bedroom-bathroom-single/7921499934.html,37.7499981285305,-122.478323069551,San Francisco,2026-03-16T02:30:04.930049-07:00,False,,craigslist,
 Stunning two bed two bath 2002 3rd St Condo,Potrero Hill,3645,2,2.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-stunning-two-bed-two-bath/7921501086.html,37.7642968632651,-122.388848261395,San Francisco,2026-03-16T02:30:04.929300-07:00,False,,craigslist,
 Beautiful 2BR/1BA condo in Russian Hill,,1471,2,1.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-beautiful-2br-1ba-condo/7921499100.html,37.7847394244364,-122.413791979005,San Francisco,2026-03-16T01:50:05.676851-07:00,False,,craigslist,
