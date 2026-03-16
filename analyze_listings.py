@@ -20,10 +20,11 @@ import numpy as np
 import pandas as pd
 
 # ── Config ────────────────────────────────────────────────────────────────────
-BASE_DIR    = Path(__file__).parent
-ACTIVE_CSV  = BASE_DIR / "craigslist_data" / "listings_active.csv"
-ARCHIVE_CSV = BASE_DIR / "craigslist_data" / "listings_archive.csv"
-OUTPUT_HTML = BASE_DIR / "analysis_dashboard.html"
+BASE_DIR         = Path(__file__).parent
+ACTIVE_CSV       = BASE_DIR / "craigslist_data" / "listings_active.csv"
+ARCHIVE_CSV      = BASE_DIR / "craigslist_data" / "listings_archive.csv"
+OUTPUT_HTML      = BASE_DIR / "analysis_dashboard.html"
+BIKE_ROUTES_FILE = BASE_DIR / "craigslist_data" / "bike_routes.json"
 
 PRICE_FLOOR = 2_100
 PRICE_CEIL  = 15_000
@@ -504,8 +505,8 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             ),
         ).add_to(m)
 
-    # ── Recent listing markers (last 3 days with bike times, clickable) ──
-    recent_cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=3)
+    # ── Recent listing routes + markers ──────────────────────────────────────
+    recent_cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=7)
     df_markers = (
         df
         .drop_duplicates(subset="url")
@@ -518,27 +519,76 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         ]
     )
 
+    # Load (or compute + cache) route geometries
+    try:
+        with open(BIKE_ROUTES_FILE) as _f:
+            route_cache = json.load(_f)
+    except (FileNotFoundError, ValueError):
+        route_cache = {}
+
+    missing = [row for _, row in df_markers.iterrows() if str(row["url"]) not in route_cache]
+    if missing:
+        try:
+            import openrouteservice as _ors_mod
+            from config import ORS_API_KEY as _ORS_KEY
+            _ors = _ors_mod.Client(key=_ORS_KEY)
+            _stations = [("4th & King", [-122.3942, 37.7763]), ("22nd St", [-122.3925, 37.7577])]
+            for row in missing:
+                best_min, best_geom, best_stn = None, None, None
+                for sname, coords in _stations:
+                    try:
+                        r = _ors.directions(
+                            [(row["lon"], row["lat"]), (coords[0], coords[1])],
+                            profile="cycling-regular", format="geojson",
+                        )
+                        mins = int(r["features"][0]["properties"]["summary"]["duration"] / 60)
+                        raw  = r["features"][0]["geometry"]["coordinates"]
+                        if best_min is None or mins < best_min:
+                            best_min  = mins
+                            best_stn  = sname
+                            best_geom = [[c[1], c[0]] for c in raw]
+                    except Exception:
+                        pass
+                if best_geom:
+                    route_cache[str(row["url"])] = {"station": best_stn, "geometry": best_geom}
+            with open(BIKE_ROUTES_FILE, "w") as _f:
+                json.dump(route_cache, _f)
+            print(f"  Cached routes for {len(missing)} listing(s).")
+        except Exception as e:
+            print(f"  Could not compute missing routes: {e}")
+
+    # Draw route polylines first (so they appear under dots)
+    for _, row in df_markers.iterrows():
+        cached = route_cache.get(str(row["url"]))
+        if cached and cached.get("geometry"):
+            folium.PolyLine(
+                cached["geometry"],
+                color="#A67D4B", weight=2, opacity=0.45, dash_array="8 6",
+            ).add_to(m)
+
     # Caltrain station markers
     for sname, slat, slon in [("4th & King", 37.7763, -122.3942), ("22nd St", 37.7577, -122.3925)]:
         folium.CircleMarker(
-            [slat, slon], radius=9,
-            color="#D99441", fill=True, fill_color="#D99441", fill_opacity=0.95,
+            [slat, slon], radius=7,
+            color="white", weight=2,
+            fill=True, fill_color="#D99441", fill_opacity=0.95,
             tooltip=f"Caltrain: {sname}",
         ).add_to(m)
 
     # Listing dot markers
     import html as _html
     for _, row in df_markers.iterrows():
-        mins     = int(row["bike_time_minutes"])
-        station  = row["bike_station"] or "Caltrain"
-        price    = f"${int(row['price']):,}/mo" if pd.notna(row.get("price")) else "—"
-        beds     = str(row["num_bedrooms"]) if pd.notna(row.get("num_bedrooms")) else "?"
-        baths    = str(row["num_bathrooms"]) if pd.notna(row.get("num_bathrooms")) else "?"
-        title_e  = _html.escape(str(row.get("title", "")))
-        url      = str(row.get("url", ""))
+        mins    = int(row["bike_time_minutes"])
+        cached  = route_cache.get(str(row["url"]))
+        station = (cached or {}).get("station") or row.get("bike_station") or "Caltrain"
+        price   = f"${int(row['price']):,}/mo" if pd.notna(row.get("price")) else "—"
+        beds    = str(row["num_bedrooms"]) if pd.notna(row.get("num_bedrooms")) else "?"
+        baths   = str(row["num_bathrooms"]) if pd.notna(row.get("num_bathrooms")) else "?"
+        title_e = _html.escape(str(row.get("title", "")))
+        url     = str(row.get("url", ""))
         popup_html = (
             f'<div style="font-family:-apple-system,sans-serif;font-size:13px;'
-            f'min-width:200px;max-width:260px;line-height:1.5;">'
+            f'min-width:200px;max-width:260px;line-height:1.6;">'
             f'<a href="{url}" target="_blank" '
             f'style="font-weight:700;color:#262312;text-decoration:none;">'
             f'{title_e[:70]}{"…" if len(title_e) > 70 else ""}</a><br>'
@@ -548,11 +598,38 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             f'</div>'
         )
         folium.CircleMarker(
-            [row["lat"], row["lon"]], radius=6,
-            color="#262312", fill=True, fill_color="#262312", fill_opacity=0.85,
+            [row["lat"], row["lon"]], radius=4,
+            color="white", weight=1.5,
+            fill=True, fill_color="#9ca3af", fill_opacity=0.9,
             popup=folium.Popup(popup_html, max_width=270),
             tooltip=f"{mins} min to {station} · {price}",
         ).add_to(m)
+
+    # Map legend
+    m.get_root().html.add_child(folium.Element("""
+        <div style="position:fixed;bottom:16px;left:16px;z-index:999;
+                    background:rgba(255,255,255,0.93);padding:10px 14px;
+                    border-radius:8px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+                    font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,0.13);line-height:2;">
+          <div style="font-weight:700;font-size:13px;color:#1a1a2e;margin-bottom:2px;">Legend</div>
+          <div>
+            <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
+              <circle cx="7" cy="7" r="5.5" fill="#D99441" stroke="white" stroke-width="1.5"/>
+            </svg>Caltrain station
+          </div>
+          <div>
+            <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
+              <circle cx="7" cy="7" r="4.5" fill="#9ca3af" stroke="white" stroke-width="1.5"/>
+            </svg>Listing — click to open
+          </div>
+          <div>
+            <svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">
+              <line x1="0" y1="4" x2="20" y2="4" stroke="#A67D4B" stroke-width="2"
+                    stroke-dasharray="6 5" opacity="0.7"/>
+            </svg>Bike route
+          </div>
+        </div>
+    """))
 
     # Encode as base64 so the iframe is fully self-contained
     map_html = m.get_root().render()
@@ -642,11 +719,11 @@ HTML_TEMPLATE = """\
     grid-template-areas:
       "box    box"
       "time   time"
+      "map    map"
       "heat   heat"
       "brbath hist"
       "scatter count"
-      "bike   bike"
-      "map    map";
+      "bike   bike";
   }
 
   .chart-card {
@@ -701,6 +778,12 @@ HTML_TEMPLATE = """\
     <div class="plotly-chart" id="chart-box"></div>
   </div>
   __TIME_SLOT__
+  <div class="chart-card area-map" style="padding:12px 14px 10px;">
+    <div style="font-size:15px;font-weight:700;margin-bottom:8px;color:#1a1a2e;">
+      Neighborhood Map &nbsp;<span style="font-size:11px;font-weight:400;color:#9ca3af;">hover polygons for price stats &nbsp;·&nbsp; neighborhood boundaries + recent listings with bike times to Caltrain</span>
+    </div>
+    __MAP_IFRAME__
+  </div>
   <div class="chart-card area-heat">
     <div class="plotly-chart" id="chart-heat" style="height:400px"></div>
   </div>
@@ -717,12 +800,6 @@ HTML_TEMPLATE = """\
     <div class="plotly-chart" id="chart-count"></div>
   </div>
   __BIKE_SLOT__
-  <div class="chart-card area-map" style="padding:12px 14px 10px;">
-    <div style="font-size:15px;font-weight:700;margin-bottom:8px;color:#1a1a2e;">
-      Neighborhood Map &nbsp;<span style="font-size:11px;font-weight:400;color:#9ca3af;">hover polygons for price stats &nbsp;·&nbsp; dots = recent listings (click to open) &nbsp;·&nbsp; <span style="color:#D99441;">&#9679;</span> Caltrain</span>
-    </div>
-    __MAP_IFRAME__
-  </div>
 </div>
 
 <footer>can't wait to live somewhere someday</footer>

@@ -12,6 +12,7 @@ Runs via cron after each scraper run. Tracks sent alerts in listings_active.csv
 """
 
 import argparse
+import json
 import os
 import datetime
 from zoneinfo import ZoneInfo
@@ -32,7 +33,8 @@ from config import (
     digest_min_price, digest_max_price, DASHBOARD_URL,
 )
 
-ACTIVE_PATH = DATA_ACTIVE  # local alias used throughout this file
+ACTIVE_PATH      = DATA_ACTIVE
+BIKE_ROUTES_PATH = os.path.join(os.path.dirname(DATA_ACTIVE), "bike_routes.json")
 
 
 # ──────────────────────────────────────────────
@@ -181,26 +183,37 @@ _CALTRAIN_STATIONS = [
 def compute_bike_times(listings) -> dict:
     """
     For each listing, compute cycling time to both Caltrain stations via ORS
-    and return the faster result.
+    and return the faster result. Route geometry is cached to bike_routes.json.
     Returns {url: {'minutes': int, 'station': str}}.
     """
-    ors    = openrouteservice.Client(key=ORS_API_KEY)
-    result = {}
+    ors = openrouteservice.Client(key=ORS_API_KEY)
 
+    try:
+        with open(BIKE_ROUTES_PATH) as f:
+            route_cache = json.load(f)
+    except (FileNotFoundError, ValueError):
+        route_cache = {}
+
+    result = {}
     for pt in listings:
-        best_minutes = None
-        best_station = None
+        best_minutes, best_station, best_geom = None, None, None
         for name, coords in _CALTRAIN_STATIONS:
             route   = ors.directions(
                 [(pt['lon'], pt['lat']), (coords[0], coords[1])],
                 profile='cycling-regular', format='geojson',
             )
-            minutes = int(route['features'][0]['properties']['summary']['duration'] / 60)
+            minutes  = int(route['features'][0]['properties']['summary']['duration'] / 60)
+            geom_raw = route['features'][0]['geometry']['coordinates']
             if best_minutes is None or minutes < best_minutes:
                 best_minutes = minutes
                 best_station = name
-        result[pt['url']] = {'minutes': best_minutes, 'station': best_station}
+                best_geom    = [[c[1], c[0]] for c in geom_raw]
+        result[pt['url']]      = {'minutes': best_minutes, 'station': best_station}
+        route_cache[pt['url']] = {'station': best_station, 'geometry': best_geom}
         print(f"  Bike: {pt['url'][-30:]} → {best_minutes} min to {best_station}")
+
+    with open(BIKE_ROUTES_PATH, 'w') as f:
+        json.dump(route_cache, f)
 
     return result
 
