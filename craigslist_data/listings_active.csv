@@ -1,4 +1,5 @@
 title,neighborhoods,price,num_bedrooms,num_bathrooms,url,lat,lon,city,time_posted,alerted,priority_alerted,source,bike_time_minutes
+Features 3 bedrooms and 2 baths in a bright!@,,1170,3,2.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-features-bedrooms-and/7921504620.html,37.781566957125,-122.464321699913,San Francisco,2026-03-16T04:30:04.773616-07:00,False,,craigslist,
 "A beautiful 3 bdrm, 2 bath ranch house move in ready",,1210,3,2.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-beautiful-bdrm-bath-ranch/7921504623.html,37.7706251821119,-122.423900673384,San Francisco,2026-03-16T04:10:04.708615-07:00,False,,craigslist,
 "One bed, 1-bath 2000 Greenwich St apartment",,3000,3,1.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-one-bed-bath-2000/7921503705.html,37.7993699017343,-122.432575254402,San Francisco,2026-03-16T03:50:04.930609-07:00,False,,craigslist,
 Bright 1 bedroom / 1 bathroom home,Way Out There,850,2,1.0,https://sfbay.craigslist.org/sfc/apa/d/san-francisco-bright-bedroom-bathroom/7921503704.html,37.7456092718201,-122.50597229387,San Francisco,2026-03-16T03:50:04.929870-07:00,True,,craigslist,49.0
