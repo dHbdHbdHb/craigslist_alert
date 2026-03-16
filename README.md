@@ -84,9 +84,3 @@ Each scraper should:
 The alert script is source-agnostic and requires no changes.
 
 ---
-
-## For Future
-
-- Zillow scraper (unofficial search API)
-- Facebook Marketplace scraper (requires auth — complex)
-- Web dashboard for browsing listings
