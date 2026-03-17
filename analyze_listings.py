@@ -506,7 +506,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         ).add_to(m)
 
     # ── Recent listing routes + markers ──────────────────────────────────────
-    recent_cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=7)
+    recent_cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=3)
     df_markers = (
         df
         .drop_duplicates(subset="url")
@@ -780,7 +780,7 @@ HTML_TEMPLATE = """\
   __TIME_SLOT__
   <div class="chart-card area-map" style="padding:12px 14px 10px;">
     <div style="font-size:15px;font-weight:700;margin-bottom:8px;color:#1a1a2e;">
-      Neighborhood Map &nbsp;<span style="font-size:11px;font-weight:400;color:#9ca3af;">hover polygons for price stats &nbsp;·&nbsp; neighborhood boundaries + recent listings with bike times to Caltrain</span>
+      Neighborhood Map &nbsp;<span style="font-size:11px;font-weight:400;color:#9ca3af;">hover polygons for price stats &nbsp;·&nbsp; neighborhood boundaries + listings from the last 3 days with bike times to Caltrain</span>
     </div>
     __MAP_IFRAME__
   </div>
