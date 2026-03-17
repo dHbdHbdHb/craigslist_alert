@@ -557,16 +557,22 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         except Exception as e:
             print(f"  Could not compute missing routes: {e}")
 
-    # Draw route polylines first (so they appear under dots)
-    for _, row in df_markers.iterrows():
-        cached = route_cache.get(str(row["url"]))
-        if cached and cached.get("geometry"):
-            folium.PolyLine(
-                cached["geometry"],
-                color="#A67D4B", weight=2, opacity=0.45, dash_array="8 6",
-            ).add_to(m)
+    # FeatureGroups for bedroom filter
+    fg_2br   = folium.FeatureGroup(name="2BR",  show=True)
+    fg_3plus = folium.FeatureGroup(name="3BR+", show=True)
+    fg_other = folium.FeatureGroup(name="Other BR", show=True)
 
-    # Caltrain station markers
+    def _br_group(row):
+        beds_val = row.get("num_bedrooms")
+        if pd.notna(beds_val):
+            n = int(beds_val)
+            if n == 2:
+                return fg_2br
+            if n >= 3:
+                return fg_3plus
+        return fg_other
+
+    # Caltrain station markers (always visible, go directly on map)
     for sname, slat, slon in [("4th & King", 37.7763, -122.3942), ("22nd St", 37.7577, -122.3925)]:
         folium.CircleMarker(
             [slat, slon], radius=7,
@@ -575,11 +581,18 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             tooltip=f"Caltrain: {sname}",
         ).add_to(m)
 
-    # Listing dot markers
+    # Route polylines + listing dot markers, grouped by bedroom count
     import html as _html
     for _, row in df_markers.iterrows():
+        fg = _br_group(row)
+        cached = route_cache.get(str(row["url"]))
+        if cached and cached.get("geometry"):
+            folium.PolyLine(
+                cached["geometry"],
+                color="#A67D4B", weight=2, opacity=0.45, dash_array="8 6",
+            ).add_to(fg)
+
         mins    = int(row["bike_time_minutes"])
-        cached  = route_cache.get(str(row["url"]))
         station = (cached or {}).get("station") or row.get("bike_station") or "Caltrain"
         price   = f"${int(row['price']):,}/mo" if pd.notna(row.get("price")) else "—"
         beds    = str(row["num_bedrooms"]) if pd.notna(row.get("num_bedrooms")) else "?"
@@ -603,10 +616,21 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             fill=True, fill_color="#9ca3af", fill_opacity=0.9,
             popup=folium.Popup(popup_html, max_width=270),
             tooltip=f"{mins} min to {station} · {price}",
-        ).add_to(m)
+        ).add_to(fg)
 
-    # Map legend
-    m.get_root().html.add_child(folium.Element("""
+    fg_2br.add_to(m)
+    fg_3plus.add_to(m)
+    fg_other.add_to(m)
+
+    # Grab JS variable names so the dropdown can reference them
+    _v2br   = fg_2br.get_name()
+    _v3plus = fg_3plus.get_name()
+    _vother = fg_other.get_name()
+
+    _vmap = m.get_name()
+
+    # Map legend + bedroom dropdown
+    m.get_root().html.add_child(folium.Element(f"""
         <div style="position:fixed;bottom:16px;left:16px;z-index:999;
                     background:rgba(255,255,255,0.93);padding:10px 14px;
                     border-radius:8px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;
@@ -629,6 +653,43 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             </svg>Bike route
           </div>
         </div>
+
+        <div style="position:fixed;top:12px;right:12px;z-index:999;
+                    background:rgba(255,255,255,0.95);padding:7px 10px;
+                    border-radius:8px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+                    font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,0.13);">
+          <label for="br-filter" style="font-weight:600;color:#1a1a2e;margin-right:6px;">Bedrooms</label>
+          <select id="br-filter"
+                  style="font-size:12px;border:1px solid #d1d5db;border-radius:5px;
+                         padding:2px 6px;background:#fff;cursor:pointer;">
+            <option value="all">All</option>
+            <option value="2br">2 BR</option>
+            <option value="3plus">3+ BR</option>
+          </select>
+        </div>
+
+        <script>
+          document.getElementById('br-filter').addEventListener('change', function() {{
+            var val    = this.value;
+            var map    = {_vmap};
+            var fg2br   = {_v2br};
+            var fg3plus = {_v3plus};
+            var fgother = {_vother};
+            if (val === 'all') {{
+              if (!map.hasLayer(fg2br))   map.addLayer(fg2br);
+              if (!map.hasLayer(fg3plus)) map.addLayer(fg3plus);
+              if (!map.hasLayer(fgother)) map.addLayer(fgother);
+            }} else if (val === '2br') {{
+              if (!map.hasLayer(fg2br))   map.addLayer(fg2br);
+              if (map.hasLayer(fg3plus))  map.removeLayer(fg3plus);
+              if (map.hasLayer(fgother))  map.removeLayer(fgother);
+            }} else if (val === '3plus') {{
+              if (map.hasLayer(fg2br))    map.removeLayer(fg2br);
+              if (!map.hasLayer(fg3plus)) map.addLayer(fg3plus);
+              if (map.hasLayer(fgother))  map.removeLayer(fgother);
+            }}
+          }});
+        </script>
     """))
 
     # Encode as base64 so the iframe is fully self-contained
