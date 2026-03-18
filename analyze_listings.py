@@ -189,26 +189,41 @@ def chart_boxplots(df: pd.DataFrame) -> dict:
 
 
 def chart_count_bar(df: pd.DataFrame) -> dict:
-    hoods  = [h for h in _hood_order(df) if h != CATCHALL_HOOD]
-    colors = _hood_colors(hoods)
-    counts = [int((df["neighborhood"] == h).sum()) for h in hoods]
-    return {
-        "data": [{
+    hoods = [h for h in _hood_order(df) if h != CATCHALL_HOOD]
+
+    # One trace per bedroom count, sorted ascending
+    br_counts = sorted(df["num_bedrooms"].dropna().unique())
+    br_palette = ["#4e79a7", "#f28e2b", "#e15759", "#76b7b2", "#59a14f", "#edc948"]
+
+    traces = []
+    for i, br in enumerate(br_counts):
+        br_label = f"{int(br)}BR"
+        color = br_palette[i % len(br_palette)]
+        counts = []
+        custom = []
+        for hood in hoods:
+            n = int(((df["neighborhood"] == hood) & (df["num_bedrooms"] == br)).sum())
+            counts.append(n)
+            custom.append(f"{br_label} listings / {hood}: {n}")
+        traces.append({
             "type": "bar",
+            "name": br_label,
             "x": hoods,
             "y": counts,
-            "marker": {"color": [colors[h] for h in hoods]},
-            "text":   counts,
-            "textposition": "outside",
-            "cliponaxis": False,
-            "hovertemplate": "<b>%{x}</b><br>%{y} listings<extra></extra>",
-        }],
+            "marker": {"color": color},
+            "customdata": custom,
+            "hovertemplate": "%{customdata}<extra></extra>",
+        })
+
+    return {
+        "data": traces,
         "layout": {
             "title":      {"text": "Listings per Neighborhood", "font": {"size": 15}},
+            "barmode":    "stack",
             "yaxis":      {"title": "# Listings", "automargin": True},
             "xaxis":      {"automargin": True, "tickangle": -30},
-            "showlegend": False,
-            "margin":     {"t": 50, "b": 20, "l": 60, "r": 20},
+            "legend":     {"orientation": "h", "y": 1.1},
+            "margin":     {"t": 60, "b": 20, "l": 60, "r": 20},
         },
     }
 
