@@ -29,7 +29,8 @@ from config import (
     DIGEST_RECIPIENT_EMAILS, ALERT_RECIPIENT_EMAILS,
     DATA_ACTIVE, LAST_DIGEST_FILE,
     ORS_API_KEY, CALTRAIN_4TH_KING_COORDS, CALTRAIN_22ND_ST_COORDS,
-    priority_neighborhoods, priority_max_price, priority_min_bathrooms,
+    priority_neighborhoods, priority_max_price, priority_min_price,
+    priority_min_bathrooms, priority_min_posting_age_minutes, priority_scam_keywords,
     digest_min_price, digest_max_price, DASHBOARD_URL,
 )
 
@@ -255,10 +256,25 @@ def main():
             return False
         return any(h in priority_neighborhoods for h in row['neighborhoods'].split(','))
 
+    def has_scam_title(row) -> bool:
+        title = str(row.get('title', '')).lower()
+        return any(kw in title for kw in priority_scam_keywords)
+
+    def is_old_enough(row) -> bool:
+        try:
+            posted = pd.to_datetime(row['time_posted'], utc=True)
+            age_minutes = (pd.Timestamp.now(tz='UTC') - posted).total_seconds() / 60
+            return age_minutes >= priority_min_posting_age_minutes
+        except Exception:
+            return True  # if unparseable, don't block on age
+
     priority_mask = (
         unalerted.apply(in_priority_hood, axis=1) &
+        (unalerted['price'] >= priority_min_price) &
         (unalerted['price'] <= priority_max_price) &
-        (unalerted['num_bathrooms'] >= priority_min_bathrooms)
+        (unalerted['num_bathrooms'] >= priority_min_bathrooms) &
+        ~unalerted.apply(has_scam_title, axis=1) &
+        unalerted.apply(is_old_enough, axis=1)
     )
     df_priority = unalerted[priority_mask].copy()
 

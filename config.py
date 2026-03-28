@@ -39,10 +39,17 @@ CALTRAIN_COORDS           = CALTRAIN_4TH_KING_COORDS  # backward compat alias
 CHROMEDRIVER_PATH         = '/usr/bin/chromedriver'
 
 # ----- Alert criteria -----
-# Priority: listings matching all three criteria trigger an immediate individual email
-priority_neighborhoods = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal", "Potrero Hill"}
-priority_max_price     = 4000
-priority_min_bathrooms = 2
+# Priority: listings matching all criteria trigger an immediate individual email
+priority_neighborhoods           = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal", "Potrero Hill"}
+priority_max_price               = 4000
+priority_min_price               = 2800   # below this is suspiciously cheap (scam signal)
+priority_min_bathrooms           = 2
+priority_min_posting_age_minutes = 20     # wait for Craigslist community flagging to work
+priority_scam_keywords           = [
+    "email only", "email me only", "overseas", "military deployment",
+    "god fearing", "god-fearing", "contact us at", "western union",
+    "no calls", "no phone calls",
+]
 
 # Digest: listings outside this price range are excluded from the daily digest
 digest_min_price = 2100
