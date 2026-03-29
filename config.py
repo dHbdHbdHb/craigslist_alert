@@ -23,7 +23,8 @@ DASHBOARD_URL = "https://dhbdhbdhb.github.io/craigslist_alert/analysis_dashboard
 GMAIL_ADDRESS           = "hillsbunnell@gmail.com"
 GMAIL_APP_PASSWORD      = "eknq yzlh jkop vkdg"  # https://myaccount.google.com/apppasswords
 DIGEST_RECIPIENT_EMAILS = [
-    # "Max.Drimmer@gmail.com",
+    "Max.Drimmer@gmail.com",
+    "siennarwhite@gmail.com"
     "hillsbunnell@gmail.com",
 ]
 ALERT_RECIPIENT_EMAILS  = [
