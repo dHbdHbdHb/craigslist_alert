@@ -6,6 +6,7 @@ from shapely.geometry import Point
 from neighborhoods.neighborhood_shapes import neighborhood_shapes
 import pandas as pd
 import os
+import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -23,6 +24,47 @@ headers = {
         "Chrome/119.0.0.0 Safari/537.36"
     )
 }
+
+def is_listing_active(url: str) -> bool:
+    """Return False if the listing has been flagged or deleted, True otherwise.
+    On network errors, returns True (keep the listing rather than incorrectly purge it)."""
+    try:
+        response = requests.get(url, timeout=10, headers=headers)
+        response.raise_for_status()
+        flagged = "This posting has been flagged for removal."
+        deleted = "This posting has been deleted by its author."
+        return not (flagged in response.text or deleted in response.text)
+    except requests.HTTPError as e:
+        if e.response is not None and e.response.status_code == 410:
+            return False
+        return True  # unknown HTTP error — keep the listing
+    except requests.RequestException:
+        return True  # network error — keep the listing
+
+
+def purge_inactive_listings(df: pd.DataFrame, fresh_urls: set) -> pd.DataFrame:
+    """Drop listings from df that are no longer live on Craigslist.
+
+    Only checks listings whose URL was NOT returned in the latest scrape —
+    fresh results are obviously still active. Adds a small delay between
+    requests to avoid hammering Craigslist.
+    """
+    to_check = df[~df['url'].isin(fresh_urls)].copy()
+    if to_check.empty:
+        return df
+
+    print(f"Checking {len(to_check)} existing listings for removal...")
+    inactive_urls = set()
+    for url in to_check['url'].dropna():
+        if not is_listing_active(url):
+            print(f"  Purging removed listing: {url}")
+            inactive_urls.add(url)
+        time.sleep(0.3)
+
+    if inactive_urls:
+        print(f"  Removed {len(inactive_urls)} inactive listing(s).")
+    return df[~df['url'].isin(inactive_urls)].reset_index(drop=True)
+
 
 def assign_neighborhoods(lon, lat, hood_shapes):
     """Return list of neighborhood names whose polygons contain this point."""
@@ -114,6 +156,11 @@ def main():
         })
 
     df_new = pd.DataFrame(listings)
+    fresh_urls = set(df_new['url'].dropna()) if not df_new.empty else set()
+
+    # Purge flagged/deleted listings from existing data before merging
+    if not df_old.empty:
+        df_old = purge_inactive_listings(df_old, fresh_urls)
 
     # Merge with existing listings, deduplicating by URL
     if not df_old.empty and not df_new.empty:
