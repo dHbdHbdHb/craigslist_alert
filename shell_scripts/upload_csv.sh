@@ -8,7 +8,9 @@ source /home/pi/miniforge3/etc/profile.d/conda.sh
 conda activate craigslist
 
 cd "$REPO_ROOT"
+git stash
 git pull --rebase origin main
+git stash pop
 
 python /home/pi/craigslist_alert/analyze_listings.py
 git add craigslist_data/listings_active.csv craigslist_data/listings_archive.csv analysis_dashboard.html email_map.png
