@@ -8,9 +8,9 @@ source /home/pi/miniforge3/etc/profile.d/conda.sh
 conda activate craigslist
 
 cd "$REPO_ROOT"
-python /home/pi/craigslist_alert/analyze_listings.py
-
 git pull --rebase origin main
+
+python /home/pi/craigslist_alert/analyze_listings.py
 git add craigslist_data/listings_active.csv analysis_dashboard.html
 git diff --cached --quiet || git commit -m "Auto-update listings: $(date '+%Y-%m-%d %H:%M:%S')"
 git push origin main
