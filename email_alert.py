@@ -59,12 +59,11 @@ def is_listing_active(url: str) -> bool:
     except requests.HTTPError as e:
         if e.response is not None and e.response.status_code == 410:
             print(f"  Listing confirmed gone (410): {url}")
-        else:
-            print(f"  Could not check listing ({e}): {url}")
-        return False
+            return False
+        return True  # unknown HTTP error — keep the listing
     except requests.RequestException as e:
         print(f"  Could not check listing ({e}): {url}")
-        return False
+        return True  # network error — keep the listing
 
 
 def build_price_summary_html(df: pd.DataFrame) -> str:
@@ -351,9 +350,6 @@ def main():
 
     if df_digest.empty:
         print("No digest listings to send.")
-        if not dry_run:
-            with open(LAST_DIGEST_FILE, 'w') as f:
-                f.write(today_str)
         return
 
     listings   = df_digest.to_dict('records')
