@@ -11,5 +11,10 @@ __pycache__/
 # macOS
 .DS_Store
 
-# Logs (tracked separately if needed)
-# logs/
+# Logs
+logs/
+
+# Runtime state
+last_digest_date.txt
+craigslist_data/bike_routes.json
+craigslist_data/digest_preview.html

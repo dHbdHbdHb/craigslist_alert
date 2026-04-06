@@ -13,6 +13,6 @@ git pull --rebase origin main
 git stash pop
 
 python /home/pi/craigslist_alert/analyze_listings.py
-git add craigslist_data/listings_active.csv craigslist_data/listings_archive.csv analysis_dashboard.html email_map.png
+git add craigslist_data/listings_active.csv craigslist_data/listings_archive.csv analysis_dashboard.html
 git diff --cached --quiet || git commit -m "Auto-update listings: $(date '+%Y-%m-%d %H:%M:%S')"
 git push origin main
