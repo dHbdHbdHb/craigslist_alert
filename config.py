@@ -47,8 +47,7 @@ priority_min_price               = 2800   # below this is suspiciously cheap (sc
 priority_min_bathrooms           = 2
 priority_min_posting_age_minutes = 20     # wait for Craigslist community flagging to work
 priority_scam_keywords           = [
-    "email only", "email me only", "overseas", "military deployment",
-    "god fearing", "god-fearing", "contact us at", "western union",
+    "email only", "email me only", "overseas",
     "no calls", "no phone calls",
 ]
 
