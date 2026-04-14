@@ -534,6 +534,13 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         ]
     )
 
+    # Highlight the 3 most recently posted listings
+    _NEW_COLOR  = "#3b82f6"   # vivid blue — pops against gray dots
+    _OLD_COLOR  = "#9ca3af"
+    _newest_urls = set(
+        df_markers.nlargest(3, "time_posted")["url"].tolist()
+    )
+
     # Load (or compute + cache) route geometries
     try:
         with open(BIKE_ROUTES_FILE) as _f:
@@ -625,10 +632,13 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             f'<span style="color:#555;">{mins} min to {station} Caltrain</span>'
             f'</div>'
         )
+        is_new   = row["url"] in _newest_urls
+        dot_color = _NEW_COLOR if is_new else _OLD_COLOR
+        dot_r     = 6 if is_new else 4
         folium.CircleMarker(
-            [row["lat"], row["lon"]], radius=4,
+            [row["lat"], row["lon"]], radius=dot_r,
             color="white", weight=1.5,
-            fill=True, fill_color="#9ca3af", fill_opacity=0.9,
+            fill=True, fill_color=dot_color, fill_opacity=0.9,
             popup=folium.Popup(popup_html, max_width=270),
             tooltip=f"{mins} min to {station} · {price}",
         ).add_to(fg)
@@ -655,6 +665,11 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
               <circle cx="7" cy="7" r="5.5" fill="#D99441" stroke="white" stroke-width="1.5"/>
             </svg>Caltrain station
+          </div>
+          <div>
+            <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
+              <circle cx="7" cy="7" r="5.5" fill="#3b82f6" stroke="white" stroke-width="1.5"/>
+            </svg>New listing (3 most recent)
           </div>
           <div>
             <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
