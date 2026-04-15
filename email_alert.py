@@ -15,6 +15,8 @@ import argparse
 import json
 import os
 import datetime
+import time
+from collections import deque
 from zoneinfo import ZoneInfo
 import pandas as pd
 import smtplib
@@ -180,6 +182,20 @@ _CALTRAIN_STATIONS = [
     ('22nd St',    CALTRAIN_22ND_ST_COORDS),
 ]
 
+# ORS free tier: 40 req/min — shared tracker across both functions
+_ors_call_times = deque()
+
+def _ors_rate_limit():
+    """Sleep if approaching the 40 req/min ORS limit."""
+    now = time.time()
+    while _ors_call_times and _ors_call_times[0] < now - 60:
+        _ors_call_times.popleft()
+    if len(_ors_call_times) >= 35:  # 5-req safety buffer
+        wait = 60 - (now - _ors_call_times[0]) + 0.5
+        print(f"    Rate limit approaching, sleeping {wait:.0f}s…")
+        time.sleep(wait)
+    _ors_call_times.append(time.time())
+
 
 def compute_bike_times(listings) -> dict:
     """
@@ -199,6 +215,7 @@ def compute_bike_times(listings) -> dict:
     for pt in listings:
         best_minutes, best_station, best_geom = None, None, None
         for name, coords in _CALTRAIN_STATIONS:
+            _ors_rate_limit()
             route   = ors.directions(
                 [(pt['lon'], pt['lat']), (coords[0], coords[1])],
                 profile='cycling-regular', format='geojson',
@@ -239,6 +256,7 @@ def compute_bart_bike_times(listings) -> dict:
     for pt in listings:
         best_minutes, best_station, best_geom = None, None, None
         for name, coords in BART_STATIONS:
+            _ors_rate_limit()
             route = ors.directions(
                 [(pt['lon'], pt['lat']), (coords[0], coords[1])],
                 profile='cycling-regular', format='geojson',

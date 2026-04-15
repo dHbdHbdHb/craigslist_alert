@@ -14,6 +14,8 @@ import argparse
 import base64
 import json
 import sys
+import time
+from collections import deque
 from pathlib import Path
 
 import numpy as np
@@ -595,24 +597,31 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
     missing      = [row for _, row in df_markers.iterrows() if str(row["url"]) not in route_cache]
     bart_missing = [row for _, row in df_markers.iterrows() if str(row["url"]) not in bart_route_cache]
 
-    # Create ORS client once if needed for either Caltrain or BART routes
-    _ors = None
     if missing or bart_missing:
         try:
             import openrouteservice as _ors_mod
-            from config import ORS_API_KEY as _ORS_KEY
+            from config import ORS_API_KEY as _ORS_KEY, BART_STATIONS as _BART_STATIONS
             _ors = _ors_mod.Client(key=_ORS_KEY)
-        except Exception:
-            pass
 
-    if missing and _ors:
-        try:
-            _stations = [("4th & King", [-122.3942, 37.7763]), ("22nd St", [-122.3925, 37.7577])]
+            # Simple rate limiter: track call timestamps, sleep if approaching 40/min
+            _ors_calls = deque()
+            def _rate_limited_directions(*args, **kwargs):
+                now = time.time()
+                while _ors_calls and _ors_calls[0] < now - 60:
+                    _ors_calls.popleft()
+                if len(_ors_calls) >= 35:  # leave 5-req buffer
+                    wait = 60 - (now - _ors_calls[0]) + 0.5
+                    print(f"    Rate limit approaching, sleeping {wait:.0f}s…")
+                    time.sleep(wait)
+                _ors_calls.append(time.time())
+                return _ors.directions(*args, **kwargs)
+
+            _caltrain_stations = [("4th & King", [-122.3942, 37.7763]), ("22nd St", [-122.3925, 37.7577])]
             for row in missing:
                 best_min, best_geom, best_stn = None, None, None
-                for sname, coords in _stations:
+                for sname, coords in _caltrain_stations:
                     try:
-                        r = _ors.directions(
+                        r = _rate_limited_directions(
                             [(row["lon"], row["lat"]), (coords[0], coords[1])],
                             profile="cycling-regular", format="geojson",
                         )
@@ -626,20 +635,16 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
                         pass
                 if best_geom:
                     route_cache[str(row["url"])] = {"station": best_stn, "geometry": best_geom}
-            with open(BIKE_ROUTES_FILE, "w") as _f:
-                json.dump(route_cache, _f)
-            print(f"  Cached Caltrain routes for {len(missing)} listing(s).")
-        except Exception as e:
-            print(f"  Could not compute missing Caltrain routes: {e}")
+            if missing:
+                with open(BIKE_ROUTES_FILE, "w") as _f:
+                    json.dump(route_cache, _f)
+                print(f"  Cached Caltrain routes for {len(missing)} listing(s).")
 
-    if bart_missing and _ors:
-        try:
-            from config import BART_STATIONS as _BART_STATIONS
             for row in bart_missing:
                 best_min, best_geom, best_stn = None, None, None
                 for sname, coords in _BART_STATIONS:
                     try:
-                        r = _ors.directions(
+                        r = _rate_limited_directions(
                             [(row["lon"], row["lat"]), (coords[0], coords[1])],
                             profile="cycling-regular", format="geojson",
                         )
@@ -653,11 +658,13 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
                         pass
                 if best_geom:
                     bart_route_cache[str(row["url"])] = {"station": best_stn, "geometry": best_geom}
-            with open(BART_BIKE_ROUTES_FILE, "w") as _f:
-                json.dump(bart_route_cache, _f)
-            print(f"  Cached BART routes for {len(bart_missing)} listing(s).")
+            if bart_missing:
+                with open(BART_BIKE_ROUTES_FILE, "w") as _f:
+                    json.dump(bart_route_cache, _f)
+                print(f"  Cached BART routes for {len(bart_missing)} listing(s).")
+
         except Exception as e:
-            print(f"  Could not compute missing BART routes: {e}")
+            print(f"  Could not compute missing routes: {e}")
 
     # FeatureGroups for bedroom filter
     fg_2br   = folium.FeatureGroup(name="2BR",  show=True)
