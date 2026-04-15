@@ -37,6 +37,14 @@ ORS_API_KEY               = '5b3ce3597851110001cf624809183d29fbaa46ecb0f48f56e62
 CALTRAIN_4TH_KING_COORDS  = [-122.3942, 37.7763]   # [lon, lat] 4th & King
 CALTRAIN_22ND_ST_COORDS   = [-122.3925, 37.7577]   # [lon, lat] 22nd St
 CALTRAIN_COORDS           = CALTRAIN_4TH_KING_COORDS  # backward compat alias
+
+# BART stations — subset covering SF neighborhoods of interest
+BART_STATIONS = [
+    ('16th St Mission', [-122.4199, 37.7651]),
+    ('24th St Mission', [-122.4183, 37.7523]),
+    ('Glen Park',       [-122.4334, 37.7329]),
+    ('Civic Center',    [-122.4135, 37.7796]),
+]
 CHROMEDRIVER_PATH         = '/usr/bin/chromedriver'
 
 # ----- Alert criteria -----

@@ -29,6 +29,7 @@ from config import (
     DIGEST_RECIPIENT_EMAILS, ALERT_RECIPIENT_EMAILS,
     DATA_ACTIVE, LAST_DIGEST_FILE,
     ORS_API_KEY, CALTRAIN_4TH_KING_COORDS, CALTRAIN_22ND_ST_COORDS,
+    BART_STATIONS,
     priority_neighborhoods, priority_max_price, priority_min_price,
     priority_min_bathrooms, priority_min_posting_age_minutes, priority_scam_keywords,
     digest_min_price, digest_max_price, DASHBOARD_URL,
@@ -218,6 +219,46 @@ def compute_bike_times(listings) -> dict:
     return result
 
 
+BART_ROUTES_PATH = os.path.join(os.path.dirname(DATA_ACTIVE), "bart_bike_routes.json")
+
+
+def compute_bart_bike_times(listings) -> dict:
+    """
+    For each listing, compute cycling time to the closest BART station via ORS.
+    Returns {url: {'minutes': int, 'station': str}}.
+    """
+    ors = openrouteservice.Client(key=ORS_API_KEY)
+
+    try:
+        with open(BART_ROUTES_PATH) as f:
+            route_cache = json.load(f)
+    except (FileNotFoundError, ValueError):
+        route_cache = {}
+
+    result = {}
+    for pt in listings:
+        best_minutes, best_station, best_geom = None, None, None
+        for name, coords in BART_STATIONS:
+            route = ors.directions(
+                [(pt['lon'], pt['lat']), (coords[0], coords[1])],
+                profile='cycling-regular', format='geojson',
+            )
+            minutes = int(route['features'][0]['properties']['summary']['duration'] / 60)
+            geom_raw = route['features'][0]['geometry']['coordinates']
+            if best_minutes is None or minutes < best_minutes:
+                best_minutes = minutes
+                best_station = name
+                best_geom = [[c[1], c[0]] for c in geom_raw]
+        result[pt['url']] = {'minutes': best_minutes, 'station': best_station}
+        route_cache[pt['url']] = {'station': best_station, 'geometry': best_geom}
+        print(f"  BART: {pt['url'][-30:]} → {best_minutes} min to {best_station}")
+
+    with open(BART_ROUTES_PATH, 'w') as f:
+        json.dump(route_cache, f)
+
+    return result
+
+
 # ──────────────────────────────────────────────
 # Main
 # ──────────────────────────────────────────────
@@ -352,19 +393,27 @@ def main():
         print("No digest listings to send.")
         return
 
-    listings   = df_digest.to_dict('records')
-    bike_times = compute_bike_times(listings)
+    listings       = df_digest.to_dict('records')
+    bike_times     = compute_bike_times(listings)
+    bart_bike_times = compute_bart_bike_times(listings)
 
     # Persist bike times back to the active CSV (always, even in dry run)
     if 'bike_time_minutes' not in df.columns:
         df['bike_time_minutes'] = None
     if 'bike_station' not in df.columns:
         df['bike_station'] = None
+    if 'bart_bike_time_minutes' not in df.columns:
+        df['bart_bike_time_minutes'] = None
+    if 'bart_station' not in df.columns:
+        df['bart_station'] = None
     for url, info in bike_times.items():
         df.loc[df['url'] == url, 'bike_time_minutes'] = info['minutes']
         df.loc[df['url'] == url, 'bike_station']      = info['station']
+    for url, info in bart_bike_times.items():
+        df.loc[df['url'] == url, 'bart_bike_time_minutes'] = info['minutes']
+        df.loc[df['url'] == url, 'bart_station']           = info['station']
     df.to_csv(ACTIVE_PATH, index=False)
-    print(f"  Saved bike times for {len(bike_times)} listings.")
+    print(f"  Saved bike times for {len(bike_times)} listings (Caltrain + BART).")
 
     # Group listings by neighborhood for the email body
     hood_to_listings = {hood: [] for hood in neighborhood_shapes}
@@ -386,10 +435,16 @@ def main():
                 f" &nbsp;·&nbsp; {bike_info['minutes']} min to {bike_info['station']} Caltrain"
                 if bike_info else ""
             )
+            bart_info = bart_bike_times.get(row.get('url'))
+            bart_str  = (
+                f" &nbsp;·&nbsp; {bart_info['minutes']} min to {bart_info['station']} BART"
+                if bart_info else ""
+            )
             html += (
                 "<div style='border:1px solid #262312;border-radius:6px;padding:8px;margin-bottom:8px;'>"
                 f"<div style='font-weight:bold;color:#262312;'>{row['title']}</div>"
                 f"<div style='color:#A8BFB9;'>${row['price']} &nbsp; {row['num_bedrooms']}bd/{row['num_bathrooms']}ba{bike_str}</div>"
+                f"<div style='color:#A8BFB9;'>{bart_str}</div>"
                 f"<div><a href='{row['url']}' style='color:#A67D4B;'>View Listing</a></div>"
                 "</div>"
             )

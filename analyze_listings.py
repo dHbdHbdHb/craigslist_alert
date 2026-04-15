@@ -24,7 +24,8 @@ BASE_DIR         = Path(__file__).parent
 ACTIVE_CSV       = BASE_DIR / "craigslist_data" / "listings_active.csv"
 ARCHIVE_CSV      = BASE_DIR / "craigslist_data" / "listings_archive.csv"
 OUTPUT_HTML      = BASE_DIR / "analysis_dashboard.html"
-BIKE_ROUTES_FILE = BASE_DIR / "craigslist_data" / "bike_routes.json"
+BIKE_ROUTES_FILE      = BASE_DIR / "craigslist_data" / "bike_routes.json"
+BART_BIKE_ROUTES_FILE = BASE_DIR / "craigslist_data" / "bart_bike_routes.json"
 
 PRICE_FLOOR = 2_100
 PRICE_CEIL  = 15_000
@@ -52,13 +53,18 @@ def load_data() -> pd.DataFrame:
     df["price"]             = pd.to_numeric(df["price"],             errors="coerce")
     df["num_bedrooms"]      = pd.to_numeric(df["num_bedrooms"],      errors="coerce").astype("Int64")
     df["num_bathrooms"]     = pd.to_numeric(df["num_bathrooms"],     errors="coerce").astype("Int64")
-    df["bike_time_minutes"] = pd.to_numeric(df.get("bike_time_minutes"), errors="coerce")
-    df["lat"]               = pd.to_numeric(df.get("lat"),               errors="coerce")
-    df["lon"]               = pd.to_numeric(df.get("lon"),               errors="coerce")
+    df["bike_time_minutes"]      = pd.to_numeric(df.get("bike_time_minutes"),      errors="coerce")
+    df["bart_bike_time_minutes"] = pd.to_numeric(df.get("bart_bike_time_minutes"), errors="coerce")
+    df["lat"]                    = pd.to_numeric(df.get("lat"),                    errors="coerce")
+    df["lon"]                    = pd.to_numeric(df.get("lon"),                    errors="coerce")
     if "bike_station" in df.columns:
         df["bike_station"] = df["bike_station"].fillna("")
     else:
         df["bike_station"] = ""
+    if "bart_station" in df.columns:
+        df["bart_station"] = df["bart_station"].fillna("")
+    else:
+        df["bart_station"] = ""
 
     df = df.dropna(subset=["price", "num_bedrooms"])
     df = df[(df["price"] >= PRICE_FLOOR) & (df["price"] <= PRICE_CEIL)]
@@ -420,6 +426,38 @@ def chart_bike_times(df: pd.DataFrame):
     }
 
 
+def chart_bart_bike_times(df: pd.DataFrame):
+    """Bar chart of median biking time to BART by neighborhood (listings with known times only)."""
+    sub = df[df["bart_bike_time_minutes"].notna() & (df["neighborhood"] != CATCHALL_HOOD)]
+    if sub.empty:
+        return None
+    hoods  = _hood_order(sub)
+    colors = _hood_colors(hoods)
+    g = sub.groupby("neighborhood")["bart_bike_time_minutes"]
+    stats = pd.DataFrame({"median": g.median(), "count": g.count()}).reindex(hoods).dropna()
+    if stats.empty:
+        return None
+    return {
+        "data": [{
+            "type": "bar",
+            "x": stats.index.tolist(),
+            "y": stats["median"].round(1).tolist(),
+            "marker": {"color": [colors.get(h, "#AAAAAA") for h in stats.index]},
+            "text": [f"{v:.0f} min" for v in stats["median"]],
+            "textposition": "outside",
+            "cliponaxis": False,
+            "hovertemplate": "<b>%{x}</b><br>Median bike to BART: %{y:.0f} min<extra></extra>",
+        }],
+        "layout": {
+            "title":      {"text": "Median Bike Time to BART by Neighborhood", "font": {"size": 15}},
+            "yaxis":      {"title": "Minutes", "automargin": True},
+            "xaxis":      {"automargin": True, "tickangle": -30},
+            "showlegend": False,
+            "margin":     {"t": 50, "b": 20, "l": 60, "r": 20},
+        },
+    }
+
+
 def build_folium_map_iframe(df: pd.DataFrame) -> str:
     """
     Builds a Folium neighborhood map (CartoDB Positron tiles, light-opacity
@@ -541,19 +579,34 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         df_markers.nlargest(3, "time_posted")["url"].tolist()
     )
 
-    # Load (or compute + cache) route geometries
+    # Load route caches
     try:
         with open(BIKE_ROUTES_FILE) as _f:
             route_cache = json.load(_f)
     except (FileNotFoundError, ValueError):
         route_cache = {}
 
-    missing = [row for _, row in df_markers.iterrows() if str(row["url"]) not in route_cache]
-    if missing:
+    try:
+        with open(BART_BIKE_ROUTES_FILE) as _f:
+            bart_route_cache = json.load(_f)
+    except (FileNotFoundError, ValueError):
+        bart_route_cache = {}
+
+    missing      = [row for _, row in df_markers.iterrows() if str(row["url"]) not in route_cache]
+    bart_missing = [row for _, row in df_markers.iterrows() if str(row["url"]) not in bart_route_cache]
+
+    # Create ORS client once if needed for either Caltrain or BART routes
+    _ors = None
+    if missing or bart_missing:
         try:
             import openrouteservice as _ors_mod
             from config import ORS_API_KEY as _ORS_KEY
             _ors = _ors_mod.Client(key=_ORS_KEY)
+        except Exception:
+            pass
+
+    if missing and _ors:
+        try:
             _stations = [("4th & King", [-122.3942, 37.7763]), ("22nd St", [-122.3925, 37.7577])]
             for row in missing:
                 best_min, best_geom, best_stn = None, None, None
@@ -575,9 +628,36 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
                     route_cache[str(row["url"])] = {"station": best_stn, "geometry": best_geom}
             with open(BIKE_ROUTES_FILE, "w") as _f:
                 json.dump(route_cache, _f)
-            print(f"  Cached routes for {len(missing)} listing(s).")
+            print(f"  Cached Caltrain routes for {len(missing)} listing(s).")
         except Exception as e:
-            print(f"  Could not compute missing routes: {e}")
+            print(f"  Could not compute missing Caltrain routes: {e}")
+
+    if bart_missing and _ors:
+        try:
+            from config import BART_STATIONS as _BART_STATIONS
+            for row in bart_missing:
+                best_min, best_geom, best_stn = None, None, None
+                for sname, coords in _BART_STATIONS:
+                    try:
+                        r = _ors.directions(
+                            [(row["lon"], row["lat"]), (coords[0], coords[1])],
+                            profile="cycling-regular", format="geojson",
+                        )
+                        mins = int(r["features"][0]["properties"]["summary"]["duration"] / 60)
+                        raw  = r["features"][0]["geometry"]["coordinates"]
+                        if best_min is None or mins < best_min:
+                            best_min  = mins
+                            best_stn  = sname
+                            best_geom = [[c[1], c[0]] for c in raw]
+                    except Exception:
+                        pass
+                if best_geom:
+                    bart_route_cache[str(row["url"])] = {"station": best_stn, "geometry": best_geom}
+            with open(BART_BIKE_ROUTES_FILE, "w") as _f:
+                json.dump(bart_route_cache, _f)
+            print(f"  Cached BART routes for {len(bart_missing)} listing(s).")
+        except Exception as e:
+            print(f"  Could not compute missing BART routes: {e}")
 
     # FeatureGroups for bedroom filter
     fg_2br   = folium.FeatureGroup(name="2BR",  show=True)
@@ -603,6 +683,16 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             tooltip=f"Caltrain: {sname}",
         ).add_to(m)
 
+    # BART station markers
+    from config import BART_STATIONS as _BART_STATIONS_MAP
+    for sname, coords in _BART_STATIONS_MAP:
+        folium.CircleMarker(
+            [coords[1], coords[0]], radius=7,
+            color="white", weight=2,
+            fill=True, fill_color="#0099CC", fill_opacity=0.95,
+            tooltip=f"BART: {sname}",
+        ).add_to(m)
+
     # Route polylines + listing dot markers, grouped by bedroom count
     import html as _html
     for _, row in df_markers.iterrows():
@@ -621,6 +711,22 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         baths   = str(row["num_bathrooms"]) if pd.notna(row.get("num_bathrooms")) else "?"
         title_e = _html.escape(str(row.get("title", "")))
         url     = str(row.get("url", ""))
+
+        # BART info
+        bart_cached = bart_route_cache.get(str(row["url"]))
+        bart_mins_val = row.get("bart_bike_time_minutes")
+        if pd.notna(bart_mins_val):
+            bart_mins = int(bart_mins_val)
+            bart_stn  = (bart_cached or {}).get("station") or row.get("bart_station") or "BART"
+            bart_line = f'<br><span style="color:#0099CC;">{bart_mins} min to {bart_stn} BART</span>'
+            bart_tip  = f" · {bart_mins} min to {bart_stn} BART"
+        elif bart_cached:
+            bart_line = ""
+            bart_tip  = ""
+        else:
+            bart_line = ""
+            bart_tip  = ""
+
         popup_html = (
             f'<div style="font-family:-apple-system,sans-serif;font-size:13px;'
             f'min-width:200px;max-width:260px;line-height:1.6;">'
@@ -630,6 +736,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             f'<span style="color:#A67D4B;">{price}</span>'
             f' &nbsp;·&nbsp; {beds}bd/{baths}ba<br>'
             f'<span style="color:#555;">{mins} min to {station} Caltrain</span>'
+            f'{bart_line}'
             f'</div>'
         )
         is_new   = row["url"] in _newest_urls
@@ -640,7 +747,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             color="white", weight=1.5,
             fill=True, fill_color=dot_color, fill_opacity=0.9,
             popup=folium.Popup(popup_html, max_width=270),
-            tooltip=f"{mins} min to {station} · {price}",
+            tooltip=f"{mins} min to {station}{bart_tip} · {price}",
         ).add_to(fg)
 
     fg_2br.add_to(m)
@@ -665,6 +772,11 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
               <circle cx="7" cy="7" r="5.5" fill="#D99441" stroke="white" stroke-width="1.5"/>
             </svg>Caltrain station
+          </div>
+          <div>
+            <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
+              <circle cx="7" cy="7" r="5.5" fill="#0099CC" stroke="white" stroke-width="1.5"/>
+            </svg>BART station
           </div>
           <div>
             <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
@@ -814,7 +926,7 @@ HTML_TEMPLATE = """\
       "heat   heat"
       "brbath hist"
       "scatter count"
-      "bike   bike";
+      "bike   bart";
   }
 
   .chart-card {
@@ -833,6 +945,7 @@ HTML_TEMPLATE = """\
   .area-scatter { grid-area: scatter; }
   .area-count   { grid-area: count; }
   .area-bike    { grid-area: bike; }
+  .area-bart    { grid-area: bart; }
   .area-map     { grid-area: map; min-height: 540px; }
   .area-time    { grid-area: time; }
 
@@ -871,7 +984,7 @@ HTML_TEMPLATE = """\
   __TIME_SLOT__
   <div class="chart-card area-map" style="padding:12px 14px 10px;">
     <div style="font-size:15px;font-weight:700;margin-bottom:8px;color:#1a1a2e;">
-      Neighborhood Map &nbsp;<span style="font-size:11px;font-weight:400;color:#9ca3af;">hover polygons for price stats &nbsp;·&nbsp; neighborhood boundaries + listings from the last 3 days with bike times to Caltrain</span>
+      Neighborhood Map &nbsp;<span style="font-size:11px;font-weight:400;color:#9ca3af;">hover polygons for price stats &nbsp;·&nbsp; neighborhood boundaries + listings from the last 3 days with bike times to Caltrain &amp; BART</span>
     </div>
     __MAP_IFRAME__
   </div>
@@ -891,6 +1004,7 @@ HTML_TEMPLATE = """\
     <div class="plotly-chart" id="chart-count"></div>
   </div>
   __BIKE_SLOT__
+  __BART_SLOT__
 </div>
 
 <footer>can't wait to live somewhere someday</footer>
@@ -930,6 +1044,7 @@ renderChart("chart-scatter", __CHART_SCATTER__);
 renderChart("chart-count",   __CHART_COUNT__);
 __TIME_JS__
 __BIKE_JS__
+__BART_JS__
 </script>
 </body>
 </html>"""
@@ -960,6 +1075,17 @@ def build_html(df: pd.DataFrame) -> str:
         bike_slot = ""
         bike_js   = ""
 
+    bart_chart = chart_bart_bike_times(df)
+    if bart_chart:
+        bart_slot = (
+            '<div class="chart-card area-bart">'
+            '<div class="plotly-chart" id="chart-bart"></div></div>'
+        )
+        bart_js = f'renderChart("chart-bart", {json.dumps(bart_chart)});'
+    else:
+        bart_slot = ""
+        bart_js   = ""
+
     print("Building neighborhood map…")
     map_iframe = build_folium_map_iframe(df)
 
@@ -976,6 +1102,8 @@ def build_html(df: pd.DataFrame) -> str:
     html = html.replace("__TIME_JS__",       time_js)
     html = html.replace("__BIKE_SLOT__",     bike_slot)
     html = html.replace("__BIKE_JS__",       bike_js)
+    html = html.replace("__BART_SLOT__",     bart_slot)
+    html = html.replace("__BART_JS__",       bart_js)
     return html
 
 
