@@ -601,7 +601,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         try:
             import openrouteservice as _ors_mod
             from config import ORS_API_KEY as _ORS_KEY, BART_STATIONS as _BART_STATIONS
-            _ors = _ors_mod.Client(key=_ORS_KEY)
+            _ors = _ors_mod.Client(key=_ORS_KEY, timeout=15)
 
             # Simple rate limiter: track call timestamps, sleep if approaching 40/min
             _ors_calls = deque()

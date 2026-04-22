@@ -46,7 +46,7 @@ BIKE_ROUTES_PATH = os.path.join(os.path.dirname(DATA_ACTIVE), "bike_routes.json"
 # ──────────────────────────────────────────────
 
 def send_email(msg: MIMEMultipart):
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=30) as server:
         server.login(GMAIL_ADDRESS, GMAIL_APP_PASSWORD)
         server.send_message(msg)
 
@@ -182,7 +182,9 @@ _CALTRAIN_STATIONS = [
     ('22nd St',    CALTRAIN_22ND_ST_COORDS),
 ]
 
-# ORS free tier: 40 req/min — shared tracker across both functions
+BART_ROUTES_PATH = os.path.join(os.path.dirname(DATA_ACTIVE), "bart_bike_routes.json")
+
+# ORS free tier: 40 req/min — shared tracker across both compute functions
 _ors_call_times = deque()
 
 def _ors_rate_limit():
@@ -197,84 +199,78 @@ def _ors_rate_limit():
     _ors_call_times.append(time.time())
 
 
-def compute_bike_times(listings) -> dict:
+def _compute_cycling_times(listings, stations, cache_path, label) -> dict:
     """
-    For each listing, compute cycling time to both Caltrain stations via ORS
-    and return the faster result. Route geometry is cached to bike_routes.json.
+    For each listing, find the closest station by cycling time via ORS.
+    Skips listings already present in the cache or with missing coordinates.
+    Individual ORS errors are caught so one bad route doesn't abort the run.
     Returns {url: {'minutes': int, 'station': str}}.
     """
-    ors = openrouteservice.Client(key=ORS_API_KEY)
+    ors = openrouteservice.Client(key=ORS_API_KEY, timeout=15)
 
     try:
-        with open(BIKE_ROUTES_PATH) as f:
+        with open(cache_path) as f:
             route_cache = json.load(f)
     except (FileNotFoundError, ValueError):
         route_cache = {}
 
     result = {}
     for pt in listings:
-        best_minutes, best_station, best_geom = None, None, None
-        for name, coords in _CALTRAIN_STATIONS:
-            _ors_rate_limit()
-            route   = ors.directions(
-                [(pt['lon'], pt['lat']), (coords[0], coords[1])],
-                profile='cycling-regular', format='geojson',
-            )
-            minutes  = int(route['features'][0]['properties']['summary']['duration'] / 60)
-            geom_raw = route['features'][0]['geometry']['coordinates']
-            if best_minutes is None or minutes < best_minutes:
-                best_minutes = minutes
-                best_station = name
-                best_geom    = [[c[1], c[0]] for c in geom_raw]
-        result[pt['url']]      = {'minutes': best_minutes, 'station': best_station}
-        route_cache[pt['url']] = {'station': best_station, 'geometry': best_geom}
-        print(f"  Bike: {pt['url'][-30:]} → {best_minutes} min to {best_station}")
+        url = pt['url']
+        cached = route_cache.get(url)
+        if cached and 'minutes' in cached and 'station' in cached:
+            result[url] = {'minutes': cached['minutes'], 'station': cached['station']}
+            continue
 
-    with open(BIKE_ROUTES_PATH, 'w') as f:
-        json.dump(route_cache, f)
+        lon, lat = pt.get('lon'), pt.get('lat')
+        if not (pd.notna(lon) and pd.notna(lat)):
+            print(f"  {label}: skipping {url[-30:]} (no coordinates)")
+            continue
+
+        best_minutes, best_station, best_geom = None, None, None
+        for name, coords in stations:
+            _ors_rate_limit()
+            try:
+                route    = ors.directions(
+                    [(lon, lat), (coords[0], coords[1])],
+                    profile='cycling-regular', format='geojson',
+                )
+                minutes  = int(route['features'][0]['properties']['summary']['duration'] / 60)
+                geom_raw = route['features'][0]['geometry']['coordinates']
+                if best_minutes is None or minutes < best_minutes:
+                    best_minutes = minutes
+                    best_station = name
+                    best_geom    = [[c[1], c[0]] for c in geom_raw]
+            except Exception as e:
+                print(f"  {label} ORS error for {url[-30:]} → {name}: {e}")
+
+        if best_minutes is None:
+            print(f"  {label}: all routes failed for {url[-30:]}, skipping")
+            continue
+
+        result[url]      = {'minutes': best_minutes, 'station': best_station}
+        route_cache[url] = {
+            'minutes':  best_minutes,
+            'station':  best_station,
+            'geometry': best_geom,
+        }
+        print(f"  {label}: {url[-30:]} → {best_minutes} min to {best_station}")
+
+    try:
+        with open(cache_path, 'w') as f:
+            json.dump(route_cache, f)
+    except OSError as e:
+        print(f"  {label}: could not write cache ({e})")
 
     return result
 
 
-BART_ROUTES_PATH = os.path.join(os.path.dirname(DATA_ACTIVE), "bart_bike_routes.json")
+def compute_bike_times(listings) -> dict:
+    return _compute_cycling_times(listings, _CALTRAIN_STATIONS, BIKE_ROUTES_PATH, 'Caltrain')
 
 
 def compute_bart_bike_times(listings) -> dict:
-    """
-    For each listing, compute cycling time to the closest BART station via ORS.
-    Returns {url: {'minutes': int, 'station': str}}.
-    """
-    ors = openrouteservice.Client(key=ORS_API_KEY)
-
-    try:
-        with open(BART_ROUTES_PATH) as f:
-            route_cache = json.load(f)
-    except (FileNotFoundError, ValueError):
-        route_cache = {}
-
-    result = {}
-    for pt in listings:
-        best_minutes, best_station, best_geom = None, None, None
-        for name, coords in BART_STATIONS:
-            _ors_rate_limit()
-            route = ors.directions(
-                [(pt['lon'], pt['lat']), (coords[0], coords[1])],
-                profile='cycling-regular', format='geojson',
-            )
-            minutes = int(route['features'][0]['properties']['summary']['duration'] / 60)
-            geom_raw = route['features'][0]['geometry']['coordinates']
-            if best_minutes is None or minutes < best_minutes:
-                best_minutes = minutes
-                best_station = name
-                best_geom = [[c[1], c[0]] for c in geom_raw]
-        result[pt['url']] = {'minutes': best_minutes, 'station': best_station}
-        route_cache[pt['url']] = {'station': best_station, 'geometry': best_geom}
-        print(f"  BART: {pt['url'][-30:]} → {best_minutes} min to {best_station}")
-
-    with open(BART_ROUTES_PATH, 'w') as f:
-        json.dump(route_cache, f)
-
-    return result
+    return _compute_cycling_times(listings, BART_STATIONS, BART_ROUTES_PATH, 'BART')
 
 
 # ──────────────────────────────────────────────
