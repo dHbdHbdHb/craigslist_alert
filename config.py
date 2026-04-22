@@ -50,7 +50,7 @@ CHROMEDRIVER_PATH         = '/usr/bin/chromedriver'
 # ----- Alert criteria -----
 # Priority: listings matching all criteria trigger an immediate individual email
 priority_neighborhoods           = {"Chill Mission", "Duboce", "NOPA/Inner Richmond", "Haight/Cole Valley", "Bernal", "Potrero Hill"}
-priority_max_price               = 4000
+priority_max_price               = 4600
 priority_min_price               = 2800   # below this is suspiciously cheap (scam signal)
 priority_min_bathrooms           = 2
 priority_min_posting_age_minutes = 20     # wait for Craigslist community flagging to work
@@ -61,4 +61,4 @@ priority_scam_keywords           = [
 
 # Digest: listings outside this price range are excluded from the daily digest
 digest_min_price = 2100
-digest_max_price = 5500
+digest_max_price = 5300
