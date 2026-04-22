@@ -696,7 +696,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         folium.CircleMarker(
             [coords[1], coords[0]], radius=7,
             color="white", weight=2,
-            fill=True, fill_color="#0099CC", fill_opacity=0.95,
+            fill=True, fill_color="#C8363B", fill_opacity=0.95,
             tooltip=f"BART: {sname}",
         ).add_to(m)
 
@@ -708,7 +708,15 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         if cached and cached.get("geometry"):
             folium.PolyLine(
                 cached["geometry"],
-                color="#A67D4B", weight=2, opacity=0.45, dash_array="8 6",
+                color="#D99441", weight=2.5, opacity=0.75, dash_array="8 6",
+                tooltip="Bike route to Caltrain",
+            ).add_to(fg)
+        bart_cached_geom = bart_route_cache.get(str(row["url"]))
+        if bart_cached_geom and bart_cached_geom.get("geometry"):
+            folium.PolyLine(
+                bart_cached_geom["geometry"],
+                color="#C8363B", weight=2.5, opacity=0.75, dash_array="2 6",
+                tooltip="Bike route to BART",
             ).add_to(fg)
 
         mins    = int(row["bike_time_minutes"])
@@ -725,7 +733,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         if pd.notna(bart_mins_val):
             bart_mins = int(bart_mins_val)
             bart_stn  = (bart_cached or {}).get("station") or row.get("bart_station") or "BART"
-            bart_line = f'<br><span style="color:#0099CC;">{bart_mins} min to {bart_stn} BART</span>'
+            bart_line = f'<br><span style="color:#C8363B;">{bart_mins} min to {bart_stn} BART</span>'
             bart_tip  = f" · {bart_mins} min to {bart_stn} BART"
         elif bart_cached:
             bart_line = ""
@@ -742,7 +750,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             f'{title_e[:70]}{"…" if len(title_e) > 70 else ""}</a><br>'
             f'<span style="color:#A67D4B;">{price}</span>'
             f' &nbsp;·&nbsp; {beds}bd/{baths}ba<br>'
-            f'<span style="color:#555;">{mins} min to {station} Caltrain</span>'
+            f'<span style="color:#D99441;">{mins} min to {station} Caltrain</span>'
             f'{bart_line}'
             f'</div>'
         )
@@ -782,7 +790,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
           </div>
           <div>
             <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
-              <circle cx="7" cy="7" r="5.5" fill="#0099CC" stroke="white" stroke-width="1.5"/>
+              <circle cx="7" cy="7" r="5.5" fill="#C8363B" stroke="white" stroke-width="1.5"/>
             </svg>BART station
           </div>
           <div>
@@ -797,9 +805,15 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
           </div>
           <div>
             <svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">
-              <line x1="0" y1="4" x2="20" y2="4" stroke="#A67D4B" stroke-width="2"
-                    stroke-dasharray="6 5" opacity="0.7"/>
-            </svg>Bike route
+              <line x1="0" y1="4" x2="20" y2="4" stroke="#D99441" stroke-width="2.5"
+                    stroke-dasharray="8 6" opacity="0.75"/>
+            </svg>Bike route to Caltrain
+          </div>
+          <div>
+            <svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">
+              <line x1="0" y1="4" x2="20" y2="4" stroke="#C8363B" stroke-width="2.5"
+                    stroke-dasharray="2 6" opacity="0.75"/>
+            </svg>Bike route to BART
           </div>
         </div>
 
