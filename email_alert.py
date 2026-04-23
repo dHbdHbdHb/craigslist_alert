@@ -12,33 +12,27 @@ Runs via cron after each scraper run. Tracks sent alerts in listings_active.csv
 """
 
 import argparse
-import json
 import os
 import datetime
-import time
-from collections import deque
 from zoneinfo import ZoneInfo
 import pandas as pd
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import requests
-import openrouteservice
 from neighborhoods.neighborhood_shapes import neighborhood_shapes
 
 from config import (
     GMAIL_ADDRESS, GMAIL_APP_PASSWORD,
     DIGEST_RECIPIENT_EMAILS, ALERT_RECIPIENT_EMAILS,
     DATA_ACTIVE, LAST_DIGEST_FILE,
-    ORS_API_KEY, CALTRAIN_4TH_KING_COORDS, CALTRAIN_22ND_ST_COORDS,
-    BART_STATIONS,
     priority_neighborhoods, priority_max_price, priority_min_price,
     priority_min_bathrooms, priority_min_posting_age_minutes, priority_scam_keywords,
     digest_min_price, digest_max_price, DASHBOARD_URL,
 )
+from transit_times import compute_bike_times, compute_bart_bike_times
 
 ACTIVE_PATH      = DATA_ACTIVE
-BIKE_ROUTES_PATH = os.path.join(os.path.dirname(DATA_ACTIVE), "bike_routes.json")
 
 
 # ──────────────────────────────────────────────
@@ -175,102 +169,6 @@ def build_price_summary_html(df: pd.DataFrame) -> str:
     html += '</tbody></table>'
 
     return html
-
-
-_CALTRAIN_STATIONS = [
-    ('4th & King', CALTRAIN_4TH_KING_COORDS),
-    ('22nd St',    CALTRAIN_22ND_ST_COORDS),
-]
-
-BART_ROUTES_PATH = os.path.join(os.path.dirname(DATA_ACTIVE), "bart_bike_routes.json")
-
-# ORS free tier: 40 req/min — shared tracker across both compute functions
-_ors_call_times = deque()
-
-def _ors_rate_limit():
-    """Sleep if approaching the 40 req/min ORS limit."""
-    now = time.time()
-    while _ors_call_times and _ors_call_times[0] < now - 60:
-        _ors_call_times.popleft()
-    if len(_ors_call_times) >= 35:  # 5-req safety buffer
-        wait = 60 - (now - _ors_call_times[0]) + 0.5
-        print(f"    Rate limit approaching, sleeping {wait:.0f}s…")
-        time.sleep(wait)
-    _ors_call_times.append(time.time())
-
-
-def _compute_cycling_times(listings, stations, cache_path, label) -> dict:
-    """
-    For each listing, find the closest station by cycling time via ORS.
-    Skips listings already present in the cache or with missing coordinates.
-    Individual ORS errors are caught so one bad route doesn't abort the run.
-    Returns {url: {'minutes': int, 'station': str}}.
-    """
-    ors = openrouteservice.Client(key=ORS_API_KEY, timeout=15)
-
-    try:
-        with open(cache_path) as f:
-            route_cache = json.load(f)
-    except (FileNotFoundError, ValueError):
-        route_cache = {}
-
-    result = {}
-    for pt in listings:
-        url = pt['url']
-        cached = route_cache.get(url)
-        if cached and 'minutes' in cached and 'station' in cached:
-            result[url] = {'minutes': cached['minutes'], 'station': cached['station']}
-            continue
-
-        lon, lat = pt.get('lon'), pt.get('lat')
-        if not (pd.notna(lon) and pd.notna(lat)):
-            print(f"  {label}: skipping {url[-30:]} (no coordinates)")
-            continue
-
-        best_minutes, best_station, best_geom = None, None, None
-        for name, coords in stations:
-            _ors_rate_limit()
-            try:
-                route    = ors.directions(
-                    [(lon, lat), (coords[0], coords[1])],
-                    profile='cycling-regular', format='geojson',
-                )
-                minutes  = int(route['features'][0]['properties']['summary']['duration'] / 60)
-                geom_raw = route['features'][0]['geometry']['coordinates']
-                if best_minutes is None or minutes < best_minutes:
-                    best_minutes = minutes
-                    best_station = name
-                    best_geom    = [[c[1], c[0]] for c in geom_raw]
-            except Exception as e:
-                print(f"  {label} ORS error for {url[-30:]} → {name}: {e}")
-
-        if best_minutes is None:
-            print(f"  {label}: all routes failed for {url[-30:]}, skipping")
-            continue
-
-        result[url]      = {'minutes': best_minutes, 'station': best_station}
-        route_cache[url] = {
-            'minutes':  best_minutes,
-            'station':  best_station,
-            'geometry': best_geom,
-        }
-        print(f"  {label}: {url[-30:]} → {best_minutes} min to {best_station}")
-
-    try:
-        with open(cache_path, 'w') as f:
-            json.dump(route_cache, f)
-    except OSError as e:
-        print(f"  {label}: could not write cache ({e})")
-
-    return result
-
-
-def compute_bike_times(listings) -> dict:
-    return _compute_cycling_times(listings, _CALTRAIN_STATIONS, BIKE_ROUTES_PATH, 'Caltrain')
-
-
-def compute_bart_bike_times(listings) -> dict:
-    return _compute_cycling_times(listings, BART_STATIONS, BART_ROUTES_PATH, 'BART')
 
 
 # ──────────────────────────────────────────────

@@ -11,6 +11,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from config import DATA_ACTIVE, DATA_ARCHIVE, MAX_ACTIVE_ROWS
+from transit_times import compute_bike_times, compute_bart_bike_times
 
 # ----- Craigslist-specific parameters -----
 max_price    = "5600"
@@ -165,10 +166,13 @@ def main():
     # Merge with existing listings, deduplicating by URL
     if not df_old.empty and not df_new.empty:
         new_mask = ~df_new['url'].isin(df_old['url'])
-        df_result = pd.concat([df_old, df_new[new_mask]], ignore_index=True)
+        truly_new = df_new[new_mask]
+        df_result = pd.concat([df_old, truly_new], ignore_index=True)
     elif not df_new.empty:
+        truly_new = df_new
         df_result = df_new
     else:
+        truly_new = pd.DataFrame()
         df_result = df_old
 
     # Ensure alerted column exists and is boolean
@@ -176,9 +180,29 @@ def main():
         df_result['alerted'] = False
     df_result['alerted'] = df_result['alerted'].fillna(False).astype(bool)
 
-    # Ensure bike_time_minutes column exists (filled in by email_alert.py)
-    if 'bike_time_minutes' not in df_result.columns:
-        df_result['bike_time_minutes'] = None
+    # Ensure transit-time columns exist
+    for _col in ('bike_time_minutes', 'bike_station',
+                 'bart_bike_time_minutes', 'bart_station'):
+        if _col not in df_result.columns:
+            df_result[_col] = None
+
+    # Compute Caltrain/BART cycling times for newly-scraped listings in a known
+    # neighborhood, so the dashboard reflects them on the next upload (instead
+    # of waiting for the daily digest). defer_on_limit=True means we bail out
+    # of ORS calls when the 40-req/min budget is exhausted — leftover listings
+    # get retried on the next scrape run (cache persists on disk).
+    if not truly_new.empty:
+        to_compute = truly_new[truly_new['neighborhoods'].fillna('').astype(str).str.strip() != '']
+        if not to_compute.empty:
+            new_records = to_compute.to_dict('records')
+            bike_times      = compute_bike_times(new_records, defer_on_limit=True)
+            bart_bike_times = compute_bart_bike_times(new_records, defer_on_limit=True)
+            for url, info in bike_times.items():
+                df_result.loc[df_result['url'] == url, 'bike_time_minutes'] = info['minutes']
+                df_result.loc[df_result['url'] == url, 'bike_station']      = info['station']
+            for url, info in bart_bike_times.items():
+                df_result.loc[df_result['url'] == url, 'bart_bike_time_minutes'] = info['minutes']
+                df_result.loc[df_result['url'] == url, 'bart_station']           = info['station']
 
     # Keep only the most recent MAX_ACTIVE_ROWS; overflow goes to archive
     df_result = df_result.sort_values('time_posted', ascending=False)
