@@ -1,7 +1,7 @@
 # Historical listings — frozen snapshot
 
-`2026-sf.csv` is a **read-only** record of 639 San Francisco Craigslist
-rental listings covering **2026-03-10 – 2026-04-27**, captured during the original search this
+`2026-sf.csv` is a **read-only** record of 843 San Francisco Craigslist
+rental listings covering **2026-03-10 – 2026-05-16**, captured during the original search this
 project was built for.
 
 It is deliberately kept separate from the live per-profile datasets in
@@ -13,11 +13,11 @@ current medians, heatmaps, or neighborhood stats.
 
 | | |
 |---|---|
-| Rows | 639 |
-| Date range | 2026-03-10 – 2026-04-27 |
-| Priced listings | 639 |
+| Rows | 843 |
+| Date range | 2026-03-10 – 2026-05-16 |
+| Priced listings | 843 |
 | Median price | $4,379 |
-| Price range | $800 – $5,600 |
+| Price range | $750 – $5,600 |
 | Source | craigslist (sfbay), San Francisco only |
 
 Columns match the live CSVs, minus the per-run state (`alerted`,

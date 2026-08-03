@@ -77,29 +77,39 @@ def migrate_files(profile_name: str, dry_run: bool) -> None:
         print(f"  rmdir  {LEGACY_DIR.name}/ (empty)")
 
 
-def freeze_historical(profile_name: str, dry_run: bool) -> None:
+def freeze_historical(profile_name: str, dry_run: bool, rebuild: bool = False) -> None:
     """Build an immutable snapshot of everything scraped so far."""
     print("\nFreezing historical snapshot")
     out_csv = HISTORICAL_DIR / "2026-sf.csv"
 
-    if out_csv.exists():
+    if out_csv.exists() and not rebuild:
         print(f"  skip   {out_csv.relative_to(BASE_DIR)} already exists "
-              f"(delete it to rebuild)")
+              f"(use --rebuild-historical to refresh it)")
         return
 
     # Look in the new location first, then fall back to the legacy one — so this
     # reports accurately during a --dry-run, when the move hasn't happened yet.
-    frames = []
+    sources = []
     for name in ("listings_active.csv", "listings_archive.csv"):
         path = next((p for p in (DATA_DIR / profile_name / name, LEGACY_DIR / name)
                      if p.exists()), None)
-        if path is None:
-            continue
+        if path is not None:
+            sources.append(path)
+
+    # Fold in any existing snapshot. The active CSV is a rolling window, so
+    # listings age out of it over time — rebuilding from the live files alone
+    # would silently drop every listing that has since rotated away.
+    if out_csv.exists():
+        sources.append(out_csv)
+
+    frames = []
+    for path in sources:
         try:
             df = pd.read_csv(path)
         except (pd.errors.EmptyDataError, pd.errors.ParserError):
             continue
         if not df.empty:
+            print(f"  read   {path.relative_to(BASE_DIR)} ({len(df)} rows)")
             frames.append(df)
 
     if not frames:
@@ -187,6 +197,9 @@ def main() -> int:
                              "(default: the only enabled one, or $HOUSING_PROFILE)")
     parser.add_argument("--dry-run", action="store_true",
                         help="Print the plan without changing anything")
+    parser.add_argument("--rebuild-historical", action="store_true",
+                        help="Refresh data/historical/ by folding newly-pulled "
+                             "listings into the existing snapshot")
     args = parser.parse_args()
 
     try:
@@ -201,7 +214,7 @@ def main() -> int:
 
     print(f"Target profile: {profile.name}")
     migrate_files(profile.name, args.dry_run)
-    freeze_historical(profile.name, args.dry_run)
+    freeze_historical(profile.name, args.dry_run, rebuild=args.rebuild_historical)
 
     print("\nDone." if not args.dry_run else "\nDry run complete.")
     return 0
