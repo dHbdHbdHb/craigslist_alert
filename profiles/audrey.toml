@@ -48,15 +48,19 @@ city = "San Francisco"
 #      and a separate "Inner Richmond" shape was added alongside it.
 
 [neighborhoods]
-# false = never drop a listing for being outside these shapes. The list below
-# becomes purely the order things are grouped in — in the digest and on the
-# dashboard — and anything matching no shape lands in "Elsewhere in the city"
-# at the bottom.
+# true = the digest only contains listings inside the shapes below. Anything
+# else is left unalerted rather than swept into a catch-all section at the
+# bottom of the email, so if a neighborhood is added here later, the listings
+# it covers are still eligible to be sent.
 #
-# This is the right setting while the shapes are still incomplete: they cover
-# maybe a quarter of SF, so filtering on them throws away most of what's
-# scraped. She's "open to anything given the limited housing in SF" anyway.
-filter = false
+# This setting is read by the digest and nothing else: the dashboard, the map
+# and the price history always keep every listing scraped, in-shape or not.
+# So turning this on shortens the email without losing any data or price
+# context — "Rest of City" still exists on the dashboard, just not in the inbox.
+#
+# It was false while the shapes covered maybe a quarter of the city. With 11
+# neighborhoods named below, the catch-all had become most of the email.
+filter = true
 
 # Ordered best-first — this is the order sections appear in the digest, and
 # (since 2026-08-03) the set of neighborhoods commute times are computed for.

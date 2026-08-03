@@ -403,7 +403,7 @@ def main():
             if commute:
                 detail = []
                 if commute.get('walk_minutes'):
-                    detail.append(f"{commute['walk_minutes']} min walk")
+                    detail.append(f"{commute['walk_minutes']} min walk to")
                 if commute.get('lines'):
                     detail.append(" / ".join(commute['lines'][:3]))
                 if commute.get('worst_headway'):

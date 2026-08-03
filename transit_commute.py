@@ -69,6 +69,9 @@ _FIELD_MASK = ",".join([
     # billing tier -- worth re-checking against current Routes API pricing if
     # the bill ever looks wrong.
     "routes.polyline.encodedPolyline",
+    # Per-step geometry, so the map can colour each leg by mode instead of
+    # drawing one undifferentiated line for the whole trip.
+    "routes.legs.steps.polyline.encodedPolyline",
     "routes.legs.steps.travelMode",
     "routes.legs.steps.staticDuration",
     "routes.legs.steps.transitDetails.headway",
@@ -169,6 +172,27 @@ def _seconds(value) -> float:
         return 0.0
 
 
+# Vehicle type is enough to tell SF's three modes apart, confirmed against live
+# results: Muni Metro comes back TRAM (J/K/M/N), BART comes back SUBWAY
+# (Yellow-N and friends), and anything on rubber comes back BUS. A mapping
+# rather than an if-chain so an unfamiliar type lands on a neutral colour
+# instead of being confidently mislabelled as one of the three.
+_MODE_BY_VEHICLE = {
+    "BUS":                 "bus",
+    "TROLLEYBUS":          "bus",
+    "INTERCITY_BUS":       "bus",
+    "TRAM":                "muni",
+    "LIGHT_RAIL":          "muni",
+    "MONORAIL":            "muni",
+    "SUBWAY":              "bart",
+    "METRO_RAIL":          "bart",
+    "HEAVY_RAIL":          "bart",
+    "COMMUTER_TRAIN":      "rail",   # Caltrain — not BART, worth its own colour
+    "HIGH_SPEED_TRAIN":    "rail",
+    "LONG_DISTANCE_TRAIN": "rail",
+}
+
+
 def _decode_polyline(encoded: str) -> list[list[float]]:
     """Google's encoded polyline -> [[lat, lon], ...], the order folium wants.
 
@@ -201,28 +225,44 @@ def _decode_polyline(encoded: str) -> list[list[float]]:
 def _summarise_route(route: dict) -> dict:
     """Pull minutes, walking, and per-leg transit details out of one itinerary."""
     total_min = _seconds(route.get("duration")) / 60
-    walk_sec, legs = 0.0, []
+    walk_sec, legs, segments = 0.0, [], []
 
     for leg in route.get("legs", []):
         for step in leg.get("steps", []):
+            step_geom = _decode_polyline(
+                (step.get("polyline") or {}).get("encodedPolyline") or ""
+            )
+
             if step.get("travelMode") == "WALK":
                 walk_sec += _seconds(step.get("staticDuration"))
+                if step_geom:
+                    segments.append({"mode": "walk", "geometry": step_geom})
                 continue
 
             details = step.get("transitDetails") or {}
             line    = details.get("transitLine") or {}
             stop    = ((details.get("stopDetails") or {}).get("departureStop") or {})
+            vehicle = ((line.get("vehicle") or {}).get("type") or "").upper()
             legs.append({
                 "line":    line.get("nameShort") or line.get("name") or "?",
-                "vehicle": ((line.get("vehicle") or {}).get("type") or "").upper(),
+                "vehicle": vehicle,
                 "headway": _seconds(details.get("headway")) / 60 or None,
                 "stop":    stop.get("name") or "",
             })
+            if step_geom:
+                segments.append({
+                    "mode":     _MODE_BY_VEHICLE.get(vehicle, "other"),
+                    "geometry": step_geom,
+                })
 
     return {
         "minutes":      int(round(total_min)),
         "walk_minutes": int(round(walk_sec / 60)),
         "legs":         legs,
+        "segments":     segments,
+        # Whole-trip geometry is kept as a fallback: if a response ever omits
+        # step polylines, the map can still draw the route as one line rather
+        # than showing nothing.
         "geometry":     _decode_polyline(
             (route.get("polyline") or {}).get("encodedPolyline") or ""
         ),
@@ -375,13 +415,14 @@ def compute_commutes(listings, defer_on_limit: bool = False) -> dict:
         if not url:
             continue
 
-        # "geometry" is required as well as "minutes" so that entries cached
-        # before route geometry was requested get refetched once, rather than
-        # sitting there forever as a commute time the map can never draw. The
-        # test is key presence, not truthiness: a trip the API returns no
-        # polyline for caches an empty list and must not be retried every run.
+        # "segments" is required as well as "minutes" so that entries cached
+        # before per-step geometry was requested get refetched once, rather than
+        # sitting there forever as a commute time the map can only draw as one
+        # undifferentiated line. The test is key presence, not truthiness: a
+        # trip the API returns no polylines for caches an empty list and must
+        # not be retried every run.
         cached = cache.get(url)
-        if cached and "minutes" in cached and "geometry" in cached:
+        if cached and "minutes" in cached and "segments" in cached:
             result[url] = cached
             continue
 

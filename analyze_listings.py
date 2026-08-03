@@ -47,6 +47,34 @@ COMMUTE_CACHE_FILE    = Path(COMMUTE_CACHE_PATH)
 # into a ball of overlapping lines. Raise it if too few routes show up.
 TRANSIT_ROUTE_MAX_MINUTES = 30
 
+# Per-mode styling. Weight and opacity match the bike routes, which read well
+# against the Positron tiles; the dash is finer so a transit leg and a bike leg
+# stay distinguishable where a profile draws both.
+#
+# The first attempt used three near-identical dark greens on the theory that the
+# modes should read as one family. Rendered, they were indistinguishable at
+# 2.5px dotted -- so were their legend keys -- which defeats the point of
+# colouring by mode at all. These are the first three slots of the validated
+# categorical palette instead: every route is on screen simultaneously, so this
+# is the all-pairs case, and those three are the set documented as clearing it
+# on a light surface. Anything rarer folds into one neutral rather than taking a
+# fourth slot, which is documented to fail against the orange.
+_TRANSIT_STYLE = {
+    "bart":  {"color": "#2a78d6", "label": "BART",          "weight": 2.5, "dash": "3 5"},
+    "bus":   {"color": "#eb6834", "label": "Bus",           "weight": 2.5, "dash": "3 5"},
+    "muni":  {"color": "#1baf7a", "label": "Muni Metro",    "weight": 2.5, "dash": "3 5"},
+    "rail":  {"color": "#52514e", "label": "Other transit", "weight": 2.5, "dash": "3 5"},
+    "other": {"color": "#52514e", "label": "Other transit", "weight": 2.5, "dash": "3 5"},
+    "walk":  {"color": "#9ca3af", "label": "Walk",          "weight": 1.5, "dash": "1 5"},
+}
+_TRANSIT_LEGEND_ORDER = ("bart", "bus", "muni", "rail", "other", "walk")
+
+# Walk legs are cached but not drawn. There are roughly six of them per trip
+# against one or two transit legs, so drawing them put ~140 grey dashes on the
+# map against ~24 coloured ones and buried the thing the colour is for. The
+# route reads fine as segments between stops. Flip this to show them.
+TRANSIT_DRAW_WALK_LEGS = False
+
 # Frozen record of the original 2026 SF search. Read-only, never mixed into the
 # live figures — see data/historical/README.md.
 HISTORICAL_CSV = BASE_DIR / "data" / "historical" / "2026-sf.csv"
@@ -810,6 +838,9 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
     # scraper and the digest are what call the Routes API, so the map draws
     # whatever they have already paid for and never triggers a request itself.
     commute_cache = {}
+    # Collected while drawing so the legend lists only the modes that actually
+    # appear — a BART key on a map with no BART leg is just noise.
+    transit_modes_drawn = set()
     if HAS_COMMUTE:
         try:
             with open(COMMUTE_CACHE_FILE) as _f:
@@ -959,25 +990,42 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             line.add_to(fg_listings)
             layer_vars.append(line.get_name())
 
-        # Transit trip to work. Restricted to named neighborhoods and short
-        # commutes so the lines stay readable — see TRANSIT_ROUTE_MAX_MINUTES.
+        # Transit trip to work, one dotted line per leg so bus, Muni and BART
+        # are told apart at a glance. Restricted to named neighborhoods and
+        # short commutes so the map stays readable — see
+        # TRANSIT_ROUTE_MAX_MINUTES.
         commute_cached = commute_cache.get(url)
         if (
             commute_cached
-            and commute_cached.get("geometry")
             and _in_named_hood(row.get("neighborhoods"))
             and (commute_cached.get("minutes") or 0) <= TRANSIT_ROUTE_MAX_MINUTES
         ):
-            line = folium.PolyLine(
-                commute_cached["geometry"],
-                color="#2f6f4f", weight=2.5, opacity=0.7,
-                tooltip=(
-                    f"{commute_cached['minutes']} min transit to "
-                    f"{COMMUTE_DESTINATION_NAME}"
-                ),
+            total = commute_cached.get("minutes")
+            # Fall back to the whole-trip polyline if a response came back
+            # without step geometry, so the route still shows up uncoloured.
+            drawn = commute_cached.get("segments") or (
+                [{"mode": "other", "geometry": commute_cached["geometry"]}]
+                if commute_cached.get("geometry") else []
             )
-            line.add_to(fg_listings)
-            layer_vars.append(line.get_name())
+            for seg in drawn:
+                geom = seg.get("geometry")
+                if not geom:
+                    continue
+                if seg.get("mode") == "walk" and not TRANSIT_DRAW_WALK_LEGS:
+                    continue
+                style = _TRANSIT_STYLE.get(seg.get("mode"), _TRANSIT_STYLE["other"])
+                transit_modes_drawn.add(seg.get("mode") or "other")
+                line = folium.PolyLine(
+                    geom,
+                    color=style["color"], weight=style["weight"],
+                    opacity=0.75, dash_array=style["dash"],
+                    tooltip=(
+                        f"{style['label']} — {total} min to "
+                        f"{COMMUTE_DESTINATION_NAME}"
+                    ),
+                )
+                line.add_to(fg_listings)
+                layer_vars.append(line.get_name())
 
         price   = f"${int(row['price']):,}/mo" if pd.notna(row.get("price")) else "—"
         beds    = str(row["num_bedrooms"]) if pd.notna(row.get("num_bedrooms")) else "?"
@@ -1102,12 +1150,22 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             '<line x1="0" y1="4" x2="20" y2="4" stroke="#C8363B" stroke-width="2.5" '
             'stroke-dasharray="2 6" opacity="0.75"/></svg>Bike route to BART</div>',
         ]
-    if HAS_COMMUTE:
+    _seen_labels = set()
+    for _mode in _TRANSIT_LEGEND_ORDER:
+        if _mode not in transit_modes_drawn:
+            continue
+        _st = _TRANSIT_STYLE[_mode]
+        # "rail" and "other" deliberately share a label and colour, so the
+        # legend must not print the same key twice.
+        if _st["label"] in _seen_labels:
+            continue
+        _seen_labels.add(_st["label"])
         legend_rows.append(
             '<div><svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">'
-            '<line x1="0" y1="4" x2="20" y2="4" stroke="#2f6f4f" stroke-width="2.5" '
-            'opacity="0.7"/></svg>'
-            f'Transit route (under {TRANSIT_ROUTE_MAX_MINUTES} min)</div>'
+            f'<line x1="0" y1="4" x2="20" y2="4" stroke="{_st["color"]}" '
+            f'stroke-width="{_st["weight"]}" stroke-dasharray="{_st["dash"]}" '
+            'opacity="0.75"/></svg>'
+            f'{_st["label"]}</div>'
         )
     legend_rows += [
         '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
