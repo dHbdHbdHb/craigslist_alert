@@ -37,11 +37,21 @@ for pkg in git curl chromium-driver; do
         missing_pkgs+=("$pkg")
     fi
 done
-if [[ ${#missing_pkgs[@]} -gt 0 ]]; then
+
+NEEDS_SUDO_STEPS=()
+if [[ ${#missing_pkgs[@]} -eq 0 ]]; then
+    :
+elif sudo -n true 2>/dev/null; then
     info "installing: ${missing_pkgs[*]}"
     sudo apt-get update -qq && sudo apt-get install -y "${missing_pkgs[@]}" \
         && ok "installed ${missing_pkgs[*]}" \
         || fail "apt install failed for: ${missing_pkgs[*]}"
+else
+    # No passwordless sudo — which is the norm over a non-interactive SSH
+    # session. Rather than hanging on an invisible password prompt, note what
+    # needs doing and carry on with everything that doesn't need root.
+    warn "sudo needs a password — skipping apt for now (nothing else is blocked)"
+    NEEDS_SUDO_STEPS+=("sudo apt-get update && sudo apt-get install -y ${missing_pkgs[*]}")
 fi
 
 step "2. Miniforge"
@@ -119,6 +129,19 @@ else
 fi
 
 # ── What's left ───────────────────────────────────────────────────────────────
+if [[ ${#NEEDS_SUDO_STEPS[@]} -gt 0 ]]; then
+    cat <<EOF
+
+══════════════════════════════════════════════════════════════════════
+  Needs a password — run these yourself
+══════════════════════════════════════════════════════════════════════
+
+EOF
+    for cmd in "${NEEDS_SUDO_STEPS[@]}"; do
+        echo "   $cmd"
+    done
+fi
+
 cat <<EOF
 
 ══════════════════════════════════════════════════════════════════════
