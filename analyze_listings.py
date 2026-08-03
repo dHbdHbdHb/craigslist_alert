@@ -29,7 +29,7 @@ from config import (
     BIKE_ROUTES_PATH, BART_ROUTES_PATH,
     MAP_CENTER, SHOW_HISTORICAL, DISPLAY_NAME, PROFILE_NAME,
     HAS_BIKE_TIMES, HAS_COMMUTE, COMMUTE_DESTINATION,
-    COMMUTE_DESTINATION_NAME, COMMUTE_MAX_MINUTES,
+    COMMUTE_DESTINATION_NAME, COMMUTE_MAX_MINUTES, COMMUTE_CACHE_PATH,
     add_profile_arg,
 )
 
@@ -39,6 +39,13 @@ ARCHIVE_CSV      = Path(DATA_ARCHIVE)
 OUTPUT_HTML      = Path(DASHBOARD_HTML)
 BIKE_ROUTES_FILE      = Path(BIKE_ROUTES_PATH)
 BART_BIKE_ROUTES_FILE = Path(BART_ROUTES_PATH)
+COMMUTE_CACHE_FILE    = Path(COMMUTE_CACHE_PATH)
+
+# Only draw the transit line for trips at or under this, and only for listings
+# in a named neighborhood. Tighter than the profile's own max_minutes on
+# purpose: at the full budget nearly every listing qualifies and the map turns
+# into a ball of overlapping lines. Raise it if too few routes show up.
+TRANSIT_ROUTE_MAX_MINUTES = 30
 
 # Frozen record of the original 2026 SF search. Read-only, never mixed into the
 # live figures — see data/historical/README.md.
@@ -47,8 +54,17 @@ HISTORICAL_CSV = BASE_DIR / "data" / "historical" / "2026-sf.csv"
 PRICE_FLOOR = 2_100
 PRICE_CEIL  = 15_000
 
-# Listings with no neighborhood match are bucketed here
-CATCHALL_HOOD = "Way Out There"
+# Listings matching no polygon at all are bucketed here. Deliberately NOT the
+# name of any drawn shape: "Way Out There" is a real polygon covering western
+# SF, and folding unmatched listings into it made a genuine neighborhood look
+# like a dumping ground and kept it out of every per-neighborhood chart.
+CATCHALL_HOOD = "Rest of City"
+
+# Places a listing ends up without anyone having asked for it: the catch-all,
+# and "Way Out There", which is a real shape but a deliberately vague one
+# covering everything west. Map highlighting skips both, so the blue dots mean
+# "somewhere you named" rather than "somewhere nothing else claimed".
+UNHIGHLIGHTED_HOODS = {CATCHALL_HOOD, "Way Out There"}
 
 # ── Load & Clean ──────────────────────────────────────────────────────────────
 
@@ -109,7 +125,7 @@ def load_data(paths: list[Path] | None = None, *, label: str = "live") -> pd.Dat
     df = df.dropna(subset=["price", "num_bedrooms"])
     df = df[(df["price"] >= PRICE_FLOOR) & (df["price"] <= PRICE_CEIL)]
 
-    # Listings with no polygon match become "Way Out There"
+    # Listings with no polygon match become CATCHALL_HOOD
     df["neighborhoods"] = df["neighborhoods"].fillna("").str.strip()
     df["neighborhood"]  = df["neighborhoods"].apply(
         lambda s: [n.strip() for n in s.split(",") if n.strip()] or [CATCHALL_HOOD]
@@ -204,7 +220,7 @@ _WOT_COLOR = "#AAAAAA"  # medium grey — clearly deprioritized
 
 
 def _hood_order(df: pd.DataFrame) -> list[str]:
-    """Neighborhoods sorted by count, with Way Out There always last."""
+    """Neighborhoods sorted by count, with the catch-all bucket always last."""
     counts = df.groupby("neighborhood").size().sort_values(ascending=False)
     hoods  = [h for h in counts.index if h != CATCHALL_HOOD]
     if CATCHALL_HOOD in counts.index:
@@ -651,7 +667,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
     Builds a Folium neighborhood map (CartoDB Positron tiles, light-opacity
     polygon fills) and returns it as a self-contained <iframe> HTML string
     suitable for embedding directly in the dashboard.
-    Excludes 'Way Out There'.
+    Excludes the catch-all bucket.
     """
     sys.path.insert(0, str(BASE_DIR))
     try:
@@ -762,11 +778,26 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         ]
     )
 
-    # Highlight the 3 most recently posted listings
+    # Highlight the 3 most recently posted listings that landed in a named
+    # neighborhood. Drawing from the whole set meant the highlight was usually
+    # spent on a listing in the catch-all or in "Way Out There" — the two
+    # buckets nobody actually searched for — which is exactly backwards.
     _NEW_COLOR  = "#3b82f6"   # vivid blue — pops against gray dots
     _OLD_COLOR  = "#9ca3af"
+
+    def _in_named_hood(raw) -> bool:
+        # The raw column is comma-joined and NaN when nothing matched, so a
+        # listing counts if any one of its shapes is a named one.
+        if not isinstance(raw, str):
+            return False
+        return any(
+            h.strip() and h.strip() not in UNHIGHLIGHTED_HOODS
+            for h in raw.split(",")
+        )
+
+    _highlightable = df_markers[df_markers["neighborhoods"].apply(_in_named_hood)]
     _newest_urls = set(
-        df_markers.nlargest(3, "time_posted")["url"].tolist()
+        _highlightable.nlargest(3, "time_posted")["url"].tolist()
     )
 
     # Load route caches. Profiles with no [transit] stations skip all of this —
@@ -774,6 +805,17 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
     # through every listing producing nothing.
     route_cache, bart_route_cache = {}, {}
     missing, bart_missing = [], []
+
+    # Transit routes come from the commute cache rather than a fetch here: the
+    # scraper and the digest are what call the Routes API, so the map draws
+    # whatever they have already paid for and never triggers a request itself.
+    commute_cache = {}
+    if HAS_COMMUTE:
+        try:
+            with open(COMMUTE_CACHE_FILE) as _f:
+                commute_cache = json.load(_f)
+        except (FileNotFoundError, ValueError):
+            commute_cache = {}
 
     if HAS_BIKE_TIMES:
         try:
@@ -917,6 +959,26 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             line.add_to(fg_listings)
             layer_vars.append(line.get_name())
 
+        # Transit trip to work. Restricted to named neighborhoods and short
+        # commutes so the lines stay readable — see TRANSIT_ROUTE_MAX_MINUTES.
+        commute_cached = commute_cache.get(url)
+        if (
+            commute_cached
+            and commute_cached.get("geometry")
+            and _in_named_hood(row.get("neighborhoods"))
+            and (commute_cached.get("minutes") or 0) <= TRANSIT_ROUTE_MAX_MINUTES
+        ):
+            line = folium.PolyLine(
+                commute_cached["geometry"],
+                color="#2f6f4f", weight=2.5, opacity=0.7,
+                tooltip=(
+                    f"{commute_cached['minutes']} min transit to "
+                    f"{COMMUTE_DESTINATION_NAME}"
+                ),
+            )
+            line.add_to(fg_listings)
+            layer_vars.append(line.get_name())
+
         price   = f"${int(row['price']):,}/mo" if pd.notna(row.get("price")) else "—"
         beds    = str(row["num_bedrooms"]) if pd.notna(row.get("num_bedrooms")) else "?"
         baths   = str(row["num_bathrooms"]) if pd.notna(row.get("num_bathrooms")) else "?"
@@ -1040,10 +1102,17 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             '<line x1="0" y1="4" x2="20" y2="4" stroke="#C8363B" stroke-width="2.5" '
             'stroke-dasharray="2 6" opacity="0.75"/></svg>Bike route to BART</div>',
         ]
+    if HAS_COMMUTE:
+        legend_rows.append(
+            '<div><svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">'
+            '<line x1="0" y1="4" x2="20" y2="4" stroke="#2f6f4f" stroke-width="2.5" '
+            'opacity="0.7"/></svg>'
+            f'Transit route (under {TRANSIT_ROUTE_MAX_MINUTES} min)</div>'
+        )
     legend_rows += [
         '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
         '<circle cx="7" cy="7" r="5.5" fill="#3b82f6" stroke="white" stroke-width="1.5"/>'
-        '</svg>New listing (3 most recent)</div>',
+        '</svg>Newest in a named neighborhood</div>',
         '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
         '<circle cx="7" cy="7" r="4.5" fill="#9ca3af" stroke="white" stroke-width="1.5"/>'
         '</svg>Listing — click to open</div>',
@@ -1107,7 +1176,12 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         </div>
 
         <script>
-          (function() {{
+          // Injected into the document body, which folium renders BEFORE the
+          // script section holding the map and every layer variable. Running
+          // this immediately threw a ReferenceError on the first layer name,
+          // which killed the whole block: the dropdowns rendered but changing
+          // them did nothing. Waiting for load is what makes them live.
+          window.addEventListener('load', function() {{
             var group    = {fg_listings.get_name()};
             var listings = {listings_js};
 
@@ -1150,7 +1224,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             var c = document.getElementById('commute-filter');
             if (c) c.addEventListener('change', apply);
             apply();
-          }})();
+          }});
         </script>
     """))
 

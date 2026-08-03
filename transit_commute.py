@@ -64,6 +64,11 @@ _ENDPOINT = "https://routes.googleapis.com/directions/v2:computeRoutes"
 # field mask, and an over-broad mask is both slower and more expensive.
 _FIELD_MASK = ",".join([
     "routes.duration",
+    # Geometry for drawing the trip on the dashboard map. The request already
+    # asks for transitDetails, so this does not move the call into a higher
+    # billing tier -- worth re-checking against current Routes API pricing if
+    # the bill ever looks wrong.
+    "routes.polyline.encodedPolyline",
     "routes.legs.steps.travelMode",
     "routes.legs.steps.staticDuration",
     "routes.legs.steps.transitDetails.headway",
@@ -164,6 +169,35 @@ def _seconds(value) -> float:
         return 0.0
 
 
+def _decode_polyline(encoded: str) -> list[list[float]]:
+    """Google's encoded polyline -> [[lat, lon], ...], the order folium wants.
+
+    Implemented here rather than pulled in as a dependency: it is the standard
+    algorithm, it is twenty lines, and the Pi's conda env is slow to change.
+    """
+    if not encoded:
+        return []
+    coords, index, lat, lng = [], 0, 0, 0
+    length = len(encoded)
+    while index < length:
+        for is_lat in (True, False):
+            result = shift = 0
+            while index < length:
+                b = ord(encoded[index]) - 63
+                index += 1
+                result |= (b & 0x1F) << shift
+                shift  += 5
+                if b < 0x20:
+                    break
+            delta = ~(result >> 1) if result & 1 else (result >> 1)
+            if is_lat:
+                lat += delta
+            else:
+                lng += delta
+        coords.append([lat / 1e5, lng / 1e5])
+    return coords
+
+
 def _summarise_route(route: dict) -> dict:
     """Pull minutes, walking, and per-leg transit details out of one itinerary."""
     total_min = _seconds(route.get("duration")) / 60
@@ -189,6 +223,9 @@ def _summarise_route(route: dict) -> dict:
         "minutes":      int(round(total_min)),
         "walk_minutes": int(round(walk_sec / 60)),
         "legs":         legs,
+        "geometry":     _decode_polyline(
+            (route.get("polyline") or {}).get("encodedPolyline") or ""
+        ),
     }
 
 
@@ -338,8 +375,13 @@ def compute_commutes(listings, defer_on_limit: bool = False) -> dict:
         if not url:
             continue
 
+        # "geometry" is required as well as "minutes" so that entries cached
+        # before route geometry was requested get refetched once, rather than
+        # sitting there forever as a commute time the map can never draw. The
+        # test is key presence, not truthiness: a trip the API returns no
+        # polyline for caches an empty list and must not be retried every run.
         cached = cache.get(url)
-        if cached and "minutes" in cached:
+        if cached and "minutes" in cached and "geometry" in cached:
             result[url] = cached
             continue
 

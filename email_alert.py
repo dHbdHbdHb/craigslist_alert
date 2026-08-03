@@ -37,6 +37,11 @@ from transit_commute import compute_commutes
 
 ACTIVE_PATH      = DATA_ACTIVE
 
+# Listings matching no polygon. Must stay in step with analyze_listings.
+# CATCHALL_HOOD, or the digest and the dashboard disagree about where an
+# unmatched listing went. It is deliberately not the name of any drawn shape.
+CATCHALL_HOOD    = "Rest of City"
+
 
 # ──────────────────────────────────────────────
 # Helpers
@@ -82,7 +87,7 @@ def build_price_summary_html(df: pd.DataFrame) -> str:
     df['neighborhoods'] = df['neighborhoods'].fillna('')
     rows = []
     for _, row in df.iterrows():
-        hoods = [h.strip() for h in row['neighborhoods'].split(',') if h.strip()] or ['Way Out There']
+        hoods = [h.strip() for h in row['neighborhoods'].split(',') if h.strip()] or [CATCHALL_HOOD]
         for hood in hoods:
             rows.append({
                 'neighborhood':  hood,
@@ -112,8 +117,8 @@ def build_price_summary_html(df: pd.DataFrame) -> str:
 
     html = f'<div style="{S["section"]}">Historical Price Context</div>'
 
-    # Table 1 — by neighborhood (excluding Way Out There)
-    known = exp[exp['neighborhood'] != 'Way Out There']
+    # Table 1 — by neighborhood (excluding the catch-all bucket)
+    known = exp[exp['neighborhood'] != CATCHALL_HOOD]
     if not known.empty:
         g = known.groupby('neighborhood')['price']
         stats = pd.DataFrame({
@@ -285,12 +290,19 @@ def main():
     commutes       = compute_commutes(listings)
 
     # Persist bike and commute times back to the active CSV (always, even in dry run)
+    # The text columns are created as object dtype on purpose. Read back from a
+    # CSV where every value is empty, pandas types them float64, and writing a
+    # station name or line list into one is an incompatible-dtype assignment --
+    # a FutureWarning today, an error in a later pandas.
+    _TEXT_COLS = ('bike_station', 'bart_station', 'transit_lines')
     for _col in ('bike_time_minutes', 'bike_station',
                  'bart_bike_time_minutes', 'bart_station',
                  'commute_minutes', 'commute_walk_minutes',
                  'commute_headway', 'transit_score', 'transit_lines'):
         if _col not in df.columns:
             df[_col] = None
+        if _col in _TEXT_COLS and df[_col].isna().all():
+            df[_col] = df[_col].astype(object)
     for url, info in bike_times.items():
         df.loc[df['url'] == url, 'bike_time_minutes'] = info['minutes']
         df.loc[df['url'] == url, 'bike_station']      = info['station']
@@ -350,7 +362,7 @@ def main():
     # Listings matching none of the named shapes go in a bucket at the end
     # rather than vanishing — with `filter = false` that bucket is usually the
     # biggest one, since the shapes don't cover the whole city.
-    OTHER_LABEL = "Elsewhere in the city"
+    OTHER_LABEL = CATCHALL_HOOD
     hood_to_listings = {hood: [] for hood in INCLUDE_NEIGHBORHOODS}
     hood_to_listings[OTHER_LABEL] = []
     for row in listings:
