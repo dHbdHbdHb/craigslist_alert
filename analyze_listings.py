@@ -871,15 +871,6 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
     # get_name() is the supported way to reach the layer from our own script.
     filterable = []
 
-    # Work destination — the anchor the whole commute column is measured against,
-    # so it belongs on the map.
-    if COMMUTE_DESTINATION:
-        folium.Marker(
-            [COMMUTE_DESTINATION[1], COMMUTE_DESTINATION[0]],
-            tooltip=f"{COMMUTE_DESTINATION_NAME} — commute destination",
-            icon=folium.Icon(color="darkblue", icon="briefcase", prefix="fa"),
-        ).add_to(m)
-
     # Station markers, for profiles that route to stations at all.
     # Profile coords are [lon, lat]; folium wants [lat, lon].
     if HAS_BIKE_TIMES:
@@ -1012,13 +1003,26 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
 
     fg_listings.add_to(m)
 
+    # Work destination — the anchor the whole commute column is measured against,
+    # so it belongs on the map. Added last on purpose: as a CircleMarker it shares
+    # the SVG overlay pane with the listings, so draw order is the only thing
+    # keeping it on top of them.
+    if COMMUTE_DESTINATION:
+        folium.CircleMarker(
+            [COMMUTE_DESTINATION[1], COMMUTE_DESTINATION[0]], radius=11,
+            color="white", weight=2.5,
+            fill=True, fill_color="#CC3311", fill_opacity=0.95,  # palette vermillion
+            tooltip=f"{COMMUTE_DESTINATION_NAME} — commute destination",
+        ).add_to(m)
+
     # Legend rows are built to match what this profile actually shows — a
     # "Bike route to Caltrain" key on a map with no bike routes is just noise.
     legend_rows = []
     if COMMUTE_DESTINATION:
         legend_rows.append(
-            '<div><i class="fa fa-briefcase" style="color:#00008b;width:14px;'
-            'margin-right:5px;"></i>'
+            '<div><svg width="18" height="18" style="vertical-align:middle;margin-right:5px;">'
+            '<circle cx="9" cy="9" r="7" fill="#CC3311" stroke="white" stroke-width="2"/>'
+            '</svg>'
             f'{_html.escape(COMMUTE_DESTINATION_NAME)}</div>'
         )
     if HAS_BIKE_TIMES:
