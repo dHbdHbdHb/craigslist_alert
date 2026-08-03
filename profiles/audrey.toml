@@ -38,14 +38,14 @@ city = "San Francisco"
 #  They named: Lower Haight, Panhandle, Inner Sunset, Hayes Valley, Noe Valley,
 #  Mission — "but we're open to anything given the limited housing in SF".
 #
-#  Three of those don't exist as shapes yet. Hayes Valley, Lower Haight,
-#  Panhandle and Noe Valley are drafted in neighborhoods/draft_shapes.geojson
-#  and are waiting for review in the editor:
+#  Approved in the editor on 2026-08-03: Hayes Valley, Lower Haight and
+#  Panhandle now exist as real shapes, so the list below names them directly.
 #
-#      python neighborhoods/edit_neighborhoods.py
-#
-#  Until they're approved, the list below uses the existing shapes that cover
-#  the same ground. Once approved, uncomment the block underneath.
+#  Two things did not land the way the drafts implied:
+#    - Noe Valley was never drawn as its own shape. "Castro/Noe" still covers
+#      that ground, so it stands in below.
+#    - "NOPA/Inner Richmond" was renamed to "NOPA/USF zone" (same boundary),
+#      and a separate "Inner Richmond" shape was added alongside it.
 
 [neighborhoods]
 # false = never drop a listing for being outside these shapes. The list below
@@ -58,32 +58,21 @@ city = "San Francisco"
 # scraped. She's "open to anything given the limited housing in SF" anyway.
 filter = false
 
-# Ordered best-first — this is the order sections appear in the digest.
+# Ordered best-first — this is the order sections appear in the digest, and
+# (since 2026-08-03) the set of neighborhoods commute times are computed for.
 include = [
-    "Duboce",               # contains Lower Haight
-    "Haight/Cole Valley",   # southern half of the Panhandle
-    "NOPA/Inner Richmond",  # northern half of the Panhandle
+    "Lower Haight",
+    "Panhandle",
+    "Hayes Valley",
     "Inner Sunset",
-    "Castro/Noe",           # contains Noe Valley
+    "Castro/Noe",           # stands in for Noe Valley — no separate shape
     "Mission",
     "Chill Mission",
+    "Duboce",
+    "Haight/Cole Valley",
+    "NOPA/USF zone",
+    "Inner Richmond",
 ]
-
-# After approving the drafts in the editor, swap the list above for this one:
-#
-# include = [
-#     "Lower Haight",
-#     "Panhandle",
-#     "Hayes Valley",
-#     "Inner Sunset",
-#     "Noe Valley",
-#     "Mission",
-#     "Chill Mission",
-#     "Duboce",
-#     "Haight/Cole Valley",
-#     "NOPA/Inner Richmond",
-#     "Castro/Noe",
-# ]
 
 
 # ── 3. Who gets the email ─────────────────────────────────────────────────────

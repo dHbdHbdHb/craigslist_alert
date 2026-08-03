@@ -42,7 +42,7 @@
       "type": "Feature",
       "properties": {
         "name": "Panhandle",
-        "note": "The park strip plus a block either side — Stanyan to Baker, Grove (N) to Page (S). Overlaps NOPA/Inner Richmond and Haight/Cole Valley."
+        "note": "The park strip plus a block either side — Stanyan to Baker, Grove (N) to Page (S). Overlaps NOPA/USF zone and Haight/Cole Valley."
       },
       "geometry": {
         "type": "Polygon",

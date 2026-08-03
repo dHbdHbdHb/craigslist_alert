@@ -53,16 +53,21 @@ city = "San Francisco"
 #      python neighborhoods/neighborhood_shapes.py   # writes sf_neighborhoods_map.html
 #
 #  Currently available:
-#      Duboce, NOPA/Inner Richmond, Haight/Cole Valley, Inner Sunset,
+#      Duboce, NOPA/USF zone, Inner Richmond, Haight/Cole Valley, Inner Sunset,
 #      Castro/Noe, Mission, Chill Mission, Bernal, Potrero Hill,
-#      Glen Park/Excelsior, Way Out There
+#      Glen Park/Excelsior, Hayes Valley, Lower Haight, Panhandle,
+#      Way Out There
 
 [neighborhoods]
 # Neighborhoods you'd consider at all. These show up in the daily digest and on
 # the dashboard. An empty list [] means "all of them".
 include = [
     "Duboce",
-    "NOPA/Inner Richmond",
+    # Renamed 2026-08-03: the old "NOPA/Inner Richmond" shape kept its exact
+    # boundary and became "NOPA/USF zone". A separate, genuinely-Richmond
+    # "Inner Richmond" shape now exists — add it here if you want that ground
+    # too; it was never actually inside the old polygon.
+    "NOPA/USF zone",
     "Haight/Cole Valley",
     "Inner Sunset",
     "Castro/Noe",

@@ -52,7 +52,7 @@ city = "San Francisco"   # exact match, or "" to keep every city
 #
 #  then open sf_neighborhoods_map.html in a browser and hover the shapes.
 #
-#  Available: Duboce, NOPA/Inner Richmond, Haight/Cole Valley, Inner Sunset,
+#  Available: Duboce, NOPA/USF zone, Haight/Cole Valley, Inner Sunset,
 #             Castro/Noe, Mission, Chill Mission, Bernal, Potrero Hill,
 #             Glen Park/Excelsior, Way Out There
 #

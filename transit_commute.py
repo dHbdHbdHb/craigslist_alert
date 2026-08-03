@@ -55,6 +55,7 @@ from config import (
     COMMUTE_MAX_MINUTES,
     COMMUTE_WEIGHTS,
     COMMUTE_CACHE_PATH,
+    INCLUDE_NEIGHBORHOODS,
 )
 
 _ENDPOINT = "https://routes.googleapis.com/directions/v2:computeRoutes"
@@ -95,6 +96,25 @@ _RAIL_VEHICLES = {
     "HEAVY_RAIL", "SUBWAY", "METRO_RAIL", "LIGHT_RAIL", "RAIL",
     "COMMUTER_TRAIN", "HIGH_SPEED_TRAIN", "LONG_DISTANCE_TRAIN", "MONORAIL", "TRAM",
 }
+
+
+# Routes API calls are billed individually, and a `filter = false` profile keeps
+# every listing scraped — the whole subarea, not just the neighborhoods someone
+# asked about. Restricting calls to the include list is what keeps the bill
+# proportional to the search rather than to the city.
+_INCLUDED_HOODS = {h.strip() for h in INCLUDE_NEIGHBORHOODS if h.strip()}
+
+
+def _is_included(listing) -> bool:
+    """True if the listing is in at least one neighborhood the profile lists.
+
+    An empty include list means "everywhere", matching how the digest and the
+    dashboard already read it.
+    """
+    if not _INCLUDED_HOODS:
+        return True
+    hoods = str(listing.get("neighborhoods") or "")
+    return any(h.strip() in _INCLUDED_HOODS for h in hoods.split(","))
 
 
 def _reserve_slot(defer_on_limit: bool) -> bool:
@@ -310,6 +330,7 @@ def compute_commutes(listings, defer_on_limit: bool = False) -> dict:
     result       = {}
     cache_dirty  = False
     deferred     = 0
+    out_of_area  = 0
     consecutive_failures = 0
 
     for i, pt in enumerate(listings):
@@ -320,6 +341,13 @@ def compute_commutes(listings, defer_on_limit: bool = False) -> dict:
         cached = cache.get(url)
         if cached and "minutes" in cached:
             result[url] = cached
+            continue
+
+        # Checked after the cache, so a listing that already has a commute time
+        # keeps showing it even if the include list later moves away from it.
+        # Only *new* calls are withheld.
+        if not _is_included(pt):
+            out_of_area += 1
             continue
 
         lon, lat = pt.get("lon"), pt.get("lat")
@@ -366,6 +394,10 @@ def compute_commutes(listings, defer_on_limit: bool = False) -> dict:
         cache_dirty = True
         print(f"  Commute: {url[-30:]} → {info['minutes']} min "
               f"(score {info['transit_score']}, {info['distinct_lines']} line(s))")
+
+    if out_of_area:
+        print(f"  Commute: skipped {out_of_area} listing(s) outside the "
+              f"profile's neighborhoods — no API call made")
 
     if deferred:
         print(f"  Commute: rate limit hit — deferred {deferred} listing(s) to next run")
