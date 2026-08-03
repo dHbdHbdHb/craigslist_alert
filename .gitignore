@@ -1,3 +1,6 @@
+# ── Secrets — never commit ────────────────────────────────────────────────────
+secrets.env
+
 # Generated artifacts (recreated on demand, not for deployment)
 email_map.html
 email_map.png
@@ -14,9 +17,16 @@ __pycache__/
 # Logs
 logs/
 
-# Runtime state
+# Runtime state (per-profile)
+data/*/last_digest_date.txt
+data/*/bike_routes.json
+data/*/bart_bike_routes.json
+data/*/digest_preview.html
+
+# Runtime state (legacy single-profile layout, pre-migration)
 last_digest_date.txt
 craigslist_data/bike_routes.json
 craigslist_data/digest_preview.html
-CLAUDE.md
 craigslist_data/bart_bike_routes.json
+
+CLAUDE.md

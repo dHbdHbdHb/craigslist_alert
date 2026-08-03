@@ -1,0 +1,167 @@
+# ==============================================================================
+#  Housing search profile: Daniel
+# ==============================================================================
+#  Everything about ONE person's search lives in this file. To add another
+#  person, copy profiles/example.toml to profiles/<their-name>.toml.
+#
+#  Nothing secret goes in here — this file is committed to git. Passwords and
+#  API keys live in secrets.env (gitignored) and are shared across profiles.
+#
+#  After editing, check your work with:   python search_profile.py daniel
+# ==============================================================================
+
+# Short name used for data folders, dashboard filenames, and cron. Must match
+# the filename (daniel.toml -> "daniel") and contain no spaces.
+name = "daniel"
+
+# Shown in email subject lines and at the top of the dashboard.
+display_name = "Daniel"
+
+# Set to false to pause this profile without deleting it. A paused profile is
+# skipped by the scraper, the alerter, and the dashboard builder.
+enabled = false   # found housing 2026-04-27 — paused, kept for the price history
+
+
+# ── 1. Budget & size ──────────────────────────────────────────────────────────
+#  The widest net you want to cast. Anything outside this is never scraped at
+#  all, so keep it generous — the alert filters below are what narrow it down.
+
+[search]
+max_price    = 5600
+min_bedrooms = 2
+
+# Craigslist region subdomain — the part before .craigslist.org.
+# sfbay = San Francisco Bay Area. Others: losangeles, newyork, seattle, chicago.
+region = "sfbay"
+
+# Only keep listings whose city matches this exactly, as Craigslist reports it.
+# Set to "" to keep every city in the region.
+city = "San Francisco"
+
+
+# ── 2. Neighborhoods ──────────────────────────────────────────────────────────
+#  Valid names come from neighborhoods/neighborhood_shapes.py. To see the full
+#  list and a map of the boundaries, run:
+#
+#      python neighborhoods/neighborhood_shapes.py   # writes sf_neighborhoods_map.html
+#
+#  Currently available:
+#      Duboce, NOPA/Inner Richmond, Haight/Cole Valley, Inner Sunset,
+#      Castro/Noe, Mission, Chill Mission, Bernal, Potrero Hill,
+#      Glen Park/Excelsior, Way Out There
+
+[neighborhoods]
+# Neighborhoods you'd consider at all. These show up in the daily digest and on
+# the dashboard. An empty list [] means "all of them".
+include = [
+    "Duboce",
+    "NOPA/Inner Richmond",
+    "Haight/Cole Valley",
+    "Inner Sunset",
+    "Castro/Noe",
+    "Mission",
+    "Chill Mission",
+    "Bernal",
+    "Potrero Hill",
+    "Glen Park/Excelsior",
+]
+
+# Neighborhoods you'd move to today. A listing here that also passes the
+# [alerts.priority] filters triggers an immediate individual email instead of
+# waiting for the daily digest. Must be a subset of `include`.
+priority = [
+    "Chill Mission",
+    "Duboce",
+    "NOPA/Inner Richmond",
+    "Haight/Cole Valley",
+    "Bernal",
+    "Potrero Hill",
+]
+
+
+# ── 3. Who gets the emails ────────────────────────────────────────────────────
+#  Mail is always SENT from the Gmail account in secrets.env. These are just the
+#  recipients. Empty list = that email type is disabled for this profile.
+
+[alerts]
+# Once-a-day summary of everything new.
+digest_to = [
+    # "Max.Drimmer@gmail.com",
+    # "siennarwhite@gmail.com",
+    # "hillsbunnell@gmail.com",
+]
+
+# Immediate ping for standout listings. Keep this list tight — these can fire
+# at any hour.
+priority_to = [
+    # "Max.Drimmer@gmail.com",
+    # "hillsbunnell@gmail.com",
+]
+
+
+# ── 4. What counts as urgent ──────────────────────────────────────────────────
+#  A listing must pass ALL of these (and be in a `priority` neighborhood) to
+#  trigger an immediate alert.
+
+[alerts.priority]
+max_price     = 4600
+min_bathrooms = 2
+
+# Listings below this are usually scams or bait. Raise it if you get junk.
+min_price = 2800
+
+# Wait this many minutes after posting before alerting, which gives Craigslist's
+# community flagging time to catch obvious scams. 0 = alert instantly.
+min_posting_age_minutes = 20
+
+# A listing whose title contains any of these is silently skipped.
+scam_keywords = [
+    "email only",
+    "email me only",
+    "overseas",
+    "no calls",
+    "no phone calls",
+]
+
+
+# ── 5. What makes the daily digest ────────────────────────────────────────────
+#  Wider than the priority filters — this is the "worth a look" band.
+
+[alerts.digest]
+min_price = 2100
+max_price = 5300
+
+
+# ── 6. Dashboard ──────────────────────────────────────────────────────────────
+
+[dashboard]
+# Public URL where the dashboard is published, linked at the bottom of every
+# digest email. Set to "" to omit the link.
+url = "https://dhbdhbdhb.github.io/craigslist_alert/dashboards/daniel.html"
+
+# Where the map opens, as [latitude, longitude].
+map_center = [37.758, -122.433]
+
+# Show the frozen Mar–Apr 2026 dataset as a separate historical layer.
+# See data/historical/README.md for what that data is.
+show_historical = true
+
+
+# ── 7. Transit anchors (advanced) ─────────────────────────────────────────────
+#  The dashboard computes cycling time from each listing to the nearest station
+#  in each group. Change these if you commute somewhere else — coordinates are
+#  [longitude, latitude] (note: longitude FIRST, which is the opposite order
+#  from map_center above).
+
+[transit]
+caltrain = [
+    { name = "4th & King", coords = [-122.3942, 37.7763] },
+    { name = "22nd St",    coords = [-122.3925, 37.7577] },
+]
+
+bart = [
+    { name = "16th St Mission", coords = [-122.4199, 37.7651] },
+    { name = "24th St Mission", coords = [-122.4183, 37.7523] },
+    { name = "Glen Park",       coords = [-122.4334, 37.7329] },
+    { name = "Civic Center",    coords = [-122.4135, 37.7796] },
+]

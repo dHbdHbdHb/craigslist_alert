@@ -1,0 +1,155 @@
+# ==============================================================================
+#  TEMPLATE — copy this file, don't edit it in place.
+#
+#      cp profiles/example.toml profiles/yourname.toml
+#
+#  Then work top to bottom. Anything marked TODO needs your input; everything
+#  else has a reasonable default you can leave alone at first.
+#
+#  Check your work at any point with:   python search_profile.py yourname
+#  That validates the file and prints back what it understood, without sending
+#  any email or scraping anything.
+# ==============================================================================
+
+# TODO: your short name. Lowercase, no spaces. Must match the filename:
+# profiles/alex.toml -> name = "alex"
+name = "yourname"
+
+# TODO: how you want to be addressed in email subjects and on the dashboard.
+display_name = "Your Name"
+
+# Flip to false any time to pause your search without deleting anything.
+enabled = true
+
+
+# ── 1. Budget & size ──────────────────────────────────────────────────────────
+#  Cast a WIDE net here. This is what gets scraped; the alert filters in
+#  sections 4 and 5 are what actually decide when you get emailed. If you set
+#  max_price too tightly here, you'll never even see near-misses on the
+#  dashboard, and you lose the price context that makes it useful.
+
+[search]
+max_price    = 5600   # TODO: your absolute ceiling, plus ~15% headroom
+min_bedrooms = 2      # TODO
+
+region = "sfbay"
+city   = "San Francisco"   # exact match, or "" for the whole Bay Area
+
+
+# ── 2. Neighborhoods ──────────────────────────────────────────────────────────
+#  To see the boundaries on a real map before choosing, run:
+#
+#      python neighborhoods/neighborhood_shapes.py
+#
+#  then open sf_neighborhoods_map.html in a browser and hover the shapes.
+#
+#  Available: Duboce, NOPA/Inner Richmond, Haight/Cole Valley, Inner Sunset,
+#             Castro/Noe, Mission, Chill Mission, Bernal, Potrero Hill,
+#             Glen Park/Excelsior, Way Out There
+#
+#  ("Chill Mission" is the quieter southeast slice of the Mission. "Way Out
+#   There" is the western half of the city plus anything that didn't land in a
+#   defined shape.)
+#
+#  Want a neighborhood that isn't listed? See "Adding a neighborhood" in
+#  SETUP.md — it takes about five minutes with geojson.io.
+
+[neighborhoods]
+# TODO: everywhere you'd consider. Use [] to mean "all of them".
+include = [
+    "Mission",
+    "Chill Mission",
+    "Bernal",
+    "Potrero Hill",
+]
+
+# TODO: the shortlist worth interrupting your day for. Must be a subset of
+# `include`. Leave as [] if you only want the once-daily digest.
+priority = [
+    "Bernal",
+]
+
+
+# ── 3. Who gets the emails ────────────────────────────────────────────────────
+#  Mail is sent FROM the shared Gmail account configured in secrets.env.
+#  These are the recipients. Empty list = that email type is off.
+
+[alerts]
+# TODO: daily summary. Add your partner, roommate, whoever's searching with you.
+digest_to = [
+    "you@example.com",
+]
+
+# TODO: immediate alerts. These can fire at any hour — keep the list short.
+priority_to = [
+    "you@example.com",
+]
+
+
+# ── 4. What counts as urgent ──────────────────────────────────────────────────
+#  A listing must be in a `priority` neighborhood AND pass every filter below
+#  to trigger an immediate email. Start strict; loosen if it's too quiet.
+
+[alerts.priority]
+max_price     = 4600   # TODO
+min_bathrooms = 2      # TODO: set to 1 if you don't care
+
+# Anything cheaper than this is almost always a scam or bait-and-switch.
+min_price = 2800
+
+# Wait this long after posting before alerting, so Craigslist's community
+# flagging can catch obvious scams first. 0 = alert instantly.
+min_posting_age_minutes = 20
+
+scam_keywords = [
+    "email only",
+    "email me only",
+    "overseas",
+    "no calls",
+    "no phone calls",
+]
+
+
+# ── 5. What makes the daily digest ────────────────────────────────────────────
+#  Wider than section 4 — this is the "worth a look" band, not the "drop
+#  everything" band.
+
+[alerts.digest]
+min_price = 2100   # TODO
+max_price = 5300   # TODO
+
+
+# ── 6. Dashboard ──────────────────────────────────────────────────────────────
+
+[dashboard]
+# Filled in for you by SETUP.md once the dashboard is published. Leave as ""
+# until then and digest emails will simply omit the link.
+url = ""
+
+map_center = [37.758, -122.433]   # [latitude, longitude] — SF city center
+
+# Daniel's Mar–Apr 2026 SF price data, shown as a separate historical layer so
+# it never mixes into your live numbers. Set false to hide it entirely.
+show_historical = true
+
+
+# ── 7. Transit anchors (advanced) ─────────────────────────────────────────────
+#  Cycling time from each listing to the nearest station in each group. If you
+#  commute somewhere specific, replace these with your actual destination.
+#
+#  ⚠️  Coordinates here are [longitude, latitude] — the OPPOSITE order from
+#      map_center above. Longitude in SF is around -122; latitude around 37.
+#      If your bike times come out absurd, you've probably swapped them.
+
+[transit]
+caltrain = [
+    { name = "4th & King", coords = [-122.3942, 37.7763] },
+    { name = "22nd St",    coords = [-122.3925, 37.7577] },
+]
+
+bart = [
+    { name = "16th St Mission", coords = [-122.4199, 37.7651] },
+    { name = "24th St Mission", coords = [-122.4183, 37.7523] },
+    { name = "Glen Park",       coords = [-122.4334, 37.7329] },
+    { name = "Civic Center",    coords = [-122.4135, 37.7796] },
+]

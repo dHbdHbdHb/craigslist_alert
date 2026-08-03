@@ -1,1 +1,5 @@
-craigslist_data/listings_active.csv merge=union
+# The Pi and the Mac both append to these, so a union merge avoids a conflict on
+# every auto-commit. Rows are deduplicated by url on load, so the duplicate lines
+# a union merge can produce are harmless.
+data/*/listings_active.csv merge=union
+data/*/listings_archive.csv merge=union

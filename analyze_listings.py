@@ -22,12 +22,25 @@ import numpy as np
 import pandas as pd
 
 # ── Config ────────────────────────────────────────────────────────────────────
+# Paths come from the active profile, so each person's dashboard is built from
+# their own data and written to their own file. See config.py / SETUP.md.
+from config import (
+    DATA_ACTIVE, DATA_ARCHIVE, DASHBOARD_HTML,
+    BIKE_ROUTES_PATH, BART_ROUTES_PATH,
+    MAP_CENTER, SHOW_HISTORICAL, DISPLAY_NAME, PROFILE_NAME,
+    add_profile_arg,
+)
+
 BASE_DIR         = Path(__file__).parent
-ACTIVE_CSV       = BASE_DIR / "craigslist_data" / "listings_active.csv"
-ARCHIVE_CSV      = BASE_DIR / "craigslist_data" / "listings_archive.csv"
-OUTPUT_HTML      = BASE_DIR / "analysis_dashboard.html"
-BIKE_ROUTES_FILE      = BASE_DIR / "craigslist_data" / "bike_routes.json"
-BART_BIKE_ROUTES_FILE = BASE_DIR / "craigslist_data" / "bart_bike_routes.json"
+ACTIVE_CSV       = Path(DATA_ACTIVE)
+ARCHIVE_CSV      = Path(DATA_ARCHIVE)
+OUTPUT_HTML      = Path(DASHBOARD_HTML)
+BIKE_ROUTES_FILE      = Path(BIKE_ROUTES_PATH)
+BART_BIKE_ROUTES_FILE = Path(BART_ROUTES_PATH)
+
+# Frozen record of the original 2026 SF search. Read-only, never mixed into the
+# live figures — see data/historical/README.md.
+HISTORICAL_CSV = BASE_DIR / "data" / "historical" / "2026-sf.csv"
 
 PRICE_FLOOR = 2_100
 PRICE_CEIL  = 15_000
@@ -37,15 +50,32 @@ CATCHALL_HOOD = "Way Out There"
 
 # ── Load & Clean ──────────────────────────────────────────────────────────────
 
-def load_data() -> pd.DataFrame:
+def load_data(paths: list[Path] | None = None, *, label: str = "live") -> pd.DataFrame:
+    """Load and clean listings from one or more CSVs.
+
+    Defaults to the active profile's own data. Passing `paths` explicitly is how
+    the frozen historical dataset is loaded through the same cleaning rules, so
+    the two are always directly comparable.
+    """
+    paths = paths if paths is not None else [ACTIVE_CSV, ARCHIVE_CSV]
+
     dfs = []
-    for path in [ACTIVE_CSV, ARCHIVE_CSV]:
+    for path in paths:
         if path.exists():
-            df = pd.read_csv(path)
+            try:
+                df = pd.read_csv(path)
+            except (pd.errors.EmptyDataError, pd.errors.ParserError):
+                continue
             if not df.empty:
                 dfs.append(df)
     if not dfs:
-        sys.exit("No CSV data found. Run the scraper first.")
+        if label != "live":
+            return pd.DataFrame()
+        sys.exit(
+            f"No CSV data found for profile '{PROFILE_NAME}'.\n"
+            f"Looked in: {', '.join(str(p) for p in paths)}\n"
+            f"Run the scraper first:  python craigslist_scraper.py --profile {PROFILE_NAME}"
+        )
 
     df = pd.concat(dfs, ignore_index=True)
     df = df.drop_duplicates(subset="url", keep="first")
@@ -83,6 +113,31 @@ def load_data() -> pd.DataFrame:
         + df["num_bathrooms"].astype(str).str.replace("<NA>", "?", regex=False) + "BA"
     )
     return df
+
+
+def load_historical(live: pd.DataFrame | None = None) -> pd.DataFrame:
+    """The frozen 2026 SF dataset, or empty if it's missing or switched off.
+
+    Deliberately kept out of load_data(): these listings are months old, and
+    letting them into the live figures would quietly skew every median, count,
+    and heatmap on the dashboard.
+
+    Any listing already present in `live` is dropped. That matters for the
+    profile the snapshot was originally taken from — without it, its own history
+    would be counted twice and plotted as two identical lines.
+    """
+    if not SHOW_HISTORICAL or not HISTORICAL_CSV.exists():
+        return pd.DataFrame()
+
+    hist = load_data([HISTORICAL_CSV], label="historical")
+    if hist.empty or live is None or live.empty:
+        return hist
+
+    overlap = hist["url"].isin(set(live["url"]))
+    if overlap.any():
+        print(f"  ({overlap.sum()} archived listing(s) already in live data — "
+              f"not double-counted)")
+    return hist[~overlap].reset_index(drop=True)
 
 
 # ── Terminal Summary ──────────────────────────────────────────────────────────
@@ -369,28 +424,65 @@ def chart_scatter(df: pd.DataFrame) -> dict:
     }
 
 
-def chart_price_over_time(df: pd.DataFrame):
-    daily = (df.groupby("date")["price"]
-               .agg(["median", "count"])
-               .reset_index()
-               .sort_values("date"))
-    if len(daily) < 2:
+def _daily_median(df: pd.DataFrame) -> pd.DataFrame:
+    return (df.groupby("date")["price"]
+              .agg(["median", "count"])
+              .reset_index()
+              .sort_values("date"))
+
+
+def chart_price_over_time(df: pd.DataFrame, historical: pd.DataFrame | None = None):
+    """Daily median price, with the frozen historical search as a second series.
+
+    The two are drawn as separate traces rather than one merged line: they're
+    months apart, so joining them would invent a trend across a gap where
+    nothing was ever measured.
+    """
+    daily = _daily_median(df)
+    hist_daily = _daily_median(historical) if historical is not None and not historical.empty \
+        else pd.DataFrame()
+
+    if len(daily) < 2 and len(hist_daily) < 2:
         return None
-    return {
-        "data": [{
+
+    traces = []
+
+    if not hist_daily.empty:
+        traces.append({
             "type": "scatter", "mode": "lines+markers",
+            "name": "2026 search (archived)",
+            "x": [str(d) for d in hist_daily["date"].tolist()],
+            "y": hist_daily["median"].round().tolist(),
+            "text": [f"n={n}" for n in hist_daily["count"].tolist()],
+            "marker": {"color": "#b0b0b0", "size": 5},
+            "line":   {"color": "#b0b0b0", "width": 1.5, "dash": "dot"},
+            "hovertemplate": "%{x}<br>Median: $%{y:,.0f}<br>%{text}"
+                             "<extra>archived</extra>",
+        })
+
+    if len(daily) >= 2:
+        traces.append({
+            "type": "scatter", "mode": "lines+markers",
+            "name": "Current search",
             "x": [str(d) for d in daily["date"].tolist()],
             "y": daily["median"].round().tolist(),
             "text": [f"n={n}" for n in daily["count"].tolist()],
             "marker": {"color": "#4e79a7", "size": 7},
             "line":   {"color": "#4e79a7"},
             "hovertemplate": "%{x}<br>Median: $%{y:,.0f}<br>%{text}<extra></extra>",
-        }],
+        })
+
+    return {
+        "data": traces,
         "layout": {
             "title":      {"text": "Daily Median Price Over Time", "font": {"size": 15}},
             "xaxis":      {"title": "Date", "automargin": True},
             "yaxis":      {"title": "Median $/mo", "tickprefix": "$", "tickformat": ",.0f", "automargin": True},
-            "showlegend": False,
+            # Always label when the archived series is on screen, even if it's
+            # the only one — otherwise a new profile's first day shows a lone
+            # grey line that reads as if it were their own data.
+            "showlegend": not hist_daily.empty or len(traces) > 1,
+            "legend":     {"orientation": "h", "y": -0.25, "x": 0},
             "margin":     {"t": 50, "b": 40, "l": 80, "r": 20},
         },
     }
@@ -480,7 +572,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
     df_known    = df[df["neighborhood"] != CATCHALL_HOOD]
 
     m = folium.Map(
-        location=[37.758, -122.433],
+        location=MAP_CENTER,
         zoom_start=13,
         tiles="CartoDB positron",
         zoom_control=True,
@@ -616,7 +708,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
                 _ors_calls.append(time.time())
                 return _ors.directions(*args, **kwargs)
 
-            _caltrain_stations = [("4th & King", [-122.3942, 37.7763]), ("22nd St", [-122.3925, 37.7577])]
+            from config import CALTRAIN_STATIONS as _caltrain_stations
             for row in missing:
                 best_min, best_geom, best_stn = None, None, None
                 for sname, coords in _caltrain_stations:
@@ -681,10 +773,12 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
                 return fg_3plus
         return fg_other
 
-    # Caltrain station markers (always visible, go directly on map)
-    for sname, slat, slon in [("4th & King", 37.7763, -122.3942), ("22nd St", 37.7577, -122.3925)]:
+    # Caltrain station markers (always visible, go directly on map).
+    # Profile coords are [lon, lat]; folium wants [lat, lon].
+    from config import CALTRAIN_STATIONS as _CALTRAIN_STATIONS_MAP
+    for sname, coords in _CALTRAIN_STATIONS_MAP:
         folium.CircleMarker(
-            [slat, slon], radius=7,
+            [coords[1], coords[0]], radius=7,
             color="white", weight=2,
             fill=True, fill_color="#D99441", fill_opacity=0.95,
             tooltip=f"Caltrain: {sname}",
@@ -1073,8 +1167,8 @@ __BART_JS__
 
 # ── HTML Assembly ─────────────────────────────────────────────────────────────
 
-def build_html(df: pd.DataFrame) -> str:
-    time_chart = chart_price_over_time(df)
+def build_html(df: pd.DataFrame, historical: pd.DataFrame | None = None) -> str:
+    time_chart = chart_price_over_time(df, historical)
     if time_chart:
         time_slot = (
             '<div class="chart-card area-time">'
@@ -1134,13 +1228,21 @@ def main():
     parser = argparse.ArgumentParser(description="Listings HTML dashboard")
     parser.add_argument("--no-html", action="store_true", help="Terminal summary only")
     parser.add_argument("--open",    action="store_true", help="Open dashboard in browser")
+    add_profile_arg(parser)
     args = parser.parse_args()
 
+    print(f"Profile: {PROFILE_NAME} ({DISPLAY_NAME})")
     df = load_data()
     print_terminal_summary(df)
 
+    historical = load_historical(df)
+    if not historical.empty:
+        print(f"Historical layer: {len(historical):,} archived listings "
+              f"(median ${historical['price'].median():,.0f})")
+
     if not args.no_html:
-        html = build_html(df)
+        html = build_html(df, historical)
+        OUTPUT_HTML.parent.mkdir(parents=True, exist_ok=True)
         OUTPUT_HTML.write_text(html, encoding="utf-8")
         print(f"Dashboard saved → {OUTPUT_HTML}")
         if args.open:

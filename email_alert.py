@@ -20,8 +20,6 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import requests
-from neighborhoods.neighborhood_shapes import neighborhood_shapes
-
 from config import (
     GMAIL_ADDRESS, GMAIL_APP_PASSWORD,
     DIGEST_RECIPIENT_EMAILS, ALERT_RECIPIENT_EMAILS,
@@ -29,6 +27,7 @@ from config import (
     priority_neighborhoods, priority_max_price, priority_min_price,
     priority_min_bathrooms, priority_min_posting_age_minutes, priority_scam_keywords,
     digest_min_price, digest_max_price, DASHBOARD_URL,
+    INCLUDE_NEIGHBORHOODS, DISPLAY_NAME, PROFILE_NAME, add_profile_arg,
 )
 from transit_times import compute_bike_times, compute_bart_bike_times
 
@@ -182,9 +181,11 @@ def main():
         help="Simulate a full run: bypass the daily date check, build the map and "
              "compute bike times, but do not send any emails or write to any files.",
     )
+    add_profile_arg(parser)
     args = parser.parse_args()
     dry_run = args.dry_run
 
+    print(f"Profile: {PROFILE_NAME} ({DISPLAY_NAME})")
     if dry_run:
         print("[DRY RUN] No emails will be sent and no files will be modified.")
 
@@ -237,7 +238,7 @@ def main():
     print(f"Priority listings to alert: {len(df_priority)}")
 
     for _, row in df_priority.iterrows():
-        subject   = f"New High-Priority Listing: {row['title'][:50]}"
+        subject   = f"[{DISPLAY_NAME}] New High-Priority Listing: {row['title'][:50]}"
         html_body = f"""
         <html><body style="font-family:'Helvetica Neue',Arial,sans-serif;">
         <h2 style="color:#262312;">{row['title']}</h2>
@@ -288,9 +289,15 @@ def main():
     unalerted = df[~df['alerted']].copy()
 
     def in_known_hood(s) -> bool:
+        """True if the listing is in a neighborhood this profile cares about.
+
+        Filters against the profile's include list rather than every shape we
+        can identify, so two people sharing this Pi don't get each other's
+        neighborhoods in their digests.
+        """
         if not isinstance(s, str) or not s.strip():
             return False
-        return any(h in neighborhood_shapes for h in (t.strip() for t in s.split(',')))
+        return any(h in INCLUDE_NEIGHBORHOODS for h in (t.strip() for t in s.split(',')))
 
     digest_mask = (unalerted['price'] >= digest_min_price) & (unalerted['price'] <= digest_max_price) & unalerted['neighborhoods'].apply(in_known_hood)
     df_digest = unalerted[digest_mask].copy()
@@ -327,10 +334,13 @@ def main():
     df.to_csv(ACTIVE_PATH, index=False)
     print(f"  Saved bike times for {len(bike_times)} listings (Caltrain + BART).")
 
-    # Group listings by neighborhood for the email body
-    hood_to_listings = {hood: [] for hood in neighborhood_shapes}
+    # Group listings by neighborhood for the email body, in the order the
+    # profile lists them — so the neighborhoods someone cares most about aren't
+    # buried below ones they merely tolerate.
+    hood_to_listings = {hood: [] for hood in INCLUDE_NEIGHBORHOODS}
     for row in listings:
-        hoods = [h.strip() for h in (row.get('neighborhoods') or '').split(',') if h.strip() in neighborhood_shapes]
+        hoods = [h.strip() for h in (row.get('neighborhoods') or '').split(',')
+                 if h.strip() in hood_to_listings]
         for hood in hoods:
             hood_to_listings[hood].append(row)
 
@@ -385,7 +395,7 @@ def main():
     msg = MIMEMultipart('alternative')
     msg['From']    = GMAIL_ADDRESS
     msg['To']      = ', '.join(DIGEST_RECIPIENT_EMAILS)
-    msg['Subject'] = f"Housing Digest — {today.strftime('%B %d')}"
+    msg['Subject'] = f"[{DISPLAY_NAME}] Housing Digest — {today.strftime('%B %d')}"
     msg.attach(MIMEText(html, 'html'))
 
     send_email(msg)

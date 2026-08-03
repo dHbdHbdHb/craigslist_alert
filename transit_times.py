@@ -17,27 +17,21 @@ Rate limiting:
 """
 
 import json
-import os
 import time
 from collections import deque
 
 import openrouteservice
 import pandas as pd
 
+# Station lists and the route-cache paths both come from the active profile, so
+# each person gets their own commute anchors and their own cache.
 from config import (
     ORS_API_KEY,
-    CALTRAIN_4TH_KING_COORDS, CALTRAIN_22ND_ST_COORDS,
+    CALTRAIN_STATIONS,
     BART_STATIONS,
-    DATA_ACTIVE,
+    BIKE_ROUTES_PATH,
+    BART_ROUTES_PATH,
 )
-
-BIKE_ROUTES_PATH = os.path.join(os.path.dirname(DATA_ACTIVE), "bike_routes.json")
-BART_ROUTES_PATH = os.path.join(os.path.dirname(DATA_ACTIVE), "bart_bike_routes.json")
-
-CALTRAIN_STATIONS = [
-    ('4th & King', CALTRAIN_4TH_KING_COORDS),
-    ('22nd St',    CALTRAIN_22ND_ST_COORDS),
-]
 
 _ORS_MAX_PER_MIN = 35  # 40-req/min free tier, with a 5-req safety buffer
 _ors_call_times = deque()
@@ -79,6 +73,10 @@ def _compute_cycling_times(listings, stations, cache_path, label,
     Returns {url: {'minutes': int, 'station': str}} for listings that are
     cached or were successfully computed this run.
     """
+    if not ORS_API_KEY:
+        print(f"  {label}: no ORS_API_KEY set — skipping bike times")
+        return {}
+
     ors = openrouteservice.Client(key=ORS_API_KEY, timeout=15)
 
     try:
@@ -91,7 +89,12 @@ def _compute_cycling_times(listings, stations, cache_path, label,
     deferred_urls = []
     cache_dirty = False
     for i, pt in enumerate(listings):
-        url = pt['url']
+        url = pt.get('url')
+        # Craigslist occasionally returns a JSON-LD entry with no matching
+        # listing card, leaving the row with no URL. There's nothing to route
+        # to or cache against, so skip it rather than crash on url[-30:].
+        if not url:
+            continue
         cached = route_cache.get(url)
         if cached and 'minutes' in cached and 'station' in cached:
             result[url] = {'minutes': cached['minutes'], 'station': cached['station']}

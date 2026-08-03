@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
-set -e
-source /home/pi/miniforge3/etc/profile.d/conda.sh
-conda activate craigslist
-python /home/pi/craigslist_alert/email_alert.py
+# Send priority alerts + the daily digest for every enabled profile.
+#
+#   bash shell_scripts/run_alert.sh             # all enabled profiles
+#   bash shell_scripts/run_alert.sh alex        # just one
+#
+# The digest is skipped if it already went out today — see last_digest_date.txt
+# in each profile's data directory.
+source "$(dirname "${BASH_SOURCE[0]}")/_common.sh"
+
+for_each_profile email_alert.py "$@"
