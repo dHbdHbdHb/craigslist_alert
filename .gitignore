@@ -21,7 +21,11 @@ logs/
 data/*/last_digest_date.txt
 data/*/bike_routes.json
 data/*/bart_bike_routes.json
+data/*/transit_commutes.json
 data/*/digest_preview.html
+
+# Editor backup, written whenever shapes are saved from the map GUI
+neighborhoods/neighborhood_shapes.py.bak
 
 # Runtime state (legacy single-profile layout, pre-migration)
 last_digest_date.txt

@@ -14,9 +14,13 @@ You shouldn't need to touch any Python.
 | | |
 |---|---|
 | **Scraper** | Checks Craigslist every 10 minutes for new listings |
-| **Priority alert** | Immediate email when something matches your shortlist |
 | **Daily digest** | One email a day with everything new, grouped by neighborhood |
 | **Dashboard** | Charts + a map, rebuilt every 10 minutes |
+
+There used to also be an immediate per-listing "priority alert". It was removed:
+almost everything fresh enough to beat the digest turned out to be a scam. The
+`min_posting_age_minutes` and `scam_keywords` settings under `[alerts.digest]`
+are what catch those now.
 
 It runs on a Raspberry Pi that's already set up. Multiple people can share it —
 each person gets their own profile, their own data, and their own dashboard.
@@ -37,17 +41,37 @@ explaining what it does, and the things you must change are marked `TODO`.
 
 The four that matter most:
 
+- **`[search] subarea`** — the Craigslist subarea, e.g. `sfc` for San Francisco.
+  This one is easy to skip and expensive to get wrong: without it the search
+  covers the whole Bay Area, and since only the first page is scraped, you get a
+  handful of SF listings buried in a few hundred East Bay ones.
 - **`[search] max_price`** — set this *generously*, ~15% above your real
   ceiling. It controls what gets scraped at all. Setting it tight means you
   never see near-misses on the dashboard and lose all your price context.
 - **`[neighborhoods] include`** — everywhere you'd consider.
-- **`[neighborhoods] priority`** — the shortlist worth interrupting your day for.
-- **`[alerts] digest_to` / `priority_to`** — where email goes.
+- **`[alerts] digest_to`** — where the email goes. Point it at your own address
+  first and leave it there until you like what arrives.
 
-### Seeing the neighborhoods on a map
+### Seeing and editing the neighborhoods on a map
 
 The neighborhood names are hand-drawn shapes, not official SF districts. To see
-exactly where they are:
+where they are — and to draw your own — run the editor:
+
+```bash
+python neighborhoods/edit_neighborhoods.py
+```
+
+That opens a map at `http://127.0.0.1:8765` with every current shape loaded and
+editable. Drag vertices, draw new polygons with the toolbar, rename or delete,
+then press Save to write `neighborhoods/neighborhood_shapes.py` (a `.bak` is
+kept). Nothing touches disk until you press Save.
+
+Shapes someone else sends you land under **Import GeoJSON** as dashed "drafts".
+A draft is inert until you approve it, which is the review step — look at the
+boundary on the map before it starts filing real listings. **Export GeoJSON**
+does the reverse, and also works with geojson.io.
+
+To view without the editor:
 
 ```bash
 python neighborhoods/neighborhood_shapes.py
@@ -136,11 +160,29 @@ counts, heatmaps, or map. Details and caveats are in
 [`data/historical/README.md`](data/historical/README.md). Set
 `show_historical = false` in your profile to hide it.
 
-**Bike times** are cycling minutes to the nearest Caltrain or BART station, from
-`[transit]` in your profile. If you commute somewhere specific, replace those
-coordinates with your actual destination — but note they're `[longitude,
-latitude]`, which is the reverse of `map_center`. In SF that means roughly
-`[-122.x, 37.x]`. Get it backwards and the validator will tell you.
+**Commute times** are door-to-door *public transit* minutes from each listing to
+the one place in `[commute]`, planned against a weekday morning so every listing
+is comparable. The **transit score** blends three things:
+
+| | |
+|---|---|
+| time | door-to-door minutes against your `max_minutes` |
+| frequency | the *worst* headway on the trip — a 30-minute bus leg is the trip, however fast the rest of it is |
+| redundancy | how many distinct lines can make the journey, so one breakdown isn't the end of it |
+
+Tune the mix under `[commute.weights]`. Anything over `max_minutes` is dropped
+from the digest; listings with *no* commute figure are kept, because a missing
+measurement isn't evidence of a bad commute.
+
+This needs `GOOGLE_MAPS_API_KEY` in `secrets.env` — OpenRouteService has no
+transit routing, which is why it's a second key. Without it you simply get no
+commute numbers and nothing else changes.
+
+**Bike times** are a separate, optional thing: cycling minutes to the nearest
+Caltrain or BART station listed under `[transit]`. Delete that section and the
+feature switches off for your profile. Note those coordinates are `[longitude,
+latitude]`, the reverse of `map_center` — in SF, roughly `[-122.x, 37.x]`. Get
+it backwards and the validator will tell you.
 
 ---
 

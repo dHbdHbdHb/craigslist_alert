@@ -55,6 +55,7 @@ DATA_ARCHIVE     = str(PROFILE.archive_csv)
 LAST_DIGEST_FILE = str(PROFILE.last_digest_file)
 BIKE_ROUTES_PATH = str(PROFILE.bike_routes_json)
 BART_ROUTES_PATH = str(PROFILE.bart_routes_json)
+COMMUTE_CACHE_PATH = str(PROFILE.transit_commutes_json)
 DASHBOARD_HTML   = PROFILE.dashboard_html
 
 # ── Search ────────────────────────────────────────────────────────────────────
@@ -72,21 +73,27 @@ SHOW_HISTORICAL = PROFILE.show_historical
 GMAIL_ADDRESS           = PROFILE.gmail_address
 GMAIL_APP_PASSWORD      = PROFILE.gmail_app_password
 DIGEST_RECIPIENT_EMAILS = PROFILE.digest_to
-ALERT_RECIPIENT_EMAILS  = PROFILE.priority_to
 
 # ── Map / routing ─────────────────────────────────────────────────────────────
 ORS_API_KEY       = PROFILE.ors_api_key
 CALTRAIN_STATIONS = [(n, c) for n, c in PROFILE.caltrain_stations]
 BART_STATIONS     = [(n, c) for n, c in PROFILE.bart_stations]
+HAS_BIKE_TIMES    = PROFILE.has_bike_times
 CHROMEDRIVER_PATH = "/usr/bin/chromedriver"
 
+# ── Commute (door-to-door transit to one destination) ─────────────────────────
+GOOGLE_MAPS_API_KEY      = PROFILE.google_maps_api_key
+COMMUTE_DESTINATION      = PROFILE.commute_destination        # [lon, lat] or None
+COMMUTE_DESTINATION_NAME = PROFILE.commute_destination_name
+COMMUTE_ARRIVE_BY        = PROFILE.commute_arrive_by          # (hour, minute)
+COMMUTE_MAX_MINUTES      = PROFILE.commute_max_minutes
+COMMUTE_WEIGHTS          = PROFILE.commute_weights
+HAS_COMMUTE              = PROFILE.has_commute
+
 # ── Alert criteria ────────────────────────────────────────────────────────────
-INCLUDE_NEIGHBORHOODS            = PROFILE.include_neighborhoods
-priority_neighborhoods           = PROFILE.priority_neighborhoods
-priority_max_price               = PROFILE.priority_max_price
-priority_min_price               = PROFILE.priority_min_price
-priority_min_bathrooms           = PROFILE.priority_min_bathrooms
-priority_min_posting_age_minutes = PROFILE.priority_min_posting_age_minutes
-priority_scam_keywords           = PROFILE.priority_scam_keywords
-digest_min_price                 = PROFILE.digest_min_price
-digest_max_price                 = PROFILE.digest_max_price
+INCLUDE_NEIGHBORHOODS          = PROFILE.include_neighborhoods
+FILTER_BY_NEIGHBORHOOD         = PROFILE.filter_by_neighborhood
+digest_min_price               = PROFILE.digest_min_price
+digest_max_price               = PROFILE.digest_max_price
+digest_min_posting_age_minutes = PROFILE.digest_min_posting_age_minutes
+digest_scam_keywords           = PROFILE.digest_scam_keywords

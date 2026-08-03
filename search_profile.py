@@ -71,7 +71,8 @@ def load_secrets() -> dict[str, str]:
     # truthiness: exporting ORS_API_KEY= (empty) is how you deliberately turn
     # bike-time lookups off for a run, and a truthiness check would silently
     # ignore that and use the key from the file instead.
-    for key in ("GMAIL_ADDRESS", "GMAIL_APP_PASSWORD", "ORS_API_KEY"):
+    for key in ("GMAIL_ADDRESS", "GMAIL_APP_PASSWORD", "ORS_API_KEY",
+                "GOOGLE_MAPS_API_KEY"):
         if key in os.environ:
             values[key] = os.environ[key]
 
@@ -99,26 +100,21 @@ class Profile:
     max_price: int
     min_bedrooms: int
     region: str
+    subarea: str
     city: str
 
     # neighborhoods
     include_neighborhoods: list[str]
-    priority_neighborhoods: set[str]
+    filter_by_neighborhood: bool
 
     # recipients
     digest_to: list[str]
-    priority_to: list[str]
-
-    # priority thresholds
-    priority_max_price: int
-    priority_min_price: int
-    priority_min_bathrooms: int
-    priority_min_posting_age_minutes: int
-    priority_scam_keywords: list[str]
 
     # digest thresholds
     digest_min_price: int
     digest_max_price: int
+    digest_min_posting_age_minutes: int
+    digest_scam_keywords: list[str]
 
     # dashboard
     dashboard_url: str
@@ -128,6 +124,13 @@ class Profile:
     # transit
     caltrain_stations: list[tuple[str, list[float]]]
     bart_stations: list[tuple[str, list[float]]]
+
+    # commute — door-to-door transit to one fixed destination (see [commute])
+    commute_destination: list[float] | None
+    commute_destination_name: str
+    commute_arrive_by: tuple[int, int]
+    commute_max_minutes: int
+    commute_weights: dict[str, float]
 
     secrets: dict[str, str] = field(repr=False, default_factory=dict)
 
@@ -154,6 +157,10 @@ class Profile:
         return self.data_dir / "bart_bike_routes.json"
 
     @property
+    def transit_commutes_json(self) -> Path:
+        return self.data_dir / "transit_commutes.json"
+
+    @property
     def last_digest_file(self) -> Path:
         return self.data_dir / "last_digest_date.txt"
 
@@ -163,8 +170,17 @@ class Profile:
 
     @property
     def search_url(self) -> str:
+        """The Craigslist search page this profile scrapes.
+
+        `subarea` matters far more than it looks. A region search covers the
+        whole metro — for sfbay that is Santa Rosa to San Jose — and only the
+        first page is fetched, so a San Francisco search without a subarea
+        returns a handful of SF listings buried in a few hundred East Bay ones.
+        Scoping to `sfc` returns SF listings instead.
+        """
+        area = f"{self.subarea}/" if self.subarea else ""
         return (
-            f"https://{self.region}.craigslist.org/search/apa"
+            f"https://{self.region}.craigslist.org/search/{area}apa"
             f"?max_price={self.max_price}&min_bedrooms={self.min_bedrooms}"
         )
 
@@ -179,6 +195,24 @@ class Profile:
     @property
     def ors_api_key(self) -> str:
         return self.secrets.get("ORS_API_KEY", "")
+
+    @property
+    def google_maps_api_key(self) -> str:
+        return self.secrets.get("GOOGLE_MAPS_API_KEY", "")
+
+    @property
+    def has_bike_times(self) -> bool:
+        """Whether to compute cycling times to stations at all.
+
+        A profile that lists no stations has opted out — the friend-facing
+        profiles care about door-to-door transit, not bike-to-Caltrain, and
+        running ORS for them would burn the rate limit for nothing.
+        """
+        return bool(self.caltrain_stations or self.bart_stations)
+
+    @property
+    def has_commute(self) -> bool:
+        return self.commute_destination is not None
 
     def ensure_dirs(self) -> None:
         self.data_dir.mkdir(parents=True, exist_ok=True)
@@ -200,6 +234,28 @@ def _require(table: dict, key: str, path: str, kind: type, where: str):
     return val
 
 
+def _parse_lonlat(coords, path: str, where: str) -> list[float]:
+    """Validate one [longitude, latitude] pair."""
+    if not isinstance(coords, list) or len(coords) != 2:
+        raise ProfileError(f"{where}: `{path}` must be [longitude, latitude].")
+    lon, lat = coords
+    # Check for the classic [lat, lon] swap first: its message is far more
+    # useful than the bare out-of-range error the same input would trigger.
+    if abs(lat) > 90 and abs(lon) <= 90:
+        raise ProfileError(
+            f"{where}: `{path}` = {coords} looks reversed.\n"
+            f"Coordinates here are [longitude, latitude] — longitude first.\n"
+            f"In San Francisco that means roughly [-122.x, 37.x], "
+            f"so you probably want [{lat}, {lon}]."
+        )
+    if not (-180 <= lon <= 180) or not (-90 <= lat <= 90):
+        raise ProfileError(
+            f"{where}: `{path}` = {coords} is out of range "
+            f"(longitude must be -180..180, latitude -90..90)."
+        )
+    return [float(lon), float(lat)]
+
+
 def _parse_stations(raw, path: str, where: str) -> list[tuple[str, list[float]]]:
     stations = []
     for i, entry in enumerate(raw):
@@ -208,26 +264,75 @@ def _parse_stations(raw, path: str, where: str) -> list[tuple[str, list[float]]]
                 f"{where}: `{path}[{i}]` must look like\n"
                 f'    {{ name = "Station", coords = [-122.4, 37.77] }}'
             )
-        coords = entry["coords"]
-        if not isinstance(coords, list) or len(coords) != 2:
-            raise ProfileError(f"{where}: `{path}[{i}].coords` must be [longitude, latitude].")
-        lon, lat = coords
-        # Check for the classic [lat, lon] swap first: its message is far more
-        # useful than the bare out-of-range error the same input would trigger.
-        if abs(lat) > 90 and abs(lon) <= 90:
-            raise ProfileError(
-                f"{where}: `{path}[{i}].coords` = {coords} looks reversed.\n"
-                f"Coordinates here are [longitude, latitude] — longitude first.\n"
-                f"In San Francisco that means roughly [-122.x, 37.x], "
-                f"so you probably want [{lat}, {lon}]."
-            )
-        if not (-180 <= lon <= 180) or not (-90 <= lat <= 90):
-            raise ProfileError(
-                f"{where}: `{path}[{i}].coords` = {coords} is out of range "
-                f"(longitude must be -180..180, latitude -90..90)."
-            )
-        stations.append((str(entry["name"]), [float(lon), float(lat)]))
+        coords = _parse_lonlat(entry["coords"], f"{path}[{i}].coords", where)
+        stations.append((str(entry["name"]), coords))
     return stations
+
+
+# How the three commute factors trade off against each other. Overridable per
+# profile — someone who only cares about door-to-door speed can zero the rest.
+_DEFAULT_COMMUTE_WEIGHTS = {"time": 0.45, "frequency": 0.35, "redundancy": 0.20}
+
+
+def _parse_commute(raw, where: str) -> dict:
+    """Parse [commute], the door-to-door transit destination and its scoring."""
+    if not raw:
+        return {
+            "commute_destination":      None,
+            "commute_destination_name": "",
+            "commute_arrive_by":        (9, 0),
+            "commute_max_minutes":      45,
+            "commute_weights":          dict(_DEFAULT_COMMUTE_WEIGHTS),
+        }
+
+    if "destination" not in raw:
+        raise ProfileError(
+            f"{where}: [commute] needs a `destination = [longitude, latitude]`.\n"
+            f"Delete the whole [commute] section to turn commute times off."
+        )
+    destination = _parse_lonlat(raw["destination"], "commute.destination", where)
+
+    arrive_raw = raw.get("arrive_by", "09:00")
+    try:
+        hour, _, minute = str(arrive_raw).partition(":")
+        arrive_by = (int(hour), int(minute or 0))
+        if not (0 <= arrive_by[0] <= 23 and 0 <= arrive_by[1] <= 59):
+            raise ValueError
+    except ValueError:
+        raise ProfileError(
+            f"{where}: `commute.arrive_by` must be a 24-hour \"HH:MM\" time, "
+            f"got {arrive_raw!r}."
+        ) from None
+
+    max_minutes = raw.get("max_minutes", 45)
+    if not isinstance(max_minutes, int) or isinstance(max_minutes, bool) or max_minutes <= 0:
+        raise ProfileError(
+            f"{where}: `commute.max_minutes` must be a positive number of minutes, "
+            f"got {max_minutes!r}."
+        )
+
+    weights = dict(_DEFAULT_COMMUTE_WEIGHTS)
+    for key, val in (raw.get("weights") or {}).items():
+        if key not in weights:
+            raise ProfileError(
+                f"{where}: unknown `commute.weights.{key}`. "
+                f"Valid keys: {', '.join(sorted(weights))}."
+            )
+        if not isinstance(val, (int, float)) or isinstance(val, bool) or val < 0:
+            raise ProfileError(
+                f"{where}: `commute.weights.{key}` must be a number >= 0, got {val!r}."
+            )
+        weights[key] = float(val)
+    if sum(weights.values()) <= 0:
+        raise ProfileError(f"{where}: `commute.weights` can't all be zero.")
+
+    return {
+        "commute_destination":      destination,
+        "commute_destination_name": str(raw.get("destination_name", "work")),
+        "commute_arrive_by":        arrive_by,
+        "commute_max_minutes":      max_minutes,
+        "commute_weights":          weights,
+    }
 
 
 def _known_neighborhoods() -> set[str] | None:
@@ -264,17 +369,34 @@ def parse_profile(path: Path, secrets: dict[str, str] | None = None) -> Profile:
     search = _require(raw, "search", "[search]", dict, where)
     hoods  = _require(raw, "neighborhoods", "[neighborhoods]", dict, where)
     alerts = _require(raw, "alerts", "[alerts]", dict, where)
-    prio   = _require(alerts, "priority", "[alerts.priority]", dict, where)
     dig    = _require(alerts, "digest", "[alerts.digest]", dict, where)
-    dash   = raw.get("dashboard", {})
+    dash    = raw.get("dashboard", {})
     transit = raw.get("transit", {})
+    commute = _parse_commute(raw.get("commute", {}), where)
 
-    include  = list(_require(hoods, "include", "neighborhoods.include", list, where))
-    priority = list(_require(hoods, "priority", "neighborhoods.priority", list, where))
+    # Immediate per-listing alerts were removed — in practice they mostly caught
+    # scams, which is what the keyword and posting-age filters below are for.
+    # Warn rather than fail, so an old profile still loads and still works.
+    for stale, moved_to in (
+        ("alerts.priority",     "[alerts.digest]"),
+        ("alerts.priority_to",  "alerts.digest_to"),
+        ("neighborhoods.priority", "neighborhoods.include"),
+    ):
+        table, _, key = stale.rpartition(".")
+        parent = {"alerts": alerts, "neighborhoods": hoods}[table]
+        if key in parent:
+            print(
+                f"warning: {where}: `{stale}` is no longer used — priority alerts "
+                f"were removed. Move anything you still want to {moved_to} and "
+                f"delete it.",
+                file=sys.stderr,
+            )
+
+    include = list(_require(hoods, "include", "neighborhoods.include", list, where))
 
     known = _known_neighborhoods()
     if known is not None:
-        unknown = [h for h in include + priority if h not in known]
+        unknown = [h for h in include if h not in known]
         if unknown:
             raise ProfileError(
                 f"{where}: unknown neighborhood(s): {', '.join(repr(u) for u in unknown)}.\n"
@@ -285,48 +407,40 @@ def parse_profile(path: Path, secrets: dict[str, str] | None = None) -> Profile:
     # An empty include list means "everywhere".
     effective_include = include or sorted(known or [])
 
-    stray = [h for h in priority if h not in effective_include]
-    if stray:
+    # `filter = false` turns the include list into a pure ordering preference:
+    # nothing is dropped for being outside a shape, and listings that match no
+    # shape are grouped at the end instead of disappearing. That matters because
+    # the hand-drawn shapes cover only part of the city — most scraped listings
+    # match nothing, and filtering on them silently throws away the majority.
+    filter_by_neighborhood = bool(hoods.get("filter", True))
+
+    digest_to = list(_require(alerts, "digest_to", "alerts.digest_to", list, where))
+    bad = [a for a in digest_to if not _EMAIL_RE.match(str(a))]
+    if bad:
         raise ProfileError(
-            f"{where}: {', '.join(repr(s) for s in stray)} "
-            f"{'is' if len(stray) == 1 else 'are'} in neighborhoods.priority but not in "
-            f"neighborhoods.include.\nPriority must be a subset of include — otherwise "
-            f"you'd get urgent alerts for places you excluded."
+            f"{where}: alerts.digest_to contains "
+            f"{'an invalid address' if len(bad) == 1 else 'invalid addresses'}: "
+            f"{', '.join(repr(b) for b in bad)}"
         )
 
-    digest_to   = list(_require(alerts, "digest_to", "alerts.digest_to", list, where))
-    priority_to = list(_require(alerts, "priority_to", "alerts.priority_to", list, where))
-    for label, addrs in (("digest_to", digest_to), ("priority_to", priority_to)):
-        bad = [a for a in addrs if not _EMAIL_RE.match(str(a))]
-        if bad:
-            raise ProfileError(
-                f"{where}: alerts.{label} contains "
-                f"{'an invalid address' if len(bad) == 1 else 'invalid addresses'}: "
-                f"{', '.join(repr(b) for b in bad)}"
-            )
-
-    p_min = _require(prio, "min_price", "alerts.priority.min_price", int, where)
-    p_max = _require(prio, "max_price", "alerts.priority.max_price", int, where)
     d_min = _require(dig,  "min_price", "alerts.digest.min_price", int, where)
     d_max = _require(dig,  "max_price", "alerts.digest.max_price", int, where)
     s_max = _require(search, "max_price", "search.max_price", int, where)
 
-    for lo, hi, label in ((p_min, p_max, "alerts.priority"), (d_min, d_max, "alerts.digest")):
-        if lo > hi:
-            raise ProfileError(
-                f"{where}: {label}.min_price ({lo}) is greater than "
-                f"{label}.max_price ({hi})."
-            )
+    if d_min > d_max:
+        raise ProfileError(
+            f"{where}: alerts.digest.min_price ({d_min}) is greater than "
+            f"alerts.digest.max_price ({d_max})."
+        )
 
     # Not fatal, but it silently guarantees zero results, so it's worth shouting.
-    for label, hi in (("alerts.priority.max_price", p_max), ("alerts.digest.max_price", d_max)):
-        if hi > s_max:
-            print(
-                f"warning: {where}: {label} ({hi}) is above search.max_price ({s_max}), "
-                f"so listings between {s_max} and {hi} are never scraped and can "
-                f"never match. Raise search.max_price.",
-                file=sys.stderr,
-            )
+    if d_max > s_max:
+        print(
+            f"warning: {where}: alerts.digest.max_price ({d_max}) is above "
+            f"search.max_price ({s_max}), so listings between {s_max} and {d_max} "
+            f"are never scraped and can never match. Raise search.max_price.",
+            file=sys.stderr,
+        )
 
     map_center = dash.get("map_center", [37.758, -122.433])
     if not isinstance(map_center, list) or len(map_center) != 2:
@@ -339,23 +453,21 @@ def parse_profile(path: Path, secrets: dict[str, str] | None = None) -> Profile:
         max_price=s_max,
         min_bedrooms=_require(search, "min_bedrooms", "search.min_bedrooms", int, where),
         region=str(search.get("region", "sfbay")),
+        subarea=str(search.get("subarea", "")).strip("/"),
         city=str(search.get("city", "San Francisco")),
         include_neighborhoods=effective_include,
-        priority_neighborhoods=set(priority),
+        filter_by_neighborhood=filter_by_neighborhood,
         digest_to=[str(a) for a in digest_to],
-        priority_to=[str(a) for a in priority_to],
-        priority_max_price=p_max,
-        priority_min_price=p_min,
-        priority_min_bathrooms=_require(prio, "min_bathrooms", "alerts.priority.min_bathrooms", int, where),
-        priority_min_posting_age_minutes=int(prio.get("min_posting_age_minutes", 20)),
-        priority_scam_keywords=[str(k) for k in prio.get("scam_keywords", [])],
         digest_min_price=d_min,
         digest_max_price=d_max,
+        digest_min_posting_age_minutes=int(dig.get("min_posting_age_minutes", 20)),
+        digest_scam_keywords=[str(k) for k in dig.get("scam_keywords", [])],
         dashboard_url=str(dash.get("url", "")),
         map_center=[float(map_center[0]), float(map_center[1])],
         show_historical=bool(dash.get("show_historical", True)),
         caltrain_stations=_parse_stations(transit.get("caltrain", []), "transit.caltrain", where),
         bart_stations=_parse_stations(transit.get("bart", []), "transit.bart", where),
+        **commute,
         secrets=secrets if secrets is not None else {},
     )
 
@@ -430,16 +542,33 @@ def add_profile_arg(parser):
 def _describe(p: Profile) -> None:
     status = "enabled" if p.enabled else "PAUSED (enabled = false)"
     print(f"\n\033[1m{p.name}\033[0m — {p.display_name}  [{status}]")
-    print(f"  searching   {p.region}.craigslist.org, {p.city or 'all cities'}, "
-          f"{p.min_bedrooms}+ bed, up to ${p.max_price:,}")
-    print(f"  tracking    {len(p.include_neighborhoods)} neighborhoods: "
+    print(f"  searching   {p.region}.craigslist.org"
+          f"{'/' + p.subarea if p.subarea else ' (whole region)'}, "
+          f"{p.city or 'all cities'}, {p.min_bedrooms}+ bed, up to ${p.max_price:,}")
+    if p.city and not p.subarea:
+        print(f"              \033[33mwarning:\033[0m no subarea set — only the first "
+              f"page of the whole region is scraped, so most results will be "
+              f"filtered out by city. See search.subarea.")
+    print(f"  {'filtering to' if p.filter_by_neighborhood else 'sorting by '} "
+          f"{len(p.include_neighborhoods)} neighborhoods: "
           f"{', '.join(p.include_neighborhoods)}")
-    print(f"  priority    {', '.join(sorted(p.priority_neighborhoods)) or '(none)'}")
-    print(f"  digest      ${p.digest_min_price:,}–${p.digest_max_price:,} "
+    if not p.filter_by_neighborhood:
+        print(f"              (filter = false — nothing is dropped for being "
+              f"outside these; they only set the order)")
+    print(f"  digest      ${p.digest_min_price:,}–${p.digest_max_price:,}, "
+          f"posted {p.digest_min_posting_age_minutes}+ min ago "
           f"→ {', '.join(p.digest_to) or '(nobody — digest disabled)'}")
-    print(f"  urgent      ${p.priority_min_price:,}–${p.priority_max_price:,}, "
-          f"{p.priority_min_bathrooms}+ bath, after {p.priority_min_posting_age_minutes} min "
-          f"→ {', '.join(p.priority_to) or '(nobody — alerts disabled)'}")
+    print(f"  filtering   {len(p.digest_scam_keywords)} scam keyword(s)")
+    if p.has_commute:
+        lon, lat = p.commute_destination
+        print(f"  commute     ≤{p.commute_max_minutes} min by transit to "
+              f"{p.commute_destination_name} [{lon}, {lat}], "
+              f"arriving {p.commute_arrive_by[0]:02d}:{p.commute_arrive_by[1]:02d}")
+        print(f"  weighting   " + ", ".join(
+            f"{k} {v:g}" for k, v in p.commute_weights.items()))
+    else:
+        print(f"  commute     (none — no [commute] section)")
+    print(f"  bike times  {'on' if p.has_bike_times else 'off (no [transit] stations)'}")
     print(f"  data        {p.data_dir.relative_to(BASE_DIR)}/")
     print(f"  dashboard   {p.dashboard_html.relative_to(BASE_DIR)}"
           f"{'  → ' + p.dashboard_url if p.dashboard_url else ''}")
@@ -450,8 +579,14 @@ def main() -> int:
 
     try:
         secrets = load_secrets()
+        missing_keys = [
+            label for key, label in (
+                ("ORS_API_KEY",         "no ORS_API_KEY: bike times disabled"),
+                ("GOOGLE_MAPS_API_KEY", "no GOOGLE_MAPS_API_KEY: commute times disabled"),
+            ) if not secrets.get(key)
+        ]
         print(f"✓ secrets.env — sending as {secrets['GMAIL_ADDRESS']}"
-              f"{'' if secrets.get('ORS_API_KEY') else '  (no ORS_API_KEY: bike times disabled)'}")
+              + (f"  ({'; '.join(missing_keys)})" if missing_keys else ""))
     except ProfileError as e:
         print(f"✗ {e}", file=sys.stderr)
         return 1

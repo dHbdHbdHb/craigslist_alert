@@ -5,7 +5,8 @@ Two-phase alert system:
   1. Priority alerts  — individual emails sent immediately when a new listing
                         matches priority neighborhoods, price, and bathroom criteria.
   2. Daily digest     — one email per day grouping all new unalerted listings by
-                        neighborhood, with a biking-time map from Caltrain.
+                        neighborhood, each with its door-to-door transit commute
+                        (and cycling time to a station, for profiles that use it).
 
 Runs via cron after each scraper run. Tracks sent alerts in listings_active.csv
 ('alerted' column) and the digest date in last_digest_date.txt.
@@ -22,14 +23,17 @@ from email.mime.text import MIMEText
 import requests
 from config import (
     GMAIL_ADDRESS, GMAIL_APP_PASSWORD,
-    DIGEST_RECIPIENT_EMAILS, ALERT_RECIPIENT_EMAILS,
+    DIGEST_RECIPIENT_EMAILS,
     DATA_ACTIVE, LAST_DIGEST_FILE,
-    priority_neighborhoods, priority_max_price, priority_min_price,
-    priority_min_bathrooms, priority_min_posting_age_minutes, priority_scam_keywords,
-    digest_min_price, digest_max_price, DASHBOARD_URL,
-    INCLUDE_NEIGHBORHOODS, DISPLAY_NAME, PROFILE_NAME, add_profile_arg,
+    digest_min_price, digest_max_price,
+    digest_min_posting_age_minutes, digest_scam_keywords,
+    DASHBOARD_URL,
+    INCLUDE_NEIGHBORHOODS, FILTER_BY_NEIGHBORHOOD,
+    DISPLAY_NAME, PROFILE_NAME, add_profile_arg,
+    HAS_COMMUTE, COMMUTE_MAX_MINUTES, COMMUTE_DESTINATION_NAME,
 )
 from transit_times import compute_bike_times, compute_bart_bike_times
+from transit_commute import compute_commutes
 
 ACTIVE_PATH      = DATA_ACTIVE
 
@@ -196,78 +200,15 @@ def main():
         df['alerted'] = False
     df['alerted'] = df['alerted'].fillna(False).astype(bool)
 
-    # Work only with listings not yet alerted
-    unalerted = df[~df['alerted']].copy()
-    print(f"Unalerted listings: {len(unalerted)}")
-
-    # ── Phase 1: Priority alerts ──────────────────────────────────────────
-    # Send an individual email for each new listing in a priority neighborhood
-    # that meets price and bathroom thresholds.
-
-    def in_priority_hood(row) -> bool:
-        if pd.isnull(row['neighborhoods']):
-            return False
-        return any(h in priority_neighborhoods for h in row['neighborhoods'].split(','))
-
-    def has_scam_title(row) -> bool:
-        title = str(row.get('title', '')).lower()
-        return any(kw in title for kw in priority_scam_keywords)
-
-    def is_old_enough(row) -> bool:
-        try:
-            posted = pd.to_datetime(row['time_posted'], utc=True)
-            age_minutes = (pd.Timestamp.now(tz='UTC') - posted).total_seconds() / 60
-            return age_minutes >= priority_min_posting_age_minutes
-        except Exception:
-            return True  # if unparseable, don't block on age
-
-    priority_mask = (
-        unalerted.apply(in_priority_hood, axis=1) &
-        (unalerted['price'] >= priority_min_price) &
-        (unalerted['price'] <= priority_max_price) &
-        (unalerted['num_bathrooms'] >= priority_min_bathrooms) &
-        ~unalerted.apply(has_scam_title, axis=1) &
-        unalerted.apply(is_old_enough, axis=1)
-    )
-    df_priority = unalerted[priority_mask].copy()
-
-    if not df_priority.empty:
-        df_priority['active'] = df_priority['url'].apply(is_listing_active)
-        df_priority = df_priority[df_priority['active']].drop(columns='active')
-
-    print(f"Priority listings to alert: {len(df_priority)}")
-
-    for _, row in df_priority.iterrows():
-        subject   = f"[{DISPLAY_NAME}] New High-Priority Listing: {row['title'][:50]}"
-        html_body = f"""
-        <html><body style="font-family:'Helvetica Neue',Arial,sans-serif;">
-        <h2 style="color:#262312;">{row['title']}</h2>
-        <div><strong>Neighborhoods:</strong> {row['neighborhoods']}</div>
-        <div><strong>Price:</strong> ${row['price']}</div>
-        <div><strong>Beds/Baths:</strong> {row['num_bedrooms']}/{row['num_bathrooms']}</div>
-        <div><strong>Posted:</strong> {row['time_posted']}</div>
-        <div><a href="{row['url']}" style="color:#A67D4B;">View Listing</a></div>
-        </body></html>
-        """
-        if dry_run:
-            print(f"  [DRY RUN] Would send priority alert: {subject}")
-        else:
-            msg = MIMEMultipart('alternative')
-            msg['From']    = GMAIL_ADDRESS
-            msg['To']      = ', '.join(ALERT_RECIPIENT_EMAILS)
-            msg['Subject'] = subject
-            msg.attach(MIMEText(html_body, 'html'))
-            send_email(msg)
-            print(f"  Sent priority alert: {row['title'][:50]}")
-
-    # Mark priority listings as alerted and save (skipped in dry run)
-    if not dry_run and not df_priority.empty:
-        df.loc[df_priority.index, 'alerted'] = True
-        df.to_csv(ACTIVE_PATH, index=False)
-
-    # ── Phase 2: Daily digest ─────────────────────────────────────────────
-    # Once per day, send a grouped digest of all new unalerted listings
-    # that fall within any known neighborhood and are under the digest price cap.
+    # ── Daily digest ──────────────────────────────────────────────────────
+    # Once per day, send a grouped digest of all new unalerted listings that
+    # fall within a neighborhood this profile cares about and are inside the
+    # digest price band.
+    #
+    # There used to be a second phase ahead of this one that emailed individual
+    # listings the moment they appeared. It was removed: in practice almost
+    # everything fresh enough to beat the digest was a scam, which is what the
+    # keyword and posting-age filters below now catch instead.
 
     try:
         with open(LAST_DIGEST_FILE, 'r') as f:
@@ -282,11 +223,29 @@ def main():
         print("Digest already sent today, skipping.")
         return
 
-    # Re-read from disk so priority alerts marked above are reflected
-    # (in dry run the CSV wasn't written, so re-read is a no-op but harmless)
-    df = pd.read_csv(ACTIVE_PATH)
-    df['alerted'] = df['alerted'].fillna(False).astype(bool)
     unalerted = df[~df['alerted']].copy()
+    print(f"Unalerted listings: {len(unalerted)}")
+
+    def has_scam_title(row) -> bool:
+        title = str(row.get('title', '')).lower()
+        return any(kw in title for kw in digest_scam_keywords)
+
+    def is_old_enough(row) -> bool:
+        """Give Craigslist's community flagging time to catch obvious scams."""
+        try:
+            posted = pd.to_datetime(row['time_posted'], utc=True)
+            age_minutes = (pd.Timestamp.now(tz='UTC') - posted).total_seconds() / 60
+            return age_minutes >= digest_min_posting_age_minutes
+        except Exception:
+            return True  # if unparseable, don't block on age
+
+    if not unalerted.empty:
+        scam_mask = unalerted.apply(has_scam_title, axis=1)
+        young_mask = ~unalerted.apply(is_old_enough, axis=1)
+        if scam_mask.any() or young_mask.any():
+            print(f"  Filtered {int(scam_mask.sum())} scam-keyword and "
+                  f"{int(young_mask.sum())} too-fresh listing(s).")
+        unalerted = unalerted[~scam_mask & ~young_mask]
 
     def in_known_hood(s) -> bool:
         """True if the listing is in a neighborhood this profile cares about.
@@ -299,7 +258,15 @@ def main():
             return False
         return any(h in INCLUDE_NEIGHBORHOODS for h in (t.strip() for t in s.split(',')))
 
-    digest_mask = (unalerted['price'] >= digest_min_price) & (unalerted['price'] <= digest_max_price) & unalerted['neighborhoods'].apply(in_known_hood)
+    digest_mask = (
+        (unalerted['price'] >= digest_min_price) &
+        (unalerted['price'] <= digest_max_price)
+    )
+    # With `filter = false` the neighborhood list only decides grouping order.
+    # The shapes cover a fraction of the city, so filtering on them would drop
+    # most of what was scraped.
+    if FILTER_BY_NEIGHBORHOOD:
+        digest_mask &= unalerted['neighborhoods'].apply(in_known_hood)
     df_digest = unalerted[digest_mask].copy()
 
     if not df_digest.empty:
@@ -315,34 +282,88 @@ def main():
     listings       = df_digest.to_dict('records')
     bike_times     = compute_bike_times(listings)
     bart_bike_times = compute_bart_bike_times(listings)
+    commutes       = compute_commutes(listings)
 
-    # Persist bike times back to the active CSV (always, even in dry run)
-    if 'bike_time_minutes' not in df.columns:
-        df['bike_time_minutes'] = None
-    if 'bike_station' not in df.columns:
-        df['bike_station'] = None
-    if 'bart_bike_time_minutes' not in df.columns:
-        df['bart_bike_time_minutes'] = None
-    if 'bart_station' not in df.columns:
-        df['bart_station'] = None
+    # Persist bike and commute times back to the active CSV (always, even in dry run)
+    for _col in ('bike_time_minutes', 'bike_station',
+                 'bart_bike_time_minutes', 'bart_station',
+                 'commute_minutes', 'commute_walk_minutes',
+                 'commute_headway', 'transit_score', 'transit_lines'):
+        if _col not in df.columns:
+            df[_col] = None
     for url, info in bike_times.items():
         df.loc[df['url'] == url, 'bike_time_minutes'] = info['minutes']
         df.loc[df['url'] == url, 'bike_station']      = info['station']
     for url, info in bart_bike_times.items():
         df.loc[df['url'] == url, 'bart_bike_time_minutes'] = info['minutes']
         df.loc[df['url'] == url, 'bart_station']           = info['station']
+    for url, info in commutes.items():
+        row = df['url'] == url
+        df.loc[row, 'commute_minutes']      = info['minutes']
+        df.loc[row, 'commute_walk_minutes'] = info['walk_minutes']
+        df.loc[row, 'commute_headway']      = info['worst_headway']
+        df.loc[row, 'transit_score']        = info['transit_score']
+        df.loc[row, 'transit_lines']        = ", ".join(info['lines'])
     df.to_csv(ACTIVE_PATH, index=False)
     print(f"  Saved bike times for {len(bike_times)} listings (Caltrain + BART).")
+    if commutes:
+        print(f"  Saved commute times for {len(commutes)} listings.")
+
+    # Drop anything beyond the commute budget. Listings with no commute data —
+    # routing failed, or no API key — are KEPT: a missing measurement is not
+    # evidence of a bad commute, and silently hiding listings would be worse
+    # than showing one that turns out to be too far.
+    #
+    # df_digest is narrowed alongside `listings` because it's what decides which
+    # rows get stamped `alerted` at the end. Filtering only the list would mark
+    # listings as sent that were never in the email.
+    if HAS_COMMUTE and commutes:
+        too_far = {
+            url for url, info in commutes.items()
+            if info['minutes'] > COMMUTE_MAX_MINUTES
+        }
+        if too_far:
+            df_digest = df_digest[~df_digest['url'].isin(too_far)]
+            listings  = [r for r in listings if r.get('url') not in too_far]
+            print(f"  Dropped {len(too_far)} listing(s) over "
+                  f"{COMMUTE_MAX_MINUTES} min from {COMMUTE_DESTINATION_NAME}.")
+            if not listings:
+                print("No digest listings within the commute budget.")
+                return
+
+    # Best transit first within each neighborhood — the whole point of scoring is
+    # that the top of the email should be the places actually worth the trip.
+    if commutes:
+        listings.sort(
+            key=lambda r: commutes.get(r.get('url'), {}).get('transit_score', -1),
+            reverse=True,
+        )
+
+    if not DIGEST_RECIPIENT_EMAILS and not dry_run:
+        print("No digest recipients configured (alerts.digest_to is empty) — "
+              "nothing to send.")
+        return
 
     # Group listings by neighborhood for the email body, in the order the
     # profile lists them — so the neighborhoods someone cares most about aren't
     # buried below ones they merely tolerate.
+    # Listings matching none of the named shapes go in a bucket at the end
+    # rather than vanishing — with `filter = false` that bucket is usually the
+    # biggest one, since the shapes don't cover the whole city.
+    OTHER_LABEL = "Elsewhere in the city"
     hood_to_listings = {hood: [] for hood in INCLUDE_NEIGHBORHOODS}
+    hood_to_listings[OTHER_LABEL] = []
     for row in listings:
-        hoods = [h.strip() for h in (row.get('neighborhoods') or '').split(',')
+        # A listing that matched no shape has NaN here, not "". NaN is truthy,
+        # so `or ''` doesn't catch it — check the type instead.
+        raw = row.get('neighborhoods')
+        raw = raw if isinstance(raw, str) else ''
+        hoods = [h.strip() for h in raw.split(',')
                  if h.strip() in hood_to_listings]
         for hood in hoods:
             hood_to_listings[hood].append(row)
+        if not hoods:
+            hood_to_listings[OTHER_LABEL].append(row)
 
     html = '<html><body style="font-family:Arial,sans-serif;margin:0;padding:10px;">'
     html += f'<h2 style="color:#262312;">New Listings — {today.strftime("%B %d")}</h2>'
@@ -362,10 +383,33 @@ def main():
                 f" &nbsp;·&nbsp; {bart_info['minutes']} min to {bart_info['station']} BART"
                 if bart_info else ""
             )
+
+            # The commute line is the headline number for a transit-first search,
+            # so it gets its own row with the lines and their frequency spelled
+            # out — "38R every 6 min" is what makes a 35-minute trip tolerable.
+            commute = commutes.get(row.get('url'))
+            if commute:
+                detail = []
+                if commute.get('walk_minutes'):
+                    detail.append(f"{commute['walk_minutes']} min walk")
+                if commute.get('lines'):
+                    detail.append(" / ".join(commute['lines'][:3]))
+                if commute.get('worst_headway'):
+                    detail.append(f"every ~{commute['worst_headway']:.0f} min")
+                commute_str = (
+                    f"<div style='color:#2f6f4f;font-weight:bold;'>"
+                    f"{commute['minutes']} min to {COMMUTE_DESTINATION_NAME}"
+                    + (f" &nbsp;·&nbsp; {' &nbsp;·&nbsp; '.join(detail)}" if detail else "")
+                    + "</div>"
+                )
+            else:
+                commute_str = ""
+
             html += (
                 "<div style='border:1px solid #262312;border-radius:6px;padding:8px;margin-bottom:8px;'>"
                 f"<div style='font-weight:bold;color:#262312;'>{row['title']}</div>"
                 f"<div style='color:#A8BFB9;'>${row['price']} &nbsp; {row['num_bedrooms']}bd/{row['num_bathrooms']}ba{bike_str}</div>"
+                f"{commute_str}"
                 f"<div style='color:#A8BFB9;'>{bart_str}</div>"
                 f"<div><a href='{row['url']}' style='color:#A67D4B;'>View Listing</a></div>"
                 "</div>"

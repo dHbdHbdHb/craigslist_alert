@@ -33,7 +33,16 @@ max_price    = 5600   # TODO: your absolute ceiling, plus ~15% headroom
 min_bedrooms = 2      # TODO
 
 region = "sfbay"
-city   = "San Francisco"   # exact match, or "" for the whole Bay Area
+
+# TODO: the subarea you actually want. This matters more than it looks — a
+# region search covers the whole metro and only the first page is scraped, so
+# without a subarea a San Francisco search returns a handful of SF listings
+# buried in a few hundred East Bay ones.
+# sfbay subareas: sfc (SF), eby (east bay), pen (peninsula), sby (south bay),
+# nby (north bay), scz (santa cruz). Leave "" to search the whole region.
+subarea = "sfc"
+
+city = "San Francisco"   # exact match, or "" to keep every city
 
 
 # ── 2. Neighborhoods ──────────────────────────────────────────────────────────
@@ -55,7 +64,17 @@ city   = "San Francisco"   # exact match, or "" for the whole Bay Area
 #  SETUP.md — it takes about five minutes with geojson.io.
 
 [neighborhoods]
-# TODO: everywhere you'd consider. Use [] to mean "all of them".
+# true  = only listings inside these shapes reach your digest.
+# false = nothing is dropped; the list below only sets the order things are
+#         grouped in, and anything matching no shape appears under
+#         "Elsewhere in the city" at the end.
+#
+# Start with false unless you're sure the shapes cover everywhere you'd live.
+# They're hand-drawn and cover a fraction of the city, so `true` quietly
+# discards most of what gets scraped.
+filter = false
+
+# TODO: everywhere you'd consider, best first. Use [] to mean "all known shapes".
 include = [
     "Mission",
     "Chill Mission",
@@ -63,16 +82,13 @@ include = [
     "Potrero Hill",
 ]
 
-# TODO: the shortlist worth interrupting your day for. Must be a subset of
-# `include`. Leave as [] if you only want the once-daily digest.
-priority = [
-    "Bernal",
-]
 
-
-# ── 3. Who gets the emails ────────────────────────────────────────────────────
+# ── 3. Who gets the email ─────────────────────────────────────────────────────
 #  Mail is sent FROM the shared Gmail account configured in secrets.env.
-#  These are the recipients. Empty list = that email type is off.
+#  These are the recipients. Empty list = the digest is off.
+#
+#  Testing tip: put YOUR address here first and leave it until you're happy with
+#  what arrives, then swap in the real recipients. Nothing else needs to change.
 
 [alerts]
 # TODO: daily summary. Add your partner, roommate, whoever's searching with you.
@@ -80,27 +96,19 @@ digest_to = [
     "you@example.com",
 ]
 
-# TODO: immediate alerts. These can fire at any hour — keep the list short.
-priority_to = [
-    "you@example.com",
-]
 
+# ── 4. What makes the daily digest ────────────────────────────────────────────
+#  The "worth a look" band. One email a day, grouped by neighborhood.
 
-# ── 4. What counts as urgent ──────────────────────────────────────────────────
-#  A listing must be in a `priority` neighborhood AND pass every filter below
-#  to trigger an immediate email. Start strict; loosen if it's too quiet.
+[alerts.digest]
+min_price = 2100   # TODO: anything cheaper is almost always a scam or bait
+max_price = 5300   # TODO
 
-[alerts.priority]
-max_price     = 4600   # TODO
-min_bathrooms = 2      # TODO: set to 1 if you don't care
-
-# Anything cheaper than this is almost always a scam or bait-and-switch.
-min_price = 2800
-
-# Wait this long after posting before alerting, so Craigslist's community
-# flagging can catch obvious scams first. 0 = alert instantly.
+# Wait this long after posting before a listing can show up in a digest, so
+# Craigslist's community flagging catches obvious scams first.
 min_posting_age_minutes = 20
 
+# A listing whose title contains any of these is silently skipped.
 scam_keywords = [
     "email only",
     "email me only",
@@ -110,16 +118,7 @@ scam_keywords = [
 ]
 
 
-# ── 5. What makes the daily digest ────────────────────────────────────────────
-#  Wider than section 4 — this is the "worth a look" band, not the "drop
-#  everything" band.
-
-[alerts.digest]
-min_price = 2100   # TODO
-max_price = 5300   # TODO
-
-
-# ── 6. Dashboard ──────────────────────────────────────────────────────────────
+# ── 5. Dashboard ──────────────────────────────────────────────────────────────
 
 [dashboard]
 # Filled in for you by SETUP.md once the dashboard is published. Leave as ""
@@ -133,13 +132,49 @@ map_center = [37.758, -122.433]   # [latitude, longitude] — SF city center
 show_historical = true
 
 
-# ── 7. Transit anchors (advanced) ─────────────────────────────────────────────
-#  Cycling time from each listing to the nearest station in each group. If you
-#  commute somewhere specific, replace these with your actual destination.
+# ── 6. Commute to work (optional) ─────────────────────────────────────────────
+#  Door-to-door PUBLIC TRANSIT time from each listing to one fixed destination,
+#  computed against a weekday morning so every listing is comparable.
 #
-#  ⚠️  Coordinates here are [longitude, latitude] — the OPPOSITE order from
-#      map_center above. Longitude in SF is around -122; latitude around 37.
-#      If your bike times come out absurd, you've probably swapped them.
+#  Needs GOOGLE_MAPS_API_KEY in secrets.env. Without it this section is ignored
+#  and nothing breaks — you just get no commute numbers.
+#
+#  Delete this whole section if you don't care about commuting to one place.
+#
+#  ⚠️  Coordinates are [longitude, latitude] — the OPPOSITE order from
+#      map_center above. In SF that's roughly [-122.x, 37.x].
+
+[commute]
+# TODO: where you're commuting to. Right-click a spot in Google Maps and pick
+# the lat/long it offers, then swap the order to put longitude first.
+destination      = [-122.4194, 37.7806]
+destination_name = "work"        # shown in emails and on the dashboard
+
+# Listings whose commute exceeds this are dropped from the digest entirely.
+max_minutes = 45
+
+# Weekday arrival time the itinerary is planned against, 24-hour.
+arrive_by = "09:00"
+
+# How the transit score trades off its three inputs. They're relative, so
+# doubling all three changes nothing.
+#   time        door-to-door minutes against max_minutes
+#   frequency   the worst headway on the trip — a 30-min bus leg is the trip
+#   redundancy  how many distinct lines can make the journey
+[commute.weights]
+time       = 0.45
+frequency  = 0.35
+redundancy = 0.20
+
+
+# ── 7. Bike-to-station anchors (optional) ─────────────────────────────────────
+#  Cycling time from each listing to the nearest station in each group, via
+#  OpenRouteService. This is separate from [commute] above and answers a
+#  different question — "could I bike to a train?" rather than "how long is my
+#  commute?"
+#
+#  Delete both lists (or the whole section) to turn bike times off. A profile
+#  with no stations skips ORS entirely.
 
 [transit]
 caltrain = [

@@ -28,6 +28,8 @@ from config import (
     DATA_ACTIVE, DATA_ARCHIVE, DASHBOARD_HTML,
     BIKE_ROUTES_PATH, BART_ROUTES_PATH,
     MAP_CENTER, SHOW_HISTORICAL, DISPLAY_NAME, PROFILE_NAME,
+    HAS_BIKE_TIMES, HAS_COMMUTE, COMMUTE_DESTINATION,
+    COMMUTE_DESTINATION_NAME, COMMUTE_MAX_MINUTES,
     add_profile_arg,
 )
 
@@ -87,6 +89,12 @@ def load_data(paths: list[Path] | None = None, *, label: str = "live") -> pd.Dat
     df["num_bathrooms"]     = pd.to_numeric(df["num_bathrooms"],     errors="coerce").astype("Int64")
     df["bike_time_minutes"]      = pd.to_numeric(df.get("bike_time_minutes"),      errors="coerce")
     df["bart_bike_time_minutes"] = pd.to_numeric(df.get("bart_bike_time_minutes"), errors="coerce")
+    df["commute_minutes"]        = pd.to_numeric(df.get("commute_minutes"),        errors="coerce")
+    df["commute_walk_minutes"]   = pd.to_numeric(df.get("commute_walk_minutes"),   errors="coerce")
+    df["commute_headway"]        = pd.to_numeric(df.get("commute_headway"),        errors="coerce")
+    df["transit_score"]          = pd.to_numeric(df.get("transit_score"),          errors="coerce")
+    df["transit_lines"]          = (df["transit_lines"].fillna("")
+                                    if "transit_lines" in df.columns else "")
     df["lat"]                    = pd.to_numeric(df.get("lat"),                    errors="coerce")
     df["lon"]                    = pd.to_numeric(df.get("lon"),                    errors="coerce")
     if "bike_station" in df.columns:
@@ -488,14 +496,19 @@ def chart_price_over_time(df: pd.DataFrame, historical: pd.DataFrame | None = No
     }
 
 
-def chart_bike_times(df: pd.DataFrame):
-    """Bar chart of median biking time to Caltrain by neighborhood (listings with known times only)."""
-    sub = df[df["bike_time_minutes"].notna() & (df["neighborhood"] != CATCHALL_HOOD)]
+def _chart_median_minutes(df: pd.DataFrame, column: str, title: str, hover: str):
+    """Bar chart of a duration column's median by neighborhood.
+
+    Shared by the bike-to-station and commute-to-work charts, which differ only
+    in which column they read and what they call it. Rows without a value are
+    excluded rather than counted as zero.
+    """
+    sub = df[df[column].notna() & (df["neighborhood"] != CATCHALL_HOOD)]
     if sub.empty:
         return None
     hoods  = _hood_order(sub)
     colors = _hood_colors(hoods)
-    g = sub.groupby("neighborhood")["bike_time_minutes"]
+    g = sub.groupby("neighborhood")[column]
     stats = pd.DataFrame({"median": g.median(), "count": g.count()}).reindex(hoods).dropna()
     if stats.empty:
         return None
@@ -508,10 +521,10 @@ def chart_bike_times(df: pd.DataFrame):
             "text": [f"{v:.0f} min" for v in stats["median"]],
             "textposition": "outside",
             "cliponaxis": False,
-            "hovertemplate": "<b>%{x}</b><br>Median bike: %{y:.0f} min<extra></extra>",
+            "hovertemplate": "<b>%{x}</b><br>" + hover + ": %{y:.0f} min<extra></extra>",
         }],
         "layout": {
-            "title":      {"text": "Median Bike Time to Caltrain by Neighborhood", "font": {"size": 15}},
+            "title":      {"text": title, "font": {"size": 15}},
             "yaxis":      {"title": "Minutes", "automargin": True},
             "xaxis":      {"automargin": True, "tickangle": -30},
             "showlegend": False,
@@ -520,34 +533,115 @@ def chart_bike_times(df: pd.DataFrame):
     }
 
 
+def chart_bike_times(df: pd.DataFrame):
+    return _chart_median_minutes(
+        df, "bike_time_minutes",
+        "Median Bike Time to Caltrain by Neighborhood", "Median bike",
+    )
+
+
 def chart_bart_bike_times(df: pd.DataFrame):
-    """Bar chart of median biking time to BART by neighborhood (listings with known times only)."""
-    sub = df[df["bart_bike_time_minutes"].notna() & (df["neighborhood"] != CATCHALL_HOOD)]
+    return _chart_median_minutes(
+        df, "bart_bike_time_minutes",
+        "Median Bike Time to BART by Neighborhood", "Median bike to BART",
+    )
+
+
+def chart_commute_times(df: pd.DataFrame):
+    """Median door-to-door transit commute by neighborhood, against the budget."""
+    spec = _chart_median_minutes(
+        df, "commute_minutes",
+        f"Median Transit Commute to {COMMUTE_DESTINATION_NAME} by Neighborhood",
+        "Median commute",
+    )
+    if spec is None:
+        return None
+
+    # The budget line is what turns the bars from trivia into a decision: bars
+    # under it are viable, bars over it are not.
+    spec["layout"]["shapes"] = [{
+        "type": "line", "xref": "paper", "x0": 0, "x1": 1,
+        "yref": "y", "y0": COMMUTE_MAX_MINUTES, "y1": COMMUTE_MAX_MINUTES,
+        "line": {"color": "#CC3311", "width": 1.5, "dash": "dash"},
+    }]
+    spec["layout"]["annotations"] = [{
+        "xref": "paper", "x": 1, "xanchor": "right",
+        "yref": "y", "y": COMMUTE_MAX_MINUTES, "yanchor": "bottom",
+        "text": f"{COMMUTE_MAX_MINUTES} min budget",
+        "showarrow": False,
+        "font": {"size": 10, "color": "#CC3311"},
+    }]
+    return spec
+
+
+def chart_transit_quality(df: pd.DataFrame):
+    """Median transit score by neighborhood, broken out by what drives it.
+
+    The score blends commute time, service frequency, and line redundancy, so the
+    bar alone is not self-explanatory — the hover carries the three inputs, which
+    is what makes it possible to tell "close but infrequent" from "far but on the
+    N Judah every four minutes".
+    """
+    sub = df[df["transit_score"].notna() & (df["neighborhood"] != CATCHALL_HOOD)]
     if sub.empty:
         return None
+
     hoods  = _hood_order(sub)
     colors = _hood_colors(hoods)
-    g = sub.groupby("neighborhood")["bart_bike_time_minutes"]
-    stats = pd.DataFrame({"median": g.median(), "count": g.count()}).reindex(hoods).dropna()
+    g      = sub.groupby("neighborhood")
+    stats  = pd.DataFrame({
+        "score":   g["transit_score"].median(),
+        "commute": g["commute_minutes"].median(),
+        "headway": g["commute_headway"].median(),
+        "walk":    g["commute_walk_minutes"].median(),
+    }).reindex(hoods).dropna(subset=["score"])
     if stats.empty:
         return None
+
+    # Most common set of lines seen in each neighborhood, for the hover.
+    top_lines = (
+        sub[sub["transit_lines"].astype(str).str.len() > 0]
+        .groupby("neighborhood")["transit_lines"]
+        .agg(lambda s: s.value_counts().index[0] if len(s) else "—")
+    )
+
+    stats = stats.sort_values("score")
+    custom = [
+        [
+            f"{r.commute:.0f}" if pd.notna(r.commute) else "—",
+            f"{r.headway:.0f}" if pd.notna(r.headway) else "—",
+            f"{r.walk:.0f}"    if pd.notna(r.walk)    else "—",
+            top_lines.get(hood, "—"),
+        ]
+        for hood, r in stats.iterrows()
+    ]
+
     return {
         "data": [{
             "type": "bar",
-            "x": stats.index.tolist(),
-            "y": stats["median"].round(1).tolist(),
+            "orientation": "h",
+            "y": stats.index.tolist(),
+            "x": stats["score"].round(0).tolist(),
             "marker": {"color": [colors.get(h, "#AAAAAA") for h in stats.index]},
-            "text": [f"{v:.0f} min" for v in stats["median"]],
+            "text": [f"{v:.0f}" for v in stats["score"]],
             "textposition": "outside",
             "cliponaxis": False,
-            "hovertemplate": "<b>%{x}</b><br>Median bike to BART: %{y:.0f} min<extra></extra>",
+            "customdata": custom,
+            "hovertemplate": (
+                "<b>%{y}</b><br>Transit score: %{x:.0f}/100<br>"
+                "Commute: %{customdata[0]} min<br>"
+                "Service every ~%{customdata[1]} min<br>"
+                "Walk to stop: %{customdata[2]} min<br>"
+                "Usual lines: %{customdata[3]}<extra></extra>"
+            ),
         }],
         "layout": {
-            "title":      {"text": "Median Bike Time to BART by Neighborhood", "font": {"size": 15}},
-            "yaxis":      {"title": "Minutes", "automargin": True},
-            "xaxis":      {"automargin": True, "tickangle": -30},
+            "title": {"text": "Transit Access Score by Neighborhood", "font": {"size": 15}},
+            "xaxis": {"title": "Score (time + frequency + redundancy)",
+                      "range": [0, 108], "automargin": True},
+            "yaxis": {"automargin": True},
             "showlegend": False,
-            "margin":     {"t": 50, "b": 20, "l": 60, "r": 20},
+            "margin": {"t": 50, "b": 40, "l": 20, "r": 20},
         },
     }
 
@@ -653,12 +747,14 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         ).add_to(m)
 
     # ── Recent listing routes + markers ──────────────────────────────────────
+    # Coordinates and recency are the only requirements. This used to also
+    # require a bike time, which silently emptied the map for any profile that
+    # doesn't do bike routing at all.
     recent_cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=3)
     df_markers = (
         df
         .drop_duplicates(subset="url")
         [lambda d:
-            d["bike_time_minutes"].notna() &
             d["time_posted"].notna() &
             (d["time_posted"] >= recent_cutoff) &
             d["lat"].notna() &
@@ -673,21 +769,27 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         df_markers.nlargest(3, "time_posted")["url"].tolist()
     )
 
-    # Load route caches
-    try:
-        with open(BIKE_ROUTES_FILE) as _f:
-            route_cache = json.load(_f)
-    except (FileNotFoundError, ValueError):
-        route_cache = {}
+    # Load route caches. Profiles with no [transit] stations skip all of this —
+    # there is nothing to route to, and the backfill below would otherwise churn
+    # through every listing producing nothing.
+    route_cache, bart_route_cache = {}, {}
+    missing, bart_missing = [], []
 
-    try:
-        with open(BART_BIKE_ROUTES_FILE) as _f:
-            bart_route_cache = json.load(_f)
-    except (FileNotFoundError, ValueError):
-        bart_route_cache = {}
+    if HAS_BIKE_TIMES:
+        try:
+            with open(BIKE_ROUTES_FILE) as _f:
+                route_cache = json.load(_f)
+        except (FileNotFoundError, ValueError):
+            route_cache = {}
 
-    missing      = [row for _, row in df_markers.iterrows() if str(row["url"]) not in route_cache]
-    bart_missing = [row for _, row in df_markers.iterrows() if str(row["url"]) not in bart_route_cache]
+        try:
+            with open(BART_BIKE_ROUTES_FILE) as _f:
+                bart_route_cache = json.load(_f)
+        except (FileNotFoundError, ValueError):
+            bart_route_cache = {}
+
+        missing      = [row for _, row in df_markers.iterrows() if str(row["url"]) not in route_cache]
+        bart_missing = [row for _, row in df_markers.iterrows() if str(row["url"]) not in bart_route_cache]
 
     if missing or bart_missing:
         try:
@@ -758,83 +860,123 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         except Exception as e:
             print(f"  Could not compute missing routes: {e}")
 
-    # FeatureGroups for bedroom filter
-    fg_2br   = folium.FeatureGroup(name="2BR",  show=True)
-    fg_3plus = folium.FeatureGroup(name="3BR+", show=True)
-    fg_other = folium.FeatureGroup(name="Other BR", show=True)
+    # One group for everything filterable. Bedrooms and commute are independent
+    # filters, so a FeatureGroup per bedroom bucket can't express both without a
+    # group per combination — the dropdowns below filter layer-by-layer instead.
+    fg_listings = folium.FeatureGroup(name="Listings", show=True)
 
-    def _br_group(row):
-        beds_val = row.get("num_bedrooms")
-        if pd.notna(beds_val):
-            n = int(beds_val)
-            if n == 2:
-                return fg_2br
-            if n >= 3:
-                return fg_3plus
-        return fg_other
+    # `filterable` pairs each Leaflet layer's JS variable name with the values
+    # the dropdowns filter on. folium 0.14 drops unrecognised kwargs from
+    # CircleMarker, so custom attributes can't ride along on the marker itself;
+    # get_name() is the supported way to reach the layer from our own script.
+    filterable = []
 
-    # Caltrain station markers (always visible, go directly on map).
+    # Work destination — the anchor the whole commute column is measured against,
+    # so it belongs on the map.
+    if COMMUTE_DESTINATION:
+        folium.Marker(
+            [COMMUTE_DESTINATION[1], COMMUTE_DESTINATION[0]],
+            tooltip=f"{COMMUTE_DESTINATION_NAME} — commute destination",
+            icon=folium.Icon(color="darkblue", icon="briefcase", prefix="fa"),
+        ).add_to(m)
+
+    # Station markers, for profiles that route to stations at all.
     # Profile coords are [lon, lat]; folium wants [lat, lon].
-    from config import CALTRAIN_STATIONS as _CALTRAIN_STATIONS_MAP
-    for sname, coords in _CALTRAIN_STATIONS_MAP:
-        folium.CircleMarker(
-            [coords[1], coords[0]], radius=7,
-            color="white", weight=2,
-            fill=True, fill_color="#D99441", fill_opacity=0.95,
-            tooltip=f"Caltrain: {sname}",
-        ).add_to(m)
+    if HAS_BIKE_TIMES:
+        from config import CALTRAIN_STATIONS as _CALTRAIN_STATIONS_MAP
+        for sname, coords in _CALTRAIN_STATIONS_MAP:
+            folium.CircleMarker(
+                [coords[1], coords[0]], radius=7,
+                color="white", weight=2,
+                fill=True, fill_color="#D99441", fill_opacity=0.95,
+                tooltip=f"Caltrain: {sname}",
+            ).add_to(m)
 
-    # BART station markers
-    from config import BART_STATIONS as _BART_STATIONS_MAP
-    for sname, coords in _BART_STATIONS_MAP:
-        folium.CircleMarker(
-            [coords[1], coords[0]], radius=7,
-            color="white", weight=2,
-            fill=True, fill_color="#C8363B", fill_opacity=0.95,
-            tooltip=f"BART: {sname}",
-        ).add_to(m)
+        from config import BART_STATIONS as _BART_STATIONS_MAP
+        for sname, coords in _BART_STATIONS_MAP:
+            folium.CircleMarker(
+                [coords[1], coords[0]], radius=7,
+                color="white", weight=2,
+                fill=True, fill_color="#C8363B", fill_opacity=0.95,
+                tooltip=f"BART: {sname}",
+            ).add_to(m)
 
-    # Route polylines + listing dot markers, grouped by bedroom count
     import html as _html
     for _, row in df_markers.iterrows():
-        fg = _br_group(row)
-        cached = route_cache.get(str(row["url"]))
+        url        = str(row.get("url", ""))
+        layer_vars = []
+
+        cached = route_cache.get(url)
         if cached and cached.get("geometry"):
-            folium.PolyLine(
+            line = folium.PolyLine(
                 cached["geometry"],
                 color="#D99441", weight=2.5, opacity=0.75, dash_array="8 6",
                 tooltip="Bike route to Caltrain",
-            ).add_to(fg)
-        bart_cached_geom = bart_route_cache.get(str(row["url"]))
-        if bart_cached_geom and bart_cached_geom.get("geometry"):
-            folium.PolyLine(
-                bart_cached_geom["geometry"],
+            )
+            line.add_to(fg_listings)
+            layer_vars.append(line.get_name())
+
+        bart_cached = bart_route_cache.get(url)
+        if bart_cached and bart_cached.get("geometry"):
+            line = folium.PolyLine(
+                bart_cached["geometry"],
                 color="#C8363B", weight=2.5, opacity=0.75, dash_array="2 6",
                 tooltip="Bike route to BART",
-            ).add_to(fg)
+            )
+            line.add_to(fg_listings)
+            layer_vars.append(line.get_name())
 
-        mins    = int(row["bike_time_minutes"])
-        station = (cached or {}).get("station") or row.get("bike_station") or "Caltrain"
         price   = f"${int(row['price']):,}/mo" if pd.notna(row.get("price")) else "—"
         beds    = str(row["num_bedrooms"]) if pd.notna(row.get("num_bedrooms")) else "?"
         baths   = str(row["num_bathrooms"]) if pd.notna(row.get("num_bathrooms")) else "?"
         title_e = _html.escape(str(row.get("title", "")))
-        url     = str(row.get("url", ""))
 
-        # BART info
-        bart_cached = bart_route_cache.get(str(row["url"]))
-        bart_mins_val = row.get("bart_bike_time_minutes")
-        if pd.notna(bart_mins_val):
-            bart_mins = int(bart_mins_val)
-            bart_stn  = (bart_cached or {}).get("station") or row.get("bart_station") or "BART"
-            bart_line = f'<br><span style="color:#C8363B;">{bart_mins} min to {bart_stn} BART</span>'
-            bart_tip  = f" · {bart_mins} min to {bart_stn} BART"
-        elif bart_cached:
-            bart_line = ""
-            bart_tip  = ""
-        else:
-            bart_line = ""
-            bart_tip  = ""
+        detail_lines, tip_bits = [], []
+
+        # Commute first — for a transit-first search it's the headline number.
+        commute_val = row.get("commute_minutes")
+        if pd.notna(commute_val):
+            commute_min = int(commute_val)
+            bits = []
+            if pd.notna(row.get("commute_walk_minutes")):
+                bits.append(f"{int(row['commute_walk_minutes'])} min walk")
+            lines_str = str(row.get("transit_lines") or "").strip()
+            if lines_str:
+                bits.append(lines_str)
+            if pd.notna(row.get("commute_headway")):
+                bits.append(f"every ~{int(row['commute_headway'])} min")
+            detail_lines.append(
+                f'<span style="color:#2f6f4f;font-weight:700;">'
+                f'{commute_min} min to {_html.escape(COMMUTE_DESTINATION_NAME)}</span>'
+                + (f'<br><span style="color:#6b7280;font-size:12px;">'
+                   f'{_html.escape(" · ".join(bits))}</span>' if bits else "")
+            )
+            tip_bits.append(f"{commute_min} min to {COMMUTE_DESTINATION_NAME}")
+            if pd.notna(row.get("transit_score")):
+                detail_lines.append(
+                    f'<span style="color:#6b7280;font-size:12px;">'
+                    f'transit score {int(row["transit_score"])}/100</span>'
+                )
+
+        # Bike times, when the profile computes them. Guarded on notna: this
+        # used to assume every marker had one, which crashed the whole dashboard
+        # for a profile that routes no bikes at all.
+        bike_val = row.get("bike_time_minutes")
+        if pd.notna(bike_val):
+            station = (cached or {}).get("station") or row.get("bike_station") or "Caltrain"
+            detail_lines.append(
+                f'<span style="color:#D99441;">{int(bike_val)} min bike to '
+                f'{_html.escape(str(station))} Caltrain</span>'
+            )
+            tip_bits.append(f"{int(bike_val)} min to {station}")
+
+        bart_val = row.get("bart_bike_time_minutes")
+        if pd.notna(bart_val):
+            bart_stn = (bart_cached or {}).get("station") or row.get("bart_station") or "BART"
+            detail_lines.append(
+                f'<span style="color:#C8363B;">{int(bart_val)} min bike to '
+                f'{_html.escape(str(bart_stn))} BART</span>'
+            )
 
         popup_html = (
             f'<div style="font-family:-apple-system,sans-serif;font-size:13px;'
@@ -844,108 +986,167 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             f'{title_e[:70]}{"…" if len(title_e) > 70 else ""}</a><br>'
             f'<span style="color:#A67D4B;">{price}</span>'
             f' &nbsp;·&nbsp; {beds}bd/{baths}ba<br>'
-            f'<span style="color:#D99441;">{mins} min to {station} Caltrain</span>'
-            f'{bart_line}'
-            f'</div>'
+            + "<br>".join(detail_lines)
+            + '</div>'
         )
-        is_new   = row["url"] in _newest_urls
+
+        is_new    = url in _newest_urls
         dot_color = _NEW_COLOR if is_new else _OLD_COLOR
         dot_r     = 6 if is_new else 4
-        folium.CircleMarker(
+        marker = folium.CircleMarker(
             [row["lat"], row["lon"]], radius=dot_r,
             color="white", weight=1.5,
             fill=True, fill_color=dot_color, fill_opacity=0.9,
             popup=folium.Popup(popup_html, max_width=270),
-            tooltip=f"{mins} min to {station}{bart_tip} · {price}",
-        ).add_to(fg)
+            tooltip=" · ".join([*tip_bits, price]) or price,
+        )
+        marker.add_to(fg_listings)
+        layer_vars.append(marker.get_name())
 
-    fg_2br.add_to(m)
-    fg_3plus.add_to(m)
-    fg_other.add_to(m)
+        beds_val = row.get("num_bedrooms")
+        filterable.append({
+            "vars":    layer_vars,
+            "beds":    int(beds_val) if pd.notna(beds_val) else None,
+            "commute": int(commute_val) if pd.notna(commute_val) else None,
+        })
 
-    # Grab JS variable names so the dropdown can reference them
-    _v2br   = fg_2br.get_name()
-    _v3plus = fg_3plus.get_name()
-    _vother = fg_other.get_name()
+    fg_listings.add_to(m)
 
-    _vmap = m.get_name()
+    # Legend rows are built to match what this profile actually shows — a
+    # "Bike route to Caltrain" key on a map with no bike routes is just noise.
+    legend_rows = []
+    if COMMUTE_DESTINATION:
+        legend_rows.append(
+            '<div><i class="fa fa-briefcase" style="color:#00008b;width:14px;'
+            'margin-right:5px;"></i>'
+            f'{_html.escape(COMMUTE_DESTINATION_NAME)}</div>'
+        )
+    if HAS_BIKE_TIMES:
+        legend_rows += [
+            '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
+            '<circle cx="7" cy="7" r="5.5" fill="#D99441" stroke="white" stroke-width="1.5"/>'
+            '</svg>Caltrain station</div>',
+            '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
+            '<circle cx="7" cy="7" r="5.5" fill="#C8363B" stroke="white" stroke-width="1.5"/>'
+            '</svg>BART station</div>',
+            '<div><svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">'
+            '<line x1="0" y1="4" x2="20" y2="4" stroke="#D99441" stroke-width="2.5" '
+            'stroke-dasharray="8 6" opacity="0.75"/></svg>Bike route to Caltrain</div>',
+            '<div><svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">'
+            '<line x1="0" y1="4" x2="20" y2="4" stroke="#C8363B" stroke-width="2.5" '
+            'stroke-dasharray="2 6" opacity="0.75"/></svg>Bike route to BART</div>',
+        ]
+    legend_rows += [
+        '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
+        '<circle cx="7" cy="7" r="5.5" fill="#3b82f6" stroke="white" stroke-width="1.5"/>'
+        '</svg>New listing (3 most recent)</div>',
+        '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
+        '<circle cx="7" cy="7" r="4.5" fill="#9ca3af" stroke="white" stroke-width="1.5"/>'
+        '</svg>Listing — click to open</div>',
+    ]
 
-    # Map legend + bedroom dropdown
+    # The commute dropdown only appears when there are commute numbers to filter
+    # on, so it can never sit there looking broken.
+    has_commute_data = any(f["commute"] is not None for f in filterable)
+    if has_commute_data:
+        budget = COMMUTE_MAX_MINUTES
+        commute_control = f"""
+          <label for="commute-filter" style="font-weight:600;color:#1a1a2e;
+                 margin-right:6px;display:block;margin-top:6px;">Commute</label>
+          <select id="commute-filter"
+                  style="font-size:12px;border:1px solid #d1d5db;border-radius:5px;
+                         padding:2px 6px;background:#fff;cursor:pointer;width:100%;">
+            <option value="all">Any</option>
+            <option value="{budget}">Under {budget} min</option>
+            <option value="{int(budget * 2 / 3)}">Under {int(budget * 2 / 3)} min</option>
+            <option value="{int(budget / 2)}">Under {int(budget / 2)} min</option>
+          </select>"""
+    else:
+        commute_control = ""
+
+    # Built outside the f-string below: the layer names are raw JS identifiers,
+    # not JSON, so they have to be interpolated rather than serialised.
+    listings_js = "[" + ",".join(
+        "{{vars:[{v}],beds:{b},commute:{c}}}".format(
+            v=",".join(f["vars"]),
+            b=f["beds"] if f["beds"] is not None else "null",
+            c=f["commute"] if f["commute"] is not None else "null",
+        )
+        for f in filterable
+    ) + "]"
+
     m.get_root().html.add_child(folium.Element(f"""
         <div style="position:fixed;bottom:16px;left:16px;z-index:999;
                     background:rgba(255,255,255,0.93);padding:10px 14px;
                     border-radius:8px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;
                     font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,0.13);line-height:2;">
           <div style="font-weight:700;font-size:13px;color:#1a1a2e;margin-bottom:2px;">Legend</div>
-          <div>
-            <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
-              <circle cx="7" cy="7" r="5.5" fill="#D99441" stroke="white" stroke-width="1.5"/>
-            </svg>Caltrain station
-          </div>
-          <div>
-            <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
-              <circle cx="7" cy="7" r="5.5" fill="#C8363B" stroke="white" stroke-width="1.5"/>
-            </svg>BART station
-          </div>
-          <div>
-            <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
-              <circle cx="7" cy="7" r="5.5" fill="#3b82f6" stroke="white" stroke-width="1.5"/>
-            </svg>New listing (3 most recent)
-          </div>
-          <div>
-            <svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">
-              <circle cx="7" cy="7" r="4.5" fill="#9ca3af" stroke="white" stroke-width="1.5"/>
-            </svg>Listing — click to open
-          </div>
-          <div>
-            <svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">
-              <line x1="0" y1="4" x2="20" y2="4" stroke="#D99441" stroke-width="2.5"
-                    stroke-dasharray="8 6" opacity="0.75"/>
-            </svg>Bike route to Caltrain
-          </div>
-          <div>
-            <svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">
-              <line x1="0" y1="4" x2="20" y2="4" stroke="#C8363B" stroke-width="2.5"
-                    stroke-dasharray="2 6" opacity="0.75"/>
-            </svg>Bike route to BART
-          </div>
+          {''.join(legend_rows)}
         </div>
 
         <div style="position:fixed;top:12px;right:12px;z-index:999;
                     background:rgba(255,255,255,0.95);padding:7px 10px;
                     border-radius:8px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-                    font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,0.13);">
-          <label for="br-filter" style="font-weight:600;color:#1a1a2e;margin-right:6px;">Bedrooms</label>
+                    font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,0.13);min-width:130px;">
+          <label for="br-filter" style="font-weight:600;color:#1a1a2e;
+                 margin-right:6px;display:block;">Bedrooms</label>
           <select id="br-filter"
                   style="font-size:12px;border:1px solid #d1d5db;border-radius:5px;
-                         padding:2px 6px;background:#fff;cursor:pointer;">
+                         padding:2px 6px;background:#fff;cursor:pointer;width:100%;">
             <option value="all">All</option>
-            <option value="2br">2 BR</option>
-            <option value="3plus">3+ BR</option>
+            <option value="1">1 BR</option>
+            <option value="2">2 BR</option>
+            <option value="3">3+ BR</option>
           </select>
+          {commute_control}
+          <div id="filter-count" style="color:#6b7280;margin-top:6px;font-size:11px;"></div>
         </div>
 
         <script>
-          document.getElementById('br-filter').addEventListener('change', function() {{
-            var val    = this.value;
-            var map    = {_vmap};
-            var fg2br   = {_v2br};
-            var fg3plus = {_v3plus};
-            var fgother = {_vother};
-            if (val === 'all') {{
-              if (!map.hasLayer(fg2br))   map.addLayer(fg2br);
-              if (!map.hasLayer(fg3plus)) map.addLayer(fg3plus);
-              if (!map.hasLayer(fgother)) map.addLayer(fgother);
-            }} else if (val === '2br') {{
-              if (!map.hasLayer(fg2br))   map.addLayer(fg2br);
-              if (map.hasLayer(fg3plus))  map.removeLayer(fg3plus);
-              if (map.hasLayer(fgother))  map.removeLayer(fgother);
-            }} else if (val === '3plus') {{
-              if (map.hasLayer(fg2br))    map.removeLayer(fg2br);
-              if (!map.hasLayer(fg3plus)) map.addLayer(fg3plus);
-              if (map.hasLayer(fgother))  map.removeLayer(fgother);
+          (function() {{
+            var group    = {fg_listings.get_name()};
+            var listings = {listings_js};
+
+            function apply() {{
+              var bedSel = document.getElementById('br-filter').value;
+              var cmtEl  = document.getElementById('commute-filter');
+              var cmtSel = cmtEl ? cmtEl.value : 'all';
+              var shown  = 0;
+
+              listings.forEach(function(item) {{
+                var ok = true;
+
+                if (bedSel !== 'all') {{
+                  var want = parseInt(bedSel, 10);
+                  // "3" means 3 or more; anything with no bedroom count is
+                  // hidden once a specific size is asked for.
+                  ok = item.beds !== null &&
+                       (want === 3 ? item.beds >= 3 : item.beds === want);
+                }}
+
+                if (ok && cmtSel !== 'all') {{
+                  // Listings with no commute figure stay visible: a missing
+                  // measurement isn't evidence of a bad commute.
+                  ok = item.commute === null ||
+                       item.commute <= parseInt(cmtSel, 10);
+                }}
+
+                if (ok) shown++;
+                item.vars.forEach(function(layer) {{
+                  if (ok && !group.hasLayer(layer))  group.addLayer(layer);
+                  if (!ok && group.hasLayer(layer))  group.removeLayer(layer);
+                }});
+              }});
+
+              document.getElementById('filter-count').textContent =
+                shown + ' of ' + listings.length + ' shown';
             }}
-          }});
+
+            document.getElementById('br-filter').addEventListener('change', apply);
+            var c = document.getElementById('commute-filter');
+            if (c) c.addEventListener('change', apply);
+            apply();
+          }})();
         </script>
     """))
 
@@ -1029,7 +1230,10 @@ HTML_TEMPLATE = """\
   }
   .card .value { font-size: 1.1rem; font-weight: 700; color: #1a1a2e; line-height: 1.2; }
 
-  /* ── Chart Grid ── */
+  /* ── Chart Grid ──
+     The last row holds whichever of commute / transit / bike / bart this
+     profile actually has data for, so it's an auto-flow row rather than a
+     named area — a named area for a chart that isn't rendered leaves a gap. */
   .grid {
     display: grid;
     gap: 16px;
@@ -1040,8 +1244,7 @@ HTML_TEMPLATE = """\
       "map    map"
       "heat   heat"
       "brbath hist"
-      "scatter count"
-      "bike   bart";
+      "scatter count";
   }
 
   .chart-card {
@@ -1059,8 +1262,6 @@ HTML_TEMPLATE = """\
   .area-hist    { grid-area: hist; }
   .area-scatter { grid-area: scatter; }
   .area-count   { grid-area: count; }
-  .area-bike    { grid-area: bike; }
-  .area-bart    { grid-area: bart; }
   .area-map     { grid-area: map; min-height: 540px; }
   .area-time    { grid-area: time; }
 
@@ -1118,8 +1319,7 @@ HTML_TEMPLATE = """\
   <div class="chart-card area-count">
     <div class="plotly-chart" id="chart-count"></div>
   </div>
-  __BIKE_SLOT__
-  __BART_SLOT__
+  __TRANSIT_SLOTS__
 </div>
 
 <footer>can't wait to live somewhere someday</footer>
@@ -1158,8 +1358,7 @@ renderChart("chart-hist",    __CHART_HIST__);
 renderChart("chart-scatter", __CHART_SCATTER__);
 renderChart("chart-count",   __CHART_COUNT__);
 __TIME_JS__
-__BIKE_JS__
-__BART_JS__
+__TRANSIT_JS__
 </script>
 </body>
 </html>"""
@@ -1179,27 +1378,22 @@ def build_html(df: pd.DataFrame, historical: pd.DataFrame | None = None) -> str:
         time_slot = ""
         time_js   = ""
 
-    bike_chart = chart_bike_times(df)
-    if bike_chart:
-        bike_slot = (
-            '<div class="chart-card area-bike">'
-            '<div class="plotly-chart" id="chart-bike"></div></div>'
+    # Each of these four is optional and independent: a profile that does
+    # commutes but no bike routing renders two of them, and vice versa.
+    optional_slots, optional_js = [], []
+    for area, chart_id, spec in (
+        ("commute", "chart-commute", chart_commute_times(df)),
+        ("transit", "chart-transit", chart_transit_quality(df)),
+        ("bike",    "chart-bike",    chart_bike_times(df)),
+        ("bart",    "chart-bart",    chart_bart_bike_times(df)),
+    ):
+        if not spec:
+            continue
+        optional_slots.append(
+            f'<div class="chart-card area-{area}">'
+            f'<div class="plotly-chart" id="{chart_id}"></div></div>'
         )
-        bike_js = f'renderChart("chart-bike", {json.dumps(bike_chart)});'
-    else:
-        bike_slot = ""
-        bike_js   = ""
-
-    bart_chart = chart_bart_bike_times(df)
-    if bart_chart:
-        bart_slot = (
-            '<div class="chart-card area-bart">'
-            '<div class="plotly-chart" id="chart-bart"></div></div>'
-        )
-        bart_js = f'renderChart("chart-bart", {json.dumps(bart_chart)});'
-    else:
-        bart_slot = ""
-        bart_js   = ""
+        optional_js.append(f'renderChart("{chart_id}", {json.dumps(spec)});')
 
     print("Building neighborhood map…")
     map_iframe = build_folium_map_iframe(df)
@@ -1215,10 +1409,8 @@ def build_html(df: pd.DataFrame, historical: pd.DataFrame | None = None) -> str:
     html = html.replace("__MAP_IFRAME__",    map_iframe)
     html = html.replace("__TIME_SLOT__",     time_slot)
     html = html.replace("__TIME_JS__",       time_js)
-    html = html.replace("__BIKE_SLOT__",     bike_slot)
-    html = html.replace("__BIKE_JS__",       bike_js)
-    html = html.replace("__BART_SLOT__",     bart_slot)
-    html = html.replace("__BART_JS__",       bart_js)
+    html = html.replace("__TRANSIT_SLOTS__", "\n  ".join(optional_slots))
+    html = html.replace("__TRANSIT_JS__",    "\n".join(optional_js))
     return html
 
 

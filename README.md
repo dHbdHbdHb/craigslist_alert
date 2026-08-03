@@ -3,11 +3,13 @@
 Scrapes Craigslist SF apartment listings, filters by neighborhood, and sends
 email alerts. Runs on a Raspberry Pi via cron.
 
-- **Priority alerts** — immediate individual email when a listing matches your
-  priority neighborhoods, price cap, and bathroom minimum
 - **Daily digest** — one email per day grouping new listings by neighborhood,
-  with cycling times to Caltrain and BART
+  each with its door-to-door transit commute
 - **Dashboard** — Plotly charts and a Folium map, rebuilt every 10 minutes
+
+Immediate per-listing "priority alerts" were removed — in practice they mostly
+caught scams, which `[alerts.digest] min_posting_age_minutes` and
+`scam_keywords` now handle instead.
 
 **Setting this up for yourself? Read [SETUP.md](SETUP.md).** This file is the
 architecture reference.
@@ -47,9 +49,10 @@ python search_profile.py alex      # check one
 | Shared across everyone | Per profile |
 |---|---|
 | Gmail sender (`secrets.env`) | Recipients |
-| OpenRouteService key | Budget, bedrooms, city |
-| Neighborhood shapes | Which neighborhoods, and which are priority |
-| The Pi and its cron jobs | Alert thresholds, transit anchors, dashboard |
+| OpenRouteService key | Budget, bedrooms, region/subarea, city |
+| Google Maps key | Which neighborhoods |
+| Neighborhood shapes | Commute destination and its scoring weights |
+| The Pi and its cron jobs | Digest thresholds, transit anchors, dashboard |
 
 ---
 
@@ -79,12 +82,15 @@ craigslist_alert/
 ├── search_profile.py             # profile loading + validation, and a CLI to check them
 ├── config.py                     # resolves the active profile, re-exports it as constants
 ├── craigslist_scraper.py         # scraper — fetches, geocodes, stores listings
-├── email_alert.py                # priority emails + daily digest
+├── email_alert.py                # the daily digest
 ├── analyze_listings.py           # builds the HTML dashboard
-├── transit_times.py              # cycling times to transit, with an on-disk route cache
+├── transit_times.py              # cycling times to a station (ORS), on-disk route cache
+├── transit_commute.py            # door-to-door transit to work (Google Routes), cached
 ├── migrate_to_profiles.py        # one-time migration from the old single-user layout
 ├── neighborhoods/
-│   └── neighborhood_shapes.py    # shared polygon definitions
+│   ├── neighborhood_shapes.py    # shared polygon definitions
+│   ├── edit_neighborhoods.py     # browser map editor; writes the file above
+│   └── draft_shapes.geojson      # proposed shapes awaiting review in the editor
 ├── shell_scripts/
 │   ├── _common.sh                # conda activation + per-profile looping
 │   ├── run_scraper.sh            # cron: scrape all enabled profiles
@@ -97,6 +103,7 @@ craigslist_alert/
 │   │   ├── listings_active.csv   # current listings (max 1000 rows)
 │   │   ├── listings_archive.csv  # append-only history: removed + overflow
 │   │   ├── bike_routes.json      # ORS route cache (gitignored)
+│   │   ├── transit_commutes.json # Google Routes commute cache (gitignored)
 │   │   └── last_digest_date.txt  # duplicate-send guard (gitignored)
 │   └── historical/
 │       ├── 2026-sf.csv           # frozen Mar–Apr 2026 archive (read-only)
@@ -148,6 +155,11 @@ it on load, so nothing is ever counted twice.
     5 7,10,16,22 * * * /home/pi/craigslist_alert/shell_scripts/run_alert.sh >> /home/pi/craigslist_alert/logs/alert.log  2>&1
     ```
     These loop over every enabled profile, so adding a person needs no cron change.
+
+    The 10-minute cadence exists to keep the **dashboard** fresh — that's the
+    only thing that benefits from it. `run_alert.sh` sends at most one digest per
+    profile per day; it runs four times purely as a retry, so an outage at 07:05
+    is picked up at 10:05. `last_digest_date.txt` is what stops duplicates.
 11. DNS watchdog, as root (`sudo crontab -e`):
     ```cron
     */5 * * * * /home/pi/craigslist_alert/shell_scripts/dns_probe.sh

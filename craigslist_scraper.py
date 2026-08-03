@@ -15,6 +15,7 @@ from config import (
     SEARCH_URL, SEARCH_CITY, PROFILE_NAME,
 )
 from transit_times import compute_bike_times, compute_bart_bike_times
+from transit_commute import compute_commutes
 
 headers = {
     "User-Agent": (
@@ -207,6 +208,11 @@ def main():
             skipped_no_url += 1
             continue
 
+        # Craigslist dropped `datePosted` from the search-page JSON-LD, so in
+        # practice this is always the fallback and `time_posted` means "first
+        # seen by us", not "posted". That's fine for ordering and for the
+        # digest's min_posting_age_minutes check — it just means the clock
+        # starts when we first see a listing rather than when it went up.
         post_time = info.get('datePosted') or datetime.now(ZoneInfo("America/Los_Angeles")).isoformat()
 
         listings.append({
@@ -256,7 +262,9 @@ def main():
 
     # Ensure transit-time columns exist
     for _col in ('bike_time_minutes', 'bike_station',
-                 'bart_bike_time_minutes', 'bart_station'):
+                 'bart_bike_time_minutes', 'bart_station',
+                 'commute_minutes', 'commute_walk_minutes',
+                 'commute_headway', 'transit_score', 'transit_lines'):
         if _col not in df_result.columns:
             df_result[_col] = None
 
@@ -277,6 +285,17 @@ def main():
             for url, info in bart_bike_times.items():
                 df_result.loc[df_result['url'] == url, 'bart_bike_time_minutes'] = info['minutes']
                 df_result.loc[df_result['url'] == url, 'bart_station']           = info['station']
+
+            # Door-to-door transit commute to the profile's [commute] destination.
+            # Same deferral contract as the bike times above: whatever doesn't fit
+            # in this run's budget is picked up by the next one.
+            for url, info in compute_commutes(new_records, defer_on_limit=True).items():
+                row = df_result['url'] == url
+                df_result.loc[row, 'commute_minutes']      = info['minutes']
+                df_result.loc[row, 'commute_walk_minutes'] = info['walk_minutes']
+                df_result.loc[row, 'commute_headway']      = info['worst_headway']
+                df_result.loc[row, 'transit_score']        = info['transit_score']
+                df_result.loc[row, 'transit_lines']        = ", ".join(info['lines'])
 
     # Nothing scraped and nothing stored yet: leave without writing an empty CSV.
     # Happens on a brand-new profile whose filters match nothing, and whenever

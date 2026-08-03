@@ -1,0 +1,155 @@
+# ==============================================================================
+#  Housing search profile: Audrey
+# ==============================================================================
+#  Currently pointed at Daniel's inbox for solo testing. Swap `digest_to` when
+#  you're happy with what arrives — that's the only line that has to change.
+#
+#  Check this file with:   python search_profile.py audrey
+# ==============================================================================
+
+name = "audrey"
+display_name = "Audrey"
+
+enabled = true
+
+
+# ── 1. Budget & size ──────────────────────────────────────────────────────────
+#  Their stated ceiling is $4,000/mo ("hopefully less"). search.max_price sits
+#  above that on purpose: listings between $4,000 and $4,600 never reach the
+#  digest, but they do reach the dashboard, which is what makes the price
+#  context there worth reading.
+
+[search]
+max_price    = 4600
+min_bedrooms = 1
+
+region = "sfbay"
+
+# Craigslist subarea. Without this you get the whole Bay Area — Santa Rosa to
+# San Jose — and since only the first page is scraped, barely any of it is in
+# San Francisco. sfbay subareas: sfc (SF), eby (east bay), pen (peninsula),
+# sby (south bay), nby (north bay), scz (santa cruz).
+subarea = "sfc"
+
+city = "San Francisco"
+
+
+# ── 2. Neighborhoods ──────────────────────────────────────────────────────────
+#  They named: Lower Haight, Panhandle, Inner Sunset, Hayes Valley, Noe Valley,
+#  Mission — "but we're open to anything given the limited housing in SF".
+#
+#  Three of those don't exist as shapes yet. Hayes Valley, Lower Haight,
+#  Panhandle and Noe Valley are drafted in neighborhoods/draft_shapes.geojson
+#  and are waiting for review in the editor:
+#
+#      python neighborhoods/edit_neighborhoods.py
+#
+#  Until they're approved, the list below uses the existing shapes that cover
+#  the same ground. Once approved, uncomment the block underneath.
+
+[neighborhoods]
+# false = never drop a listing for being outside these shapes. The list below
+# becomes purely the order things are grouped in — in the digest and on the
+# dashboard — and anything matching no shape lands in "Elsewhere in the city"
+# at the bottom.
+#
+# This is the right setting while the shapes are still incomplete: they cover
+# maybe a quarter of SF, so filtering on them throws away most of what's
+# scraped. She's "open to anything given the limited housing in SF" anyway.
+filter = false
+
+# Ordered best-first — this is the order sections appear in the digest.
+include = [
+    "Duboce",               # contains Lower Haight
+    "Haight/Cole Valley",   # southern half of the Panhandle
+    "NOPA/Inner Richmond",  # northern half of the Panhandle
+    "Inner Sunset",
+    "Castro/Noe",           # contains Noe Valley
+    "Mission",
+    "Chill Mission",
+]
+
+# After approving the drafts in the editor, swap the list above for this one:
+#
+# include = [
+#     "Lower Haight",
+#     "Panhandle",
+#     "Hayes Valley",
+#     "Inner Sunset",
+#     "Noe Valley",
+#     "Mission",
+#     "Chill Mission",
+#     "Duboce",
+#     "Haight/Cole Valley",
+#     "NOPA/Inner Richmond",
+#     "Castro/Noe",
+# ]
+
+
+# ── 3. Who gets the email ─────────────────────────────────────────────────────
+#  TESTING: Daniel only. Swap in their address when you're confident.
+
+[alerts]
+digest_to = [
+    "hillsbunnell@gmail.com",
+]
+
+
+# ── 4. What makes the daily digest ────────────────────────────────────────────
+
+[alerts.digest]
+min_price = 2100   # the dashboard drops anything under $2,100 anyway
+max_price = 4000   # their actual ceiling
+
+min_posting_age_minutes = 20
+
+scam_keywords = [
+    "email only",
+    "email me only",
+    "overseas",
+    "no calls",
+    "no phone calls",
+]
+
+
+# ── 5. Dashboard ──────────────────────────────────────────────────────────────
+
+[dashboard]
+url = "https://dhbdhbdhb.github.io/craigslist_alert/dashboards/audrey.html"
+
+# Centred between the Panhandle and the Mission, which is where their
+# neighborhoods cluster.
+map_center = [37.767, -122.435]
+
+show_historical = true
+
+
+# ── 6. Commute to work ────────────────────────────────────────────────────────
+#  450 Golden Gate Ave — Phillip Burton Federal Building, Civic Center.
+#  Coordinates are [longitude, latitude], longitude first.
+#
+#  Needs GOOGLE_MAPS_API_KEY in secrets.env. Without it, commute columns stay
+#  empty and nothing else changes.
+
+[commute]
+destination      = [-122.4196, 37.7806]
+destination_name = "450 Golden Gate"
+
+# "<45 min commute" — listings over this are dropped from the digest.
+max_minutes = 45
+
+arrive_by = "09:00"
+
+# They also asked for "within a 15 min walk of public transit" and lines that
+# "come more frequently or have more redundancy". That's what the frequency and
+# redundancy terms buy: frequency reads the worst headway on the trip,
+# redundancy counts how many distinct lines can make it.
+[commute.weights]
+time       = 0.40
+frequency  = 0.35
+redundancy = 0.25
+
+
+# ── 7. Bike-to-station anchors ────────────────────────────────────────────────
+#  Deliberately omitted — they don't care about cycling to Caltrain/BART, so
+#  there's no [transit] section and ORS is skipped entirely for this profile.

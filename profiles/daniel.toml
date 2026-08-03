@@ -34,6 +34,13 @@ min_bedrooms = 2
 # sfbay = San Francisco Bay Area. Others: losangeles, newyork, seattle, chicago.
 region = "sfbay"
 
+# Craigslist subarea within that region. Without it the search covers the whole
+# Bay Area, and since only the first page is scraped, almost nothing that comes
+# back is in San Francisco.
+# sfbay subareas: sfc (SF), eby (east bay), pen (peninsula), sby (south bay),
+# nby (north bay), scz (santa cruz).
+subarea = "sfc"
+
 # Only keep listings whose city matches this exactly, as Craigslist reports it.
 # Set to "" to keep every city in the region.
 city = "San Francisco"
@@ -66,52 +73,26 @@ include = [
     "Glen Park/Excelsior",
 ]
 
-# Neighborhoods you'd move to today. A listing here that also passes the
-# [alerts.priority] filters triggers an immediate individual email instead of
-# waiting for the daily digest. Must be a subset of `include`.
-priority = [
-    "Chill Mission",
-    "Duboce",
-    "NOPA/Inner Richmond",
-    "Haight/Cole Valley",
-    "Bernal",
-    "Potrero Hill",
-]
 
-
-# ── 3. Who gets the emails ────────────────────────────────────────────────────
+# ── 3. Who gets the email ─────────────────────────────────────────────────────
 #  Mail is always SENT from the Gmail account in secrets.env. These are just the
-#  recipients. Empty list = that email type is disabled for this profile.
+#  recipients. Empty list = the digest is disabled for this profile.
 
 [alerts]
 # Once-a-day summary of everything new.
 digest_to = [
-    # "Max.Drimmer@gmail.com",
-    # "siennarwhite@gmail.com",
-    # "hillsbunnell@gmail.com",
-]
-
-# Immediate ping for standout listings. Keep this list tight — these can fire
-# at any hour.
-priority_to = [
-    # "Max.Drimmer@gmail.com",
-    # "hillsbunnell@gmail.com",
+    "hillsbunnell@gmail.com",
 ]
 
 
-# ── 4. What counts as urgent ──────────────────────────────────────────────────
-#  A listing must pass ALL of these (and be in a `priority` neighborhood) to
-#  trigger an immediate alert.
+# ── 4. What makes the daily digest ────────────────────────────────────────────
 
-[alerts.priority]
-max_price     = 4600
-min_bathrooms = 2
+[alerts.digest]
+min_price = 2100
+max_price = 5300
 
-# Listings below this are usually scams or bait. Raise it if you get junk.
-min_price = 2800
-
-# Wait this many minutes after posting before alerting, which gives Craigslist's
-# community flagging time to catch obvious scams. 0 = alert instantly.
+# Wait this many minutes after posting before a listing can appear in a digest,
+# which gives Craigslist's community flagging time to catch obvious scams.
 min_posting_age_minutes = 20
 
 # A listing whose title contains any of these is silently skipped.
@@ -124,15 +105,7 @@ scam_keywords = [
 ]
 
 
-# ── 5. What makes the daily digest ────────────────────────────────────────────
-#  Wider than the priority filters — this is the "worth a look" band.
-
-[alerts.digest]
-min_price = 2100
-max_price = 5300
-
-
-# ── 6. Dashboard ──────────────────────────────────────────────────────────────
+# ── 5. Dashboard ──────────────────────────────────────────────────────────────
 
 [dashboard]
 # Public URL where the dashboard is published, linked at the bottom of every
@@ -147,7 +120,7 @@ map_center = [37.758, -122.433]
 show_historical = true
 
 
-# ── 7. Transit anchors (advanced) ─────────────────────────────────────────────
+# ── 6. Transit anchors (advanced) ─────────────────────────────────────────────
 #  The dashboard computes cycling time from each listing to the nearest station
 #  in each group. Change these if you commute somewhere else — coordinates are
 #  [longitude, latitude] (note: longitude FIRST, which is the opposite order

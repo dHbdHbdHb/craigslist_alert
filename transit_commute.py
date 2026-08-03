@@ -1,0 +1,392 @@
+"""
+transit_commute.py — door-to-door public-transit commute from each listing to the
+profile's work address, via the Google Routes API.
+
+This is the transit counterpart to transit_times.py (which does cycling times to
+a station). It answers the question people actually ask — "how long does it take
+me to get to work on Muni/BART?" — rather than a proxy for it.
+
+Why Google Routes and not OpenRouteService: ORS has no public-transit profile on
+the hosted free tier, only driving/cycling/walking. Routes API returns scheduled
+door-to-door itineraries plus, per transit leg, the `headway` — the expected gap
+between departures. That headway is what makes the frequency ranking possible
+without hand-maintaining a table of Muni timetables.
+
+Set GOOGLE_MAPS_API_KEY in secrets.env to switch this on. With no key the module
+is inert: it returns {} and everything downstream degrades to "no commute data",
+exactly like bike times do without ORS_API_KEY.
+
+Scoring
+-------
+Three things decide whether transit at an address is actually good, and the
+profile weights them (see [commute] in the TOML):
+
+    time         door-to-door minutes against the profile's max_minutes
+    frequency    the WORST headway on the itinerary — a 4-minute BART leg does
+                 not rescue a 30-minute bus leg, so the bottleneck is the number
+                 that describes the trip
+    redundancy   how many genuinely different ways there are to make the trip,
+                 counted as distinct transit lines across all returned
+                 itineraries. One line means one breakdown away from stranded
+
+Each is normalised to 0–100 and combined into `transit_score`.
+
+Rate limiting / cost
+--------------------
+Results are cached on disk by listing URL and the destination never moves, so
+each listing costs exactly one request, once, ever. `defer_on_limit=True` (used
+by the scraper) stops early and leaves the rest for the next run; the digest
+path uses False so every listing in the email has a commute on it.
+"""
+
+import json
+import time
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
+
+import pandas as pd
+import requests
+
+from config import (
+    GOOGLE_MAPS_API_KEY,
+    COMMUTE_DESTINATION,
+    COMMUTE_DESTINATION_NAME,
+    COMMUTE_ARRIVE_BY,
+    COMMUTE_MAX_MINUTES,
+    COMMUTE_WEIGHTS,
+    COMMUTE_CACHE_PATH,
+)
+
+_ENDPOINT = "https://routes.googleapis.com/directions/v2:computeRoutes"
+
+# Only the fields the scoring below actually reads. Routes API bills on the
+# field mask, and an over-broad mask is both slower and more expensive.
+_FIELD_MASK = ",".join([
+    "routes.duration",
+    "routes.legs.steps.travelMode",
+    "routes.legs.steps.staticDuration",
+    "routes.legs.steps.transitDetails.headway",
+    "routes.legs.steps.transitDetails.transitLine.name",
+    "routes.legs.steps.transitDetails.transitLine.nameShort",
+    "routes.legs.steps.transitDetails.transitLine.vehicle.type",
+    "routes.legs.steps.transitDetails.stopDetails.departureStop.name",
+])
+
+# Routes API allows far more than this, but the Pi runs this inside a 10-minute
+# cron slot alongside the scraper, so it stays deliberately gentle.
+_MAX_PER_MIN = 60
+_call_times = []
+
+# Headway bounds for the frequency score. 5 min or better is "just turn up and
+# go"; 30 min or worse means the timetable runs your day.
+_HEADWAY_BEST_MIN  = 5
+_HEADWAY_WORST_MIN = 30
+
+# Distinct lines across all itineraries needed to score full marks on redundancy.
+_REDUNDANCY_TARGET = 4
+
+# Consecutive request failures before assuming the problem is configuration
+# rather than one bad address, and stopping.
+_MAX_CONSECUTIVE_FAILURES = 5
+
+# Rail is materially more reliable than a bus in traffic, so an all-rail trip
+# gets a small bump inside the frequency term.
+_RAIL_VEHICLES = {
+    "HEAVY_RAIL", "SUBWAY", "METRO_RAIL", "LIGHT_RAIL", "RAIL",
+    "COMMUTER_TRAIN", "HIGH_SPEED_TRAIN", "LONG_DISTANCE_TRAIN", "MONORAIL", "TRAM",
+}
+
+
+def _reserve_slot(defer_on_limit: bool) -> bool:
+    """Keep requests under _MAX_PER_MIN. Mirrors transit_times._reserve_ors_slots."""
+    now = time.time()
+    _call_times[:] = [t for t in _call_times if t > now - 60]
+    if len(_call_times) < _MAX_PER_MIN:
+        return True
+    if defer_on_limit:
+        return False
+    wait = 60 - (now - _call_times[0]) + 0.5
+    print(f"    Commute rate limit approaching, sleeping {wait:.0f}s…")
+    time.sleep(wait)
+    _call_times[:] = [t for t in _call_times if t > time.time() - 60]
+    return True
+
+
+def _next_arrival_time() -> str:
+    """RFC3339 UTC for the next weekday at the profile's arrive-by time.
+
+    Transit itineraries are only meaningful against a clock — a 9am Tuesday trip
+    and a 3am Sunday trip on the same route are different journeys. Pinning every
+    listing to the same weekday-morning slot is what makes their commute numbers
+    comparable to each other.
+    """
+    tz    = ZoneInfo("America/Los_Angeles")
+    hour, minute = COMMUTE_ARRIVE_BY
+    local = datetime.now(tz).replace(hour=hour, minute=minute, second=0, microsecond=0)
+
+    # Always look forward: a time earlier today is already gone, and the API
+    # rejects arrival times in the past.
+    if local <= datetime.now(tz) + timedelta(minutes=30):
+        local += timedelta(days=1)
+    while local.weekday() >= 5:            # 5 = Sat, 6 = Sun
+        local += timedelta(days=1)
+
+    return local.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _seconds(value) -> float:
+    """Routes API durations are strings like '1345s'."""
+    if not value:
+        return 0.0
+    try:
+        return float(str(value).rstrip("s"))
+    except ValueError:
+        return 0.0
+
+
+def _summarise_route(route: dict) -> dict:
+    """Pull minutes, walking, and per-leg transit details out of one itinerary."""
+    total_min = _seconds(route.get("duration")) / 60
+    walk_sec, legs = 0.0, []
+
+    for leg in route.get("legs", []):
+        for step in leg.get("steps", []):
+            if step.get("travelMode") == "WALK":
+                walk_sec += _seconds(step.get("staticDuration"))
+                continue
+
+            details = step.get("transitDetails") or {}
+            line    = details.get("transitLine") or {}
+            stop    = ((details.get("stopDetails") or {}).get("departureStop") or {})
+            legs.append({
+                "line":    line.get("nameShort") or line.get("name") or "?",
+                "vehicle": ((line.get("vehicle") or {}).get("type") or "").upper(),
+                "headway": _seconds(details.get("headway")) / 60 or None,
+                "stop":    stop.get("name") or "",
+            })
+
+    return {
+        "minutes":      int(round(total_min)),
+        "walk_minutes": int(round(walk_sec / 60)),
+        "legs":         legs,
+    }
+
+
+def _score(best: dict, alternatives: list[dict]) -> dict:
+    """Blend commute time, frequency, and redundancy into a 0–100 score."""
+    # ── time ──
+    # Full marks at half the budget or better, zero at the budget. Beyond it the
+    # listing is out of scope anyway, so there's nothing to gain from grading it.
+    floor = COMMUTE_MAX_MINUTES / 2
+    if best["minutes"] <= floor:
+        time_score = 100.0
+    elif best["minutes"] >= COMMUTE_MAX_MINUTES:
+        time_score = 0.0
+    else:
+        span = COMMUTE_MAX_MINUTES - floor
+        time_score = 100.0 * (COMMUTE_MAX_MINUTES - best["minutes"]) / span
+
+    # ── frequency ──
+    # The bottleneck leg, not the average: you wait for the worst one.
+    headways = [l["headway"] for l in best["legs"] if l["headway"]]
+    worst    = max(headways) if headways else None
+    if worst is None:
+        # A walk-only trip has no headway to wait for. That's the best possible
+        # case, not a missing value.
+        freq_score = 100.0 if not best["legs"] else 50.0
+    elif worst <= _HEADWAY_BEST_MIN:
+        freq_score = 100.0
+    elif worst >= _HEADWAY_WORST_MIN:
+        freq_score = 0.0
+    else:
+        span = _HEADWAY_WORST_MIN - _HEADWAY_BEST_MIN
+        freq_score = 100.0 * (_HEADWAY_WORST_MIN - worst) / span
+
+    if best["legs"] and all(l["vehicle"] in _RAIL_VEHICLES for l in best["legs"]):
+        freq_score = min(100.0, freq_score + 10.0)
+
+    # ── redundancy ──
+    # Distinct lines across every itinerary Google returned. Two routes that both
+    # ride the N Judah are one line's worth of resilience, not two.
+    lines = {l["line"] for route in [best, *alternatives] for l in route["legs"]}
+    redundancy_score = 100.0 * min(len(lines), _REDUNDANCY_TARGET) / _REDUNDANCY_TARGET
+
+    w     = COMMUTE_WEIGHTS
+    total = w["time"] + w["frequency"] + w["redundancy"]
+    score = (
+        w["time"]       * time_score
+        + w["frequency"]  * freq_score
+        + w["redundancy"] * redundancy_score
+    ) / total
+
+    return {
+        "transit_score":    int(round(score)),
+        "worst_headway":    round(worst, 1) if worst else None,
+        "distinct_lines":   len(lines),
+        "lines":            sorted(lines),
+    }
+
+
+_reported_errors: set[str] = set()
+
+
+def _report_once(message: str) -> None:
+    """Print a failure the first time only.
+
+    A misconfigured key fails identically for every listing. Printing it once per
+    listing buries the run's real output in hundreds of identical lines and makes
+    a config problem look like a data problem.
+    """
+    if message in _reported_errors:
+        return
+    _reported_errors.add(message)
+    print(f"  Commute: {message}")
+
+
+def _request(lat: float, lon: float, arrival: str, timeout: int = 20) -> list[dict] | None:
+    """One Routes API call. Returns the raw route list, or None on any failure."""
+    body = {
+        "origin":      {"location": {"latLng": {"latitude": lat, "longitude": lon}}},
+        "destination": {"location": {"latLng": {"latitude":  COMMUTE_DESTINATION[1],
+                                                "longitude": COMMUTE_DESTINATION[0]}}},
+        "travelMode":  "TRANSIT",
+        "arrivalTime": arrival,
+        "computeAlternativeRoutes": True,
+        "languageCode": "en-US",
+    }
+    headers = {
+        "Content-Type":     "application/json",
+        "X-Goog-Api-Key":   GOOGLE_MAPS_API_KEY,
+        "X-Goog-FieldMask": _FIELD_MASK,
+    }
+
+    try:
+        resp = requests.post(_ENDPOINT, json=body, headers=headers, timeout=timeout)
+    except requests.RequestException as e:
+        _report_once(f"request failed ({type(e).__name__}: {e})")
+        return None
+
+    if resp.status_code != 200:
+        # The API puts the useful part in error.message; the rest is noise.
+        try:
+            detail = resp.json().get("error", {}).get("message", resp.text[:200])
+        except ValueError:
+            detail = resp.text[:200]
+        _report_once(f"HTTP {resp.status_code} — {detail}")
+        return None
+
+    try:
+        return resp.json().get("routes", [])
+    except ValueError:
+        _report_once("response was not JSON")
+        return None
+
+
+def compute_commutes(listings, defer_on_limit: bool = False) -> dict:
+    """Door-to-door transit commute for each listing, keyed by URL.
+
+    Each value is:
+        {'minutes', 'walk_minutes', 'transit_score', 'worst_headway',
+         'distinct_lines', 'lines', 'summary'}
+
+    Listings already in the cache, or without coordinates, cost nothing. When the
+    per-minute budget runs out and defer_on_limit is set, the remainder is left
+    for the next run — the cache is on disk, so no work is repeated.
+    """
+    if not GOOGLE_MAPS_API_KEY:
+        print("  Commute: no GOOGLE_MAPS_API_KEY set — skipping transit times")
+        return {}
+    if not COMMUTE_DESTINATION:
+        print("  Commute: no [commute] destination in profile — skipping transit times")
+        return {}
+
+    try:
+        with open(COMMUTE_CACHE_PATH) as f:
+            cache = json.load(f)
+    except (FileNotFoundError, ValueError):
+        cache = {}
+
+    arrival      = _next_arrival_time()
+    result       = {}
+    cache_dirty  = False
+    deferred     = 0
+    consecutive_failures = 0
+
+    for i, pt in enumerate(listings):
+        url = pt.get("url")
+        if not url:
+            continue
+
+        cached = cache.get(url)
+        if cached and "minutes" in cached:
+            result[url] = cached
+            continue
+
+        lon, lat = pt.get("lon"), pt.get("lat")
+        if not (pd.notna(lon) and pd.notna(lat)):
+            continue
+
+        if not _reserve_slot(defer_on_limit):
+            deferred = sum(
+                1 for p in listings[i:] if p.get("url") and p["url"] not in cache
+            )
+            break
+
+        _call_times.append(time.time())
+        routes = _request(float(lat), float(lon), arrival)
+
+        if routes is None:
+            # A bad key, a disabled API, or a billing problem fails identically
+            # for every listing. Give up after a few rather than working through
+            # hundreds of requests that cannot succeed.
+            consecutive_failures += 1
+            if consecutive_failures >= _MAX_CONSECUTIVE_FAILURES:
+                print(f"  Commute: giving up after {consecutive_failures} "
+                      f"consecutive failures — fix the error above and re-run. "
+                      f"Nothing else is affected.")
+                break
+            continue
+
+        consecutive_failures = 0
+        if not routes:
+            # Empty list (rather than None) means the API worked and simply
+            # found no itinerary — a real answer about this address.
+            print(f"  Commute: no transit route for {url[-30:]}")
+            continue
+
+        summaries = [_summarise_route(r) for r in routes]
+        best      = min(summaries, key=lambda s: s["minutes"])
+        others    = [s for s in summaries if s is not best]
+
+        info = {**best, **_score(best, others)}
+        info["summary"] = _describe(info)
+
+        result[url] = info
+        cache[url]  = info
+        cache_dirty = True
+        print(f"  Commute: {url[-30:]} → {info['minutes']} min "
+              f"(score {info['transit_score']}, {info['distinct_lines']} line(s))")
+
+    if deferred:
+        print(f"  Commute: rate limit hit — deferred {deferred} listing(s) to next run")
+
+    if cache_dirty:
+        try:
+            with open(COMMUTE_CACHE_PATH, "w") as f:
+                json.dump(cache, f)
+        except OSError as e:
+            print(f"  Commute: could not write cache ({e})")
+
+    return result
+
+
+def _describe(info: dict) -> str:
+    """One-line human summary, e.g. '32 min to work · 7 min walk · N, 5R'."""
+    bits = [f"{info['minutes']} min to {COMMUTE_DESTINATION_NAME}"]
+    if info.get("walk_minutes"):
+        bits.append(f"{info['walk_minutes']} min walk")
+    if info.get("lines"):
+        bits.append(", ".join(info["lines"][:3]))
+    if info.get("worst_headway"):
+        bits.append(f"every ~{info['worst_headway']:.0f} min")
+    return " · ".join(bits)

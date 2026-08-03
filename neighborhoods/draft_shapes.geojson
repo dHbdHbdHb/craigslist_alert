@@ -1,0 +1,77 @@
+{
+  "_comment": "PROPOSED shapes awaiting review — not live until merged into neighborhood_shapes.py. Open the editor to review, adjust, or discard: python neighborhoods/edit_neighborhoods.py",
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hayes Valley",
+        "note": "Golden Gate Ave (N) to Market (S), Van Ness (E) to Webster (W). Overlaps the east edge of Duboce."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.43005, 37.77905],
+          [-122.42100, 37.77850],
+          [-122.41950, 37.77450],
+          [-122.42350, 37.77150],
+          [-122.42800, 37.77150],
+          [-122.43050, 37.77450],
+          [-122.43005, 37.77905]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lower Haight",
+        "note": "Haight St corridor, Divisadero to Webster, Oak (N) to Duboce (S). Sits inside the existing Duboce shape."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.43800, 37.77450],
+          [-122.43000, 37.77380],
+          [-122.42950, 37.76950],
+          [-122.43750, 37.77000],
+          [-122.43800, 37.77450]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Panhandle",
+        "note": "The park strip plus a block either side — Stanyan to Baker, Grove (N) to Page (S). Overlaps NOPA/Inner Richmond and Haight/Cole Valley."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.45350, 37.77450],
+          [-122.43950, 37.77350],
+          [-122.43900, 37.76950],
+          [-122.45300, 37.77050],
+          [-122.45350, 37.77450]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Noe Valley",
+        "note": "24th St corridor — 21st (N) to 30th (S), Grand View (W) to Dolores (E). Sits inside the existing Castro/Noe shape."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-122.43700, 37.75650],
+          [-122.42700, 37.75700],
+          [-122.42550, 37.74400],
+          [-122.43400, 37.74300],
+          [-122.43900, 37.74900],
+          [-122.43700, 37.75650]
+        ]]
+      }
+    }
+  ]
+}

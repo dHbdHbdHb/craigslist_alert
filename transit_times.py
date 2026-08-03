@@ -73,6 +73,11 @@ def _compute_cycling_times(listings, stations, cache_path, label,
     Returns {url: {'minutes': int, 'station': str}} for listings that are
     cached or were successfully computed this run.
     """
+    # A profile with no stations in this group has opted out of bike times —
+    # routing against an empty station list would fail every listing in turn.
+    if not stations:
+        return {}
+
     if not ORS_API_KEY:
         print(f"  {label}: no ORS_API_KEY set — skipping bike times")
         return {}
