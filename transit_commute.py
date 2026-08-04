@@ -496,12 +496,19 @@ def compute_commutes(listings, defer_on_limit: bool = False) -> dict:
 
 
 def _describe(info: dict) -> str:
-    """One-line human summary, e.g. '32 min to work · 7 min walk · N, 5R'."""
+    """One-line human summary, e.g. '32 min to work · 7 min walk to transit'.
+
+    Deliberately does not name lines. `lines` is the redundancy set — every
+    distinct line across the best itinerary *and* all its alternatives, sorted
+    alphabetically — so the first few are often lines the trip never touches:
+    one cached trip advertised "49, 7, J" while actually riding nothing but the
+    N. Printed next to a walk time it read as "walk to the 49", which was
+    simply untrue. The count still feeds transit_score; it just no longer gets
+    spelled out as though it were an itinerary.
+    """
     bits = [f"{info['minutes']} min to {COMMUTE_DESTINATION_NAME}"]
     if info.get("walk_minutes"):
-        bits.append(f"{info['walk_minutes']} min walk")
-    if info.get("lines"):
-        bits.append(", ".join(info["lines"][:3]))
+        bits.append(f"{info['walk_minutes']} min walk to transit")
     if info.get("worst_headway"):
         bits.append(f"every ~{info['worst_headway']:.0f} min")
     return " · ".join(bits)

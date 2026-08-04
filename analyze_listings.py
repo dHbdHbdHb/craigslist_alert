@@ -1094,12 +1094,12 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         commute_val = row.get("commute_minutes")
         if pd.notna(commute_val):
             commute_min = int(commute_val)
+            # No line names here on purpose — see transit_commute._describe.
+            # transit_lines is the redundancy set, so listing it beside the walk
+            # time claimed a route the trip may not use.
             bits = []
             if pd.notna(row.get("commute_walk_minutes")):
-                bits.append(f"{int(row['commute_walk_minutes'])} min walk")
-            lines_str = str(row.get("transit_lines") or "").strip()
-            if lines_str:
-                bits.append(lines_str)
+                bits.append(f"{int(row['commute_walk_minutes'])} min walk to transit")
             if pd.notna(row.get("commute_headway")):
                 bits.append(f"every ~{int(row['commute_headway'])} min")
             detail_lines.append(

@@ -397,15 +397,18 @@ def main():
             )
 
             # The commute line is the headline number for a transit-first search,
-            # so it gets its own row with the lines and their frequency spelled
-            # out — "38R every 6 min" is what makes a 35-minute trip tolerable.
+            # so it gets its own row with the walk and the frequency spelled out
+            # — "every ~6 min" is what makes a 35-minute trip tolerable.
+            #
+            # This used to end "…min walk to" followed by the separator and a
+            # line list, which read as a dangling "to" and named lines from the
+            # redundancy set that the trip often doesn't ride. See
+            # transit_commute._describe.
             commute = commutes.get(row.get('url'))
             if commute:
                 detail = []
                 if commute.get('walk_minutes'):
-                    detail.append(f"{commute['walk_minutes']} min walk to")
-                if commute.get('lines'):
-                    detail.append(" / ".join(commute['lines'][:3]))
+                    detail.append(f"{commute['walk_minutes']} min walk to transit")
                 if commute.get('worst_headway'):
                     detail.append(f"every ~{commute['worst_headway']:.0f} min")
                 commute_str = (
