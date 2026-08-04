@@ -387,12 +387,14 @@ def main():
         for row in hood_listings:
             bike_info = bike_times.get(row.get('url'))
             bike_str  = (
-                f" &nbsp;·&nbsp; {bike_info['minutes']} min to {bike_info['station']} Caltrain"
+                f", {bike_info['minutes']} min to {bike_info['station']} Caltrain"
                 if bike_info else ""
             )
             bart_info = bart_bike_times.get(row.get('url'))
             bart_str  = (
-                f" &nbsp;·&nbsp; {bart_info['minutes']} min to {bart_info['station']} BART"
+                # No leading separator: this one sits alone in its own <div>, so
+                # the old " · " prefix rendered as a line that began with a dot.
+                f"{bart_info['minutes']} min to {bart_info['station']} BART"
                 if bart_info else ""
             )
 
@@ -414,7 +416,7 @@ def main():
                 commute_str = (
                     f"<div style='color:#2f6f4f;font-weight:bold;'>"
                     f"{commute['minutes']} min to {COMMUTE_DESTINATION_NAME}"
-                    + (f" &nbsp;·&nbsp; {' &nbsp;·&nbsp; '.join(detail)}" if detail else "")
+                    + (f", {', '.join(detail)}" if detail else "")
                     + "</div>"
                 )
             else:

@@ -30,6 +30,7 @@ from config import (
     MAP_CENTER, SHOW_HISTORICAL, DISPLAY_NAME, PROFILE_NAME,
     HAS_BIKE_TIMES, HAS_COMMUTE, COMMUTE_DESTINATION,
     COMMUTE_DESTINATION_NAME, COMMUTE_MAX_MINUTES, COMMUTE_CACHE_PATH,
+    max_price, digest_max_price,
     add_profile_arg,
 )
 
@@ -1106,7 +1107,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
                 f'<span style="color:#2f6f4f;font-weight:700;">'
                 f'{commute_min} min to {_html.escape(COMMUTE_DESTINATION_NAME)}</span>'
                 + (f'<br><span style="color:#6b7280;font-size:12px;">'
-                   f'{_html.escape(" · ".join(bits))}</span>' if bits else "")
+                   f'{_html.escape(", ".join(bits))}</span>' if bits else "")
             )
             tip_bits.append(f"{commute_min} min to {COMMUTE_DESTINATION_NAME}")
             if pd.notna(row.get("transit_score")):
@@ -1142,7 +1143,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             f'style="font-weight:700;color:#262312;text-decoration:none;">'
             f'{title_e[:70]}{"…" if len(title_e) > 70 else ""}</a><br>'
             f'<span style="color:#A67D4B;">{price}</span>'
-            f' &nbsp;·&nbsp; {beds}bd/{baths}ba<br>'
+            f' &nbsp;&nbsp; {beds}bd/{baths}ba<br>'
             + "<br>".join(detail_lines)
             + '</div>'
         )
@@ -1155,16 +1156,18 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             color="white", weight=1.5,
             fill=True, fill_color=dot_color, fill_opacity=0.9,
             popup=folium.Popup(popup_html, max_width=270),
-            tooltip=" · ".join([*tip_bits, price]) or price,
+            tooltip=", ".join([*tip_bits, price]) or price,
         )
         marker.add_to(fg_listings)
         layer_vars.append(marker.get_name())
 
-        beds_val = row.get("num_bedrooms")
+        beds_val  = row.get("num_bedrooms")
+        price_val = row.get("price")
         filterable.append({
             "vars":    layer_vars,
             "beds":    int(beds_val) if pd.notna(beds_val) else None,
             "commute": int(commute_val) if pd.notna(commute_val) else None,
+            "price":   int(price_val) if pd.notna(price_val) else None,
         })
 
     fg_listings.add_to(m)
@@ -1276,13 +1279,41 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
     else:
         commute_control = ""
 
+    # Price tiers are derived from the profile's own ceiling rather than
+    # hard-coded, so a profile that tops out at $2,800 doesn't get a useless
+    # "Under $4,000" option. digest_max_price is the stated ceiling; max_price
+    # is the wider search bound, used only when there's no digest ceiling set.
+    # Steps are rounded to $250 so the labels read like round numbers.
+    _price_ceiling = digest_max_price or max_price
+    price_control = ""
+    if _price_ceiling:
+        _tiers, _seen = [], set()
+        for _frac in (1.0, 0.875, 0.75):
+            _t = int(round(_price_ceiling * _frac / 250.0) * 250)
+            if _t > 0 and _t not in _seen:
+                _seen.add(_t)
+                _tiers.append(_t)
+        _opts = "".join(
+            f'<option value="{t}">Under ${t:,}</option>' for t in _tiers
+        )
+        price_control = f"""
+          <label for="price-filter" style="font-weight:600;color:#1a1a2e;
+                 margin-right:6px;display:block;margin-top:6px;">Price</label>
+          <select id="price-filter"
+                  style="font-size:12px;border:1px solid #d1d5db;border-radius:5px;
+                         padding:2px 6px;background:#fff;cursor:pointer;width:100%;">
+            <option value="all">Any</option>
+            {_opts}
+          </select>"""
+
     # Built outside the f-string below: the layer names are raw JS identifiers,
     # not JSON, so they have to be interpolated rather than serialised.
     listings_js = "[" + ",".join(
-        "{{vars:[{v}],beds:{b},commute:{c}}}".format(
+        "{{vars:[{v}],beds:{b},commute:{c},price:{p}}}".format(
             v=",".join(f["vars"]),
             b=f["beds"] if f["beds"] is not None else "null",
             c=f["commute"] if f["commute"] is not None else "null",
+            p=f["price"] if f["price"] is not None else "null",
         )
         for f in filterable
     ) + "]"
@@ -1310,6 +1341,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             <option value="2">2 BR</option>
             <option value="3">3+ BR</option>
           </select>
+          {price_control}
           {commute_control}
           <div id="filter-count" style="color:#6b7280;margin-top:6px;font-size:11px;"></div>
         </div>
@@ -1328,6 +1360,8 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
               var bedSel = document.getElementById('br-filter').value;
               var cmtEl  = document.getElementById('commute-filter');
               var cmtSel = cmtEl ? cmtEl.value : 'all';
+              var prcEl  = document.getElementById('price-filter');
+              var prcSel = prcEl ? prcEl.value : 'all';
               var shown  = 0;
 
               listings.forEach(function(item) {{
@@ -1339,6 +1373,15 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
                   // hidden once a specific size is asked for.
                   ok = item.beds !== null &&
                        (want === 3 ? item.beds >= 3 : item.beds === want);
+                }}
+
+                if (ok && prcSel !== 'all') {{
+                  // Unlike commute, a missing price hides the listing. The
+                  // commute figure is one we failed to compute; a missing price
+                  // is one the poster never gave, and "under $3,500" is not a
+                  // claim we can make about it.
+                  ok = item.price !== null &&
+                       item.price <= parseInt(prcSel, 10);
                 }}
 
                 if (ok && cmtSel !== 'all') {{
@@ -1362,6 +1405,8 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             document.getElementById('br-filter').addEventListener('change', apply);
             var c = document.getElementById('commute-filter');
             if (c) c.addEventListener('change', apply);
+            var p = document.getElementById('price-filter');
+            if (p) p.addEventListener('change', apply);
             apply();
           }});
         </script>
@@ -1509,7 +1554,7 @@ HTML_TEMPLATE = """\
 
 <header>
   <h1>SF Craigslist Rentals — Price Dashboard</h1>
-  <p>Historical scraped data &nbsp;·&nbsp; Listings under $2,100/mo excluded &nbsp;·&nbsp;</p>
+  <p>Historical scraped data. Listings under $2,100/mo excluded.</p>
 </header>
 
 <div class="cards" id="cards"></div>
@@ -1517,7 +1562,7 @@ HTML_TEMPLATE = """\
 <div class="grid">
   <div class="chart-card area-map" style="padding:12px 14px 10px;">
     <div style="font-size:15px;font-weight:700;margin-bottom:8px;color:#1a1a2e;">
-      Where the Last 3 Days Landed &nbsp;<span style="font-size:11px;font-weight:400;color:#9ca3af;">__MAP_SUBTITLE__</span>
+      Where the Last 3 Days Landed <span style="font-size:11px;font-weight:400;color:#9ca3af;margin-left:10px;">__MAP_SUBTITLE__</span>
     </div>
     __MAP_IFRAME__
   </div>
@@ -1597,16 +1642,21 @@ def _map_subtitle() -> str:
     """
     import html as _html
 
-    bits = ["hover a polygon for price stats", "click a dot to open the listing"]
+    # Sentences rather than a separator character: these are whole clauses, and
+    # one of them already carries its own commas, so any glyph between them just
+    # competed with the punctuation inside them.
+    bits = ["Hover a polygon for price stats", "click a dot to open the listing"]
     if HAS_COMMUTE and COMMUTE_DESTINATION:
         bits.append(
-            "dashed lines are the transit trip to "
+            "Dashed lines are the transit trip to "
             f"{_html.escape(COMMUTE_DESTINATION_NAME)}, coloured by mode "
-            f"(only for trips under {TRANSIT_ROUTE_MAX_MINUTES} min)"
+            f"(only trips under {TRANSIT_ROUTE_MAX_MINUTES} min)"
         )
     if HAS_BIKE_TIMES:
-        bits.append("dotted lines are bike routes to Caltrain &amp; BART")
-    return " &nbsp;·&nbsp; ".join(bits)
+        bits.append("Dotted lines are bike routes to Caltrain &amp; BART")
+    # The first two are one sentence; anything after is its own.
+    head = ", ".join(bits[:2])
+    return ". ".join([head, *bits[2:]]) + "."
 
 
 def build_html(df: pd.DataFrame, historical: pd.DataFrame | None = None) -> str:
