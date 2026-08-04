@@ -85,6 +85,20 @@ _TRANSIT_STYLE = {
 # Preferred-mode order, so the legend reads top-down as "best case first".
 _TRANSIT_LEGEND_ORDER = ("bart", "muni", "bus", "rail", "other", "walk")
 
+# Ascending paint order — Leaflet draws in insertion order, so the mode listed
+# last wins every overlap. BART is the spine of a trip and the bus is the local
+# leg feeding it, so BART reads on top. Unlisted modes sort as "other".
+_TRANSIT_Z_ORDER = ("walk", "other", "rail", "bus", "muni", "bart")
+
+
+def _transit_z(mode: str | None) -> int:
+    """Paint rank for a leg; unknown modes rank with 'other'."""
+    m = mode or "other"
+    if m not in _TRANSIT_Z_ORDER:
+        m = "other"
+    return _TRANSIT_Z_ORDER.index(m)
+
+
 # A dotted line loses most of its apparent contrast to the gaps, so the hues
 # above were being read against whatever the basemap put under them -- a park
 # fill, a road casing, another route. The fix is the standard cartographic one,
@@ -837,8 +851,19 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
     # require a bike time, which silently emptied the map for any profile that
     # doesn't do bike routing at all.
     recent_cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=3)
+
+    # load_data() reads active + archive on purpose — the stats want the removed
+    # listings, since the ones that went fastest are the most informative rows.
+    # The map does not: a pin you can't click through to is worse than no pin.
+    # Without this, anything taken down within the recency window stayed on the
+    # map until it aged out, which was a quarter of all markers.
+    if "removed_at" in df.columns:
+        still_listed = df["removed_at"].isna()
+    else:
+        still_listed = pd.Series(True, index=df.index)
+
     df_markers = (
-        df
+        df[still_listed]
         .drop_duplicates(subset="url")
         [lambda d:
             d["time_posted"].notna() &
@@ -1054,26 +1079,37 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
                 [{"mode": "other", "geometry": commute_cached["geometry"]}]
                 if commute_cached.get("geometry") else []
             )
-            for seg in drawn:
-                geom = seg.get("geometry")
-                if not geom:
-                    continue
-                if seg.get("mode") == "walk" and not TRANSIT_DRAW_WALK_LEGS:
-                    continue
+            legs = [
+                seg for seg in drawn
+                if seg.get("geometry")
+                and not (seg.get("mode") == "walk" and not TRANSIT_DRAW_WALK_LEGS)
+            ]
+            legs.sort(key=lambda s: _transit_z(s.get("mode")))
+
+            # Two passes, not one per leg. Drawing casing+line together only put
+            # a leg's casing under its *own* colour — across legs, a later
+            # casing still landed on top of an earlier colour, which is how the
+            # BART leg ended up buried under the white bed of the bus leg it
+            # connects to. Every casing goes down first, then the colours in
+            # _TRANSIT_Z_ORDER, so BART finishes on top of the local legs.
+            for seg in legs:
                 style = _TRANSIT_STYLE.get(seg.get("mode"), _TRANSIT_STYLE["other"])
-                transit_modes_drawn.add(seg.get("mode") or "other")
-                # Casing first so it lands underneath. Solid, not dashed: the
-                # point is an unbroken white bed for the dashes to sit on.
+                # Solid, not dashed: the point is an unbroken white bed for the
+                # dashes to sit on.
                 casing = folium.PolyLine(
-                    geom,
+                    seg["geometry"],
                     color=_TRANSIT_CASING["color"],
                     weight=style["weight"] + _TRANSIT_CASING["extra_weight"],
                     opacity=_TRANSIT_CASING["opacity"],
                 )
                 casing.add_to(fg_listings)
                 layer_vars.append(casing.get_name())
+
+            for seg in legs:
+                style = _TRANSIT_STYLE.get(seg.get("mode"), _TRANSIT_STYLE["other"])
+                transit_modes_drawn.add(seg.get("mode") or "other")
                 line = folium.PolyLine(
-                    geom,
+                    seg["geometry"],
                     color=style["color"], weight=style["weight"],
                     opacity=_TRANSIT_OPACITY, dash_array=style["dash"],
                     tooltip=(
