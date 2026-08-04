@@ -505,3 +505,87 @@ def _describe(info: dict) -> str:
     if info.get("worst_headway"):
         bits.append(f"every ~{info['worst_headway']:.0f} min")
     return " · ".join(bits)
+
+
+# ── Backfill CLI ──────────────────────────────────────────────────────────────
+#
+# compute_commutes() already refetches any entry missing "segments", but nothing
+# ever offers it the listings that need it: the scraper passes only *new*
+# records and the digest only the listings going in that email. An entry cached
+# before per-step geometry was requested therefore stays stale forever, and the
+# map draws it as one undifferentiated "Other transit" line -- which is how 32
+# of 49 cached trips ended up grey despite being ordinary bus/Muni/BART rides.
+#
+# This walks the full active + archive set instead, so those entries get seen
+# exactly once. Complete entries cost nothing: the cache check skips them before
+# any request is made, so the bill is one call per genuinely stale listing.
+#
+#     python transit_commute.py --dry-run     # count them, spend nothing
+#     python transit_commute.py               # refetch
+def _main() -> None:
+    import argparse
+
+    from config import DATA_ACTIVE, DATA_ARCHIVE, add_profile_arg, PROFILE_NAME
+
+    parser = argparse.ArgumentParser(
+        description="Refetch cached commutes that predate per-step geometry."
+    )
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Report what would be refetched; make no API calls.")
+    add_profile_arg(parser)
+    args = parser.parse_args()
+
+    frames = []
+    for path in (DATA_ACTIVE, DATA_ARCHIVE):
+        try:
+            frames.append(pd.read_csv(path))
+        except (FileNotFoundError, pd.errors.EmptyDataError, pd.errors.ParserError):
+            continue
+    if not frames:
+        print(f"No listing data for profile {PROFILE_NAME}.")
+        return
+
+    df = pd.concat(frames, ignore_index=True).drop_duplicates(subset="url")
+    df = df[df["lat"].notna() & df["lon"].notna()]
+
+    try:
+        with open(COMMUTE_CACHE_PATH) as f:
+            cache = json.load(f)
+    except (FileNotFoundError, ValueError):
+        cache = {}
+
+    stale = [u for u, v in cache.items() if "segments" not in v]
+    known = set(df["url"])
+    reachable = [u for u in stale if u in known]
+
+    print(f"Profile {PROFILE_NAME}: {len(cache)} cached, {len(stale)} missing "
+          f"per-step geometry, {len(reachable)} of those still in the listing data.")
+    if len(stale) != len(reachable):
+        print(f"  {len(stale) - len(reachable)} stale entr(ies) have no listing "
+              f"left to route from and will stay as they are.")
+
+    if args.dry_run:
+        print("Dry run — no API calls made.")
+        return
+    if not reachable:
+        print("Nothing to refetch.")
+        return
+
+    # defer_on_limit=False: this is run by hand, so waiting out the rate limit is
+    # better than finishing half the job and leaving the map still mostly grey.
+    listings = df[df["url"].isin(reachable)].to_dict("records")
+    before   = sum(1 for v in cache.values() if "segments" in v)
+    compute_commutes(listings, defer_on_limit=False)
+
+    with open(COMMUTE_CACHE_PATH) as f:
+        after_cache = json.load(f)
+    after = sum(1 for v in after_cache.values() if "segments" in v)
+    still = [u for u, v in after_cache.items() if "segments" not in v]
+    print(f"\nEntries with per-step geometry: {before} → {after}")
+    if still:
+        print(f"{len(still)} still without segments — most likely outside the "
+              f"profile's include list, which withholds new calls.")
+
+
+if __name__ == "__main__":
+    _main()

@@ -1206,9 +1206,19 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             f'<line x1="0" y1="4" x2="20" y2="4" stroke="{_BART_COLOR}" stroke-width="2.5" '
             'stroke-dasharray="2 6" opacity="0.75"/></svg>Bike route to BART</div>',
         ]
+    # The three real modes are always listed once this profile draws transit at
+    # all, whether or not today's listings happen to include one of each. They
+    # are the fixed vocabulary of the map, so a stable legend is easier to learn
+    # than one that changes shape daily -- and a missing BART key used to be
+    # indistinguishable from "no BART key exists".
+    #
+    # "Other transit" stays conditional: it is a fallback, not a mode, so it
+    # earns a key only on a map that actually has one. After the geometry
+    # backfill (transit_commute.py --dry-run) it should be rare.
+    _always = {"bart", "muni", "bus"} if transit_modes_drawn else set()
     _seen_labels = set()
     for _mode in _TRANSIT_LEGEND_ORDER:
-        if _mode not in transit_modes_drawn:
+        if _mode not in transit_modes_drawn and _mode not in _always:
             continue
         _st = _TRANSIT_STYLE[_mode]
         # "rail" and "other" deliberately share a label and colour, so the
