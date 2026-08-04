@@ -47,9 +47,7 @@ COMMUTE_CACHE_FILE    = Path(COMMUTE_CACHE_PATH)
 # into a ball of overlapping lines. Raise it if too few routes show up.
 TRANSIT_ROUTE_MAX_MINUTES = 30
 
-# Per-mode styling. Weight and opacity match the bike routes, which read well
-# against the Positron tiles; the dash is finer so a transit leg and a bike leg
-# stay distinguishable where a profile draws both.
+# Per-mode styling.
 #
 # The first attempt used three near-identical dark greens on the theory that the
 # modes should read as one family. Rendered, they were indistinguishable at
@@ -59,15 +57,58 @@ TRANSIT_ROUTE_MAX_MINUTES = 30
 # is the all-pairs case, and those three are the set documented as clearing it
 # on a light surface. Anything rarer folds into one neutral rather than taking a
 # fourth slot, which is documented to fail against the orange.
+#
+# Three channels carry mode, so none of them has to carry it alone:
+#
+#   colour   the three palette slots above, + one neutral for the "Other" bucket
+#   weight   BART and Muni Metro are drawn heavier. They are grade-separated and
+#            frequent, so a trip on them is the one you'd rather have; the bus is
+#            the same colour system but visually the lighter-weight option.
+#   dash     longest for BART, medium for Muni, fine dot for bus, sparse for
+#            other. Enough on its own to read the map in greyscale or print.
+#
+# Measured against the Positron land tile (#f2f2f0), the palette hues land at
+# 3.94:1 (BART), 2.85:1 (bus) and 2.51:1 (Muni) -- the last two under the 3:1
+# gate, which the viz rules say obliges relief rather than a shrug. On a map the
+# relief is a casing: see _TRANSIT_CASING. The neutral is the one colour here
+# that never had a contrast problem (7:1 at the old #52514e); it is nudged
+# darker only to pull it away from Positron's own grey label text.
 _TRANSIT_STYLE = {
-    "bart":  {"color": "#2a78d6", "label": "BART",          "weight": 2.5, "dash": "3 5"},
+    "bart":  {"color": "#2a78d6", "label": "BART",          "weight": 4.0, "dash": "12 5"},
+    "muni":  {"color": "#1baf7a", "label": "Muni Metro",    "weight": 4.0, "dash": "7 5"},
     "bus":   {"color": "#eb6834", "label": "Bus",           "weight": 2.5, "dash": "3 5"},
-    "muni":  {"color": "#1baf7a", "label": "Muni Metro",    "weight": 2.5, "dash": "3 5"},
-    "rail":  {"color": "#52514e", "label": "Other transit", "weight": 2.5, "dash": "3 5"},
-    "other": {"color": "#52514e", "label": "Other transit", "weight": 2.5, "dash": "3 5"},
+    "rail":  {"color": "#3f3f3c", "label": "Other transit", "weight": 2.5, "dash": "2 4"},
+    "other": {"color": "#3f3f3c", "label": "Other transit", "weight": 2.5, "dash": "2 4"},
     "walk":  {"color": "#9ca3af", "label": "Walk",          "weight": 1.5, "dash": "1 5"},
 }
-_TRANSIT_LEGEND_ORDER = ("bart", "bus", "muni", "rail", "other", "walk")
+# Preferred-mode order, so the legend reads top-down as "best case first".
+_TRANSIT_LEGEND_ORDER = ("bart", "muni", "bus", "rail", "other", "walk")
+
+# A dotted line loses most of its apparent contrast to the gaps, so the hues
+# above were being read against whatever the basemap put under them -- a park
+# fill, a road casing, another route. The fix is the standard cartographic one,
+# and the same idea as the surface ring the viz rules put on overlapping dots: a
+# solid white line under each leg, a little wider, so every leg carries its own
+# local surface and the hue is judged against white rather than against the map.
+# Costs one extra PolyLine per leg; that is why opacity can go to 0.95 without
+# the map turning muddy.
+_TRANSIT_CASING = {"color": "#ffffff", "opacity": 0.9, "extra_weight": 3.0}
+_TRANSIT_OPACITY = 0.95
+
+# Station colours, shared by the station dot and the bike route that ends at it
+# -- the pairing is what lets you follow a route to its destination without
+# consulting the legend, so these two always move together.
+#
+# BART was #C8363B, which sat ΔE 3.3 (normal vision) from the #CC3311 commute
+# destination marker: same hue, same circle, differing only in radius, so on a
+# profile drawing both there was no reading that told them apart. Violet is the
+# validated palette's slot 7 and the only candidate tried that clears both CVD
+# and normal-vision floors against everything else round on the map -- the
+# obvious "BART is blue" choice collides with the #3b82f6 new-listing dot
+# instead (ΔE 5.6), which is how the red problem started.
+_CALTRAIN_COLOR = "#D99441"
+_BART_COLOR     = "#4a3aa7"
+_STATION_R      = 8
 
 # Walk legs are cached but not drawn. There are roughly six of them per trip
 # against one or two transit legs, so drawing them put ~140 grey dashes on the
@@ -946,22 +987,27 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
 
     # Station markers, for profiles that route to stations at all.
     # Profile coords are [lon, lat]; folium wants [lat, lon].
+    #
+    # Size is the class channel here, so a glance sorts the circles without
+    # reading colour: destination 11 > station 8 > new listing 6 > old listing 4.
+    # Stations used to sit at 7, one pixel off the new-listing dot, which made
+    # two unrelated things look like the same kind of thing.
     if HAS_BIKE_TIMES:
         from config import CALTRAIN_STATIONS as _CALTRAIN_STATIONS_MAP
         for sname, coords in _CALTRAIN_STATIONS_MAP:
             folium.CircleMarker(
-                [coords[1], coords[0]], radius=7,
+                [coords[1], coords[0]], radius=_STATION_R,
                 color="white", weight=2,
-                fill=True, fill_color="#D99441", fill_opacity=0.95,
+                fill=True, fill_color=_CALTRAIN_COLOR, fill_opacity=0.95,
                 tooltip=f"Caltrain: {sname}",
             ).add_to(m)
 
         from config import BART_STATIONS as _BART_STATIONS_MAP
         for sname, coords in _BART_STATIONS_MAP:
             folium.CircleMarker(
-                [coords[1], coords[0]], radius=7,
+                [coords[1], coords[0]], radius=_STATION_R,
                 color="white", weight=2,
-                fill=True, fill_color="#C8363B", fill_opacity=0.95,
+                fill=True, fill_color=_BART_COLOR, fill_opacity=0.95,
                 tooltip=f"BART: {sname}",
             ).add_to(m)
 
@@ -974,7 +1020,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         if cached and cached.get("geometry"):
             line = folium.PolyLine(
                 cached["geometry"],
-                color="#D99441", weight=2.5, opacity=0.75, dash_array="8 6",
+                color=_CALTRAIN_COLOR, weight=2.5, opacity=0.75, dash_array="8 6",
                 tooltip="Bike route to Caltrain",
             )
             line.add_to(fg_listings)
@@ -984,7 +1030,7 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         if bart_cached and bart_cached.get("geometry"):
             line = folium.PolyLine(
                 bart_cached["geometry"],
-                color="#C8363B", weight=2.5, opacity=0.75, dash_array="2 6",
+                color=_BART_COLOR, weight=2.5, opacity=0.75, dash_array="2 6",
                 tooltip="Bike route to BART",
             )
             line.add_to(fg_listings)
@@ -1015,10 +1061,20 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
                     continue
                 style = _TRANSIT_STYLE.get(seg.get("mode"), _TRANSIT_STYLE["other"])
                 transit_modes_drawn.add(seg.get("mode") or "other")
+                # Casing first so it lands underneath. Solid, not dashed: the
+                # point is an unbroken white bed for the dashes to sit on.
+                casing = folium.PolyLine(
+                    geom,
+                    color=_TRANSIT_CASING["color"],
+                    weight=style["weight"] + _TRANSIT_CASING["extra_weight"],
+                    opacity=_TRANSIT_CASING["opacity"],
+                )
+                casing.add_to(fg_listings)
+                layer_vars.append(casing.get_name())
                 line = folium.PolyLine(
                     geom,
                     color=style["color"], weight=style["weight"],
-                    opacity=0.75, dash_array=style["dash"],
+                    opacity=_TRANSIT_OPACITY, dash_array=style["dash"],
                     tooltip=(
                         f"{style['label']} — {total} min to "
                         f"{COMMUTE_DESTINATION_NAME}"
@@ -1138,16 +1194,16 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
     if HAS_BIKE_TIMES:
         legend_rows += [
             '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
-            '<circle cx="7" cy="7" r="5.5" fill="#D99441" stroke="white" stroke-width="1.5"/>'
+            f'<circle cx="7" cy="7" r="5.5" fill="{_CALTRAIN_COLOR}" stroke="white" stroke-width="1.5"/>'
             '</svg>Caltrain station</div>',
             '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
-            '<circle cx="7" cy="7" r="5.5" fill="#C8363B" stroke="white" stroke-width="1.5"/>'
+            f'<circle cx="7" cy="7" r="5.5" fill="{_BART_COLOR}" stroke="white" stroke-width="1.5"/>'
             '</svg>BART station</div>',
             '<div><svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">'
-            '<line x1="0" y1="4" x2="20" y2="4" stroke="#D99441" stroke-width="2.5" '
+            f'<line x1="0" y1="4" x2="20" y2="4" stroke="{_CALTRAIN_COLOR}" stroke-width="2.5" '
             'stroke-dasharray="8 6" opacity="0.75"/></svg>Bike route to Caltrain</div>',
             '<div><svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">'
-            '<line x1="0" y1="4" x2="20" y2="4" stroke="#C8363B" stroke-width="2.5" '
+            f'<line x1="0" y1="4" x2="20" y2="4" stroke="{_BART_COLOR}" stroke-width="2.5" '
             'stroke-dasharray="2 6" opacity="0.75"/></svg>Bike route to BART</div>',
         ]
     _seen_labels = set()
@@ -1160,12 +1216,27 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         if _st["label"] in _seen_labels:
             continue
         _seen_labels.add(_st["label"])
+        # Taller/wider than the bike keys so a 4px stroke plus its casing fits,
+        # and drawn with the casing so the key looks like the thing on the map.
         legend_rows.append(
-            '<div><svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">'
-            f'<line x1="0" y1="4" x2="20" y2="4" stroke="{_st["color"]}" '
+            '<div><svg width="26" height="12" style="vertical-align:middle;margin-right:5px;">'
+            f'<line x1="0" y1="6" x2="26" y2="6" stroke="{_TRANSIT_CASING["color"]}" '
+            f'stroke-width="{_st["weight"] + _TRANSIT_CASING["extra_weight"]}"/>'
+            f'<line x1="0" y1="6" x2="26" y2="6" stroke="{_st["color"]}" '
             f'stroke-width="{_st["weight"]}" stroke-dasharray="{_st["dash"]}" '
-            'opacity="0.75"/></svg>'
+            f'opacity="{_TRANSIT_OPACITY}"/></svg>'
             f'{_st["label"]}</div>'
+        )
+    # Only a minority of dots get a route, and the reason is three gates deep in
+    # this function -- so say it here rather than making the reader guess that
+    # the bare dots are a rendering bug.
+    if transit_modes_drawn:
+        legend_rows.append(
+            '<div style="font-size:11px;color:#6b7280;line-height:1.45;'
+            'max-width:230px;margin:2px 0 4px;">'
+            f'Routes are drawn only for listings in a named neighborhood whose '
+            f'commute is under {TRANSIT_ROUTE_MAX_MINUTES} min; walking legs are '
+            'left off. Everything else is dot-only.</div>'
         )
     legend_rows += [
         '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
@@ -1369,15 +1440,19 @@ HTML_TEMPLATE = """\
   /* ── Chart Grid ──
      The last row holds whichever of commute / transit / bike / bart this
      profile actually has data for, so it's an auto-flow row rather than a
-     named area — a named area for a chart that isn't rendered leaves a gap. */
+     named area — a named area for a chart that isn't rendered leaves a gap.
+
+     Keep this order and the card order in the markup in sync. Mobile drops to
+     flex column, which follows DOM order and ignores the areas entirely, so
+     reordering only here silently reorders the desktop view alone. */
   .grid {
     display: grid;
     gap: 16px;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      "box    box"
-      "time   time"
       "map    map"
+      "time   time"
+      "box    box"
       "heat   heat"
       "brbath hist"
       "scatter count";
@@ -1430,15 +1505,15 @@ HTML_TEMPLATE = """\
 <div class="cards" id="cards"></div>
 
 <div class="grid">
-  <div class="chart-card area-box">
-    <div class="plotly-chart" id="chart-box"></div>
-  </div>
-  __TIME_SLOT__
   <div class="chart-card area-map" style="padding:12px 14px 10px;">
     <div style="font-size:15px;font-weight:700;margin-bottom:8px;color:#1a1a2e;">
-      Neighborhood Map &nbsp;<span style="font-size:11px;font-weight:400;color:#9ca3af;">hover polygons for price stats &nbsp;·&nbsp; neighborhood boundaries + listings from the last 3 days with bike times to Caltrain &amp; BART</span>
+      Where the Last 3 Days Landed &nbsp;<span style="font-size:11px;font-weight:400;color:#9ca3af;">__MAP_SUBTITLE__</span>
     </div>
     __MAP_IFRAME__
+  </div>
+  __TIME_SLOT__
+  <div class="chart-card area-box">
+    <div class="plotly-chart" id="chart-box"></div>
   </div>
   <div class="chart-card area-heat">
     <div class="plotly-chart" id="chart-heat" style="height:400px"></div>
@@ -1502,6 +1577,28 @@ __TRANSIT_JS__
 
 # ── HTML Assembly ─────────────────────────────────────────────────────────────
 
+def _map_subtitle() -> str:
+    """What the map is actually showing, for this profile.
+
+    Built here rather than hardcoded in the template: the old copy promised
+    "bike times to Caltrain & BART" on every profile, including ones that do no
+    bike routing at all, and never mentioned the transit routes — which by then
+    were the most prominent thing on the map.
+    """
+    import html as _html
+
+    bits = ["hover a polygon for price stats", "click a dot to open the listing"]
+    if HAS_COMMUTE and COMMUTE_DESTINATION:
+        bits.append(
+            "dashed lines are the transit trip to "
+            f"{_html.escape(COMMUTE_DESTINATION_NAME)}, coloured by mode "
+            f"(only for trips under {TRANSIT_ROUTE_MAX_MINUTES} min)"
+        )
+    if HAS_BIKE_TIMES:
+        bits.append("dotted lines are bike routes to Caltrain &amp; BART")
+    return " &nbsp;·&nbsp; ".join(bits)
+
+
 def build_html(df: pd.DataFrame, historical: pd.DataFrame | None = None) -> str:
     time_chart = chart_price_over_time(df, historical)
     if time_chart:
@@ -1543,6 +1640,7 @@ def build_html(df: pd.DataFrame, historical: pd.DataFrame | None = None) -> str:
     html = html.replace("__CHART_SCATTER__", json.dumps(chart_scatter(df)))
     html = html.replace("__CHART_COUNT__",   json.dumps(chart_count_bar(df)))
     html = html.replace("__MAP_IFRAME__",    map_iframe)
+    html = html.replace("__MAP_SUBTITLE__",  _map_subtitle())
     html = html.replace("__TIME_SLOT__",     time_slot)
     html = html.replace("__TIME_JS__",       time_js)
     html = html.replace("__TRANSIT_SLOTS__", "\n  ".join(optional_slots))
