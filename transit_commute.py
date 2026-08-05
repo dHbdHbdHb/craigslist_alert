@@ -37,11 +37,24 @@ Results are cached on disk by listing URL and the destination never moves, so
 each listing costs exactly one request, once, ever. `defer_on_limit=True` (used
 by the scraper) stops early and leaves the rest for the next run; the digest
 path uses False so every listing in the email has a commute on it.
+
+Three separate things bound the spend, and they do different jobs:
+
+    _is_included        which listings are worth a call at all — the profile's
+                        include list, plus _EXTRA_HOODS on a shortlist gate
+    _reserve_slot       requests per minute, so the Pi's cron slot isn't hogged
+    _MONTHLY_CALL_CAP   a hard ceiling per calendar month, tracked in a ledger
+                        beside the cache. This one is a backstop against a
+                        runaway, not a throttle on normal use
+
+Hitting the monthly cap is not a deferral: those listings get no commute until
+the month rolls over. It prints loudly when it happens.
 """
 
 import json
 import time
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import pandas as pd
@@ -56,6 +69,7 @@ from config import (
     COMMUTE_WEIGHTS,
     COMMUTE_CACHE_PATH,
     INCLUDE_NEIGHBORHOODS,
+    digest_max_price,
 )
 
 _ENDPOINT = "https://routes.googleapis.com/directions/v2:computeRoutes"
@@ -98,6 +112,79 @@ _REDUNDANCY_TARGET = 4
 # rather than one bad address, and stopping.
 _MAX_CONSECUTIVE_FAILURES = 5
 
+
+# ── Monthly spend ceiling ─────────────────────────────────────────────────────
+#
+# Every result is cached forever and the destination never moves, so a listing
+# costs exactly one call once. Steady-state demand is therefore one call per new
+# eligible listing: measured over 2026-08-04, that was 24 listings/day, ~750 a
+# month. This cap sits ~3x above that and is not meant to bind in normal running.
+#
+# What it is for is the failure mode where something starts re-requesting and
+# nobody notices until the bill arrives — a profile flipped to `filter = false`,
+# a lost or corrupted cache file, a scraper change that re-keys listing URLs so
+# every row looks new. Any of those turns a 750/month job into a per-run one.
+#
+# Sized against the WORST-CASE free allowance rather than the expected one.
+#
+# Google's per-SKU free tiers (as of 2026-08) are 10,000 calls/month for Compute
+# Routes Essentials, 5,000 for Pro, 1,000 for Enterprise. The documented triggers
+# for the dearer tiers are TRAFFIC_AWARE/TRAFFIC_AWARE_OPTIMAL routing
+# preferences (Pro), tollInfo in the field mask (Preferred), and two-wheel
+# routing (Enterprise). This request uses none of them -- travelMode TRANSIT, no
+# routingPreference, no tolls, no intermediate waypoints -- so it should bill as
+# Essentials at 10,000 free. Google's docs do not state the transit case
+# outright, though, so this is inference and not a promise.
+#
+# Hence 1,000: it clears the ~750/month measured burn, and it is also the
+# Enterprise free tier, so even if the inference above is wrong by two whole
+# tiers the month still lands inside the free allowance. The authoritative check
+# is the SKU name on the billing report, not this comment.
+#
+# This is per machine -- the Pi and a laptop keep separate ledgers -- so it is a
+# runaway backstop, not a project-wide guarantee. For that, set a quota cap on
+# the Routes API in the Google Cloud console, which Google enforces across every
+# caller of the key.
+_MONTHLY_CALL_CAP = 1000
+
+_BUDGET_PATH = Path(COMMUTE_CACHE_PATH).with_name(
+    Path(COMMUTE_CACHE_PATH).stem + "_budget.json"
+)
+
+
+def _budget_month() -> str:
+    """Calendar month key, in the profile's own timezone rather than UTC."""
+    return datetime.now(ZoneInfo("America/Los_Angeles")).strftime("%Y-%m")
+
+
+def _budget_load() -> dict:
+    """{'month': 'YYYY-MM', 'calls': int}, reset when the month rolls over."""
+    month = _budget_month()
+    try:
+        with open(_BUDGET_PATH) as f:
+            data = json.load(f)
+        if data.get("month") == month:
+            return {"month": month, "calls": int(data.get("calls", 0))}
+    except (FileNotFoundError, ValueError, TypeError):
+        pass
+    return {"month": month, "calls": 0}
+
+
+def _budget_charge(state: dict, n: int = 1) -> None:
+    """Record n spent calls. Written through on every call, not at the end.
+
+    Buffering this until the run finished would lose the count on exactly the
+    runs that matter — a crash mid-backfill, or the Pi's cron slot killing a
+    long run — and a spend ledger that forgets what it spent is worse than none.
+    """
+    state["calls"] += n
+    try:
+        with open(_BUDGET_PATH, "w") as f:
+            json.dump(state, f)
+    except OSError as e:
+        print(f"  Commute: could not write call ledger ({e}) — "
+              f"continuing, but the monthly cap is not being enforced")
+
 # Rail is materially more reliable than a bus in traffic, so an all-rail trip
 # gets a small bump inside the frequency term.
 _RAIL_VEHICLES = {
@@ -112,17 +199,70 @@ _RAIL_VEHICLES = {
 # proportional to the search rather than to the city.
 _INCLUDED_HOODS = {h.strip() for h in INCLUDE_NEIGHBORHOODS if h.strip()}
 
+# Neighborhoods that earn a commute call despite not being in the include list,
+# and the gate a listing there has to clear to earn one.
+#
+# "Way Out There" is the deliberately vague shape covering western SF — the
+# Sunset and out past it. Nobody puts it in an include list, so nothing in it
+# was ever measured. That was invisible rather than harmless: the map's commute
+# filter treats an unmeasured listing as passing (see the null handling in
+# analyze_listings' filter script), so selecting "under 30 min" left every
+# unmeasured Outer Sunset dot on screen looking like it qualified. The only
+# nearby trip that *was* measured is an Inner Sunset listing at 31 minutes, and
+# the Outer Sunset is a couple of km further west again.
+#
+# The gate is tight rather than "just measure everything out there": these are
+# billed calls, and a 1BR at $4,400 in the Outer Sunset is not a listing this
+# search would act on. A 2BR inside the digest ceiling is — that's the shortlist
+# the dashboard map now draws routes for, so those are the numbers worth buying.
+_EXTRA_HOODS        = {"Way Out There"}
+_EXTRA_MIN_BEDROOMS = 2
+_EXTRA_MAX_PRICE    = digest_max_price or 4000
+
+
+def _num(value):
+    """CSV-safe float, or None for blanks/NaN/non-numeric."""
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return None
+    return None if pd.isna(v) else v
+
+
+def _hoods_of(listing) -> set[str]:
+    return {
+        h.strip()
+        for h in str(listing.get("neighborhoods") or "").split(",")
+        if h.strip()
+    }
+
 
 def _is_included(listing) -> bool:
-    """True if the listing is in at least one neighborhood the profile lists.
+    """True if this listing is worth spending a Routes API call on.
 
     An empty include list means "everywhere", matching how the digest and the
-    dashboard already read it.
+    dashboard already read it. Otherwise: anything in a named neighborhood, plus
+    anything in _EXTRA_HOODS that clears the shortlist gate above.
     """
     if not _INCLUDED_HOODS:
         return True
-    hoods = str(listing.get("neighborhoods") or "")
-    return any(h.strip() in _INCLUDED_HOODS for h in hoods.split(","))
+
+    hoods = _hoods_of(listing)
+    if hoods & _INCLUDED_HOODS:
+        return True
+
+    if hoods & _EXTRA_HOODS:
+        beds  = _num(listing.get("num_bedrooms"))
+        price = _num(listing.get("price"))
+        # Unknown beds or price fails the gate. Out here the listing only earns
+        # a call by demonstrably being a shortlist candidate, and a missing
+        # field can't demonstrate anything.
+        return (
+            beds is not None and beds >= _EXTRA_MIN_BEDROOMS
+            and price is not None and price <= _EXTRA_MAX_PRICE
+        )
+
+    return False
 
 
 def _reserve_slot(defer_on_limit: bool) -> bool:
@@ -408,7 +548,9 @@ def compute_commutes(listings, defer_on_limit: bool = False) -> dict:
     cache_dirty  = False
     deferred     = 0
     out_of_area  = 0
+    capped       = 0
     consecutive_failures = 0
+    budget       = _budget_load()
 
     for i, pt in enumerate(listings):
         url = pt.get("url")
@@ -437,6 +579,22 @@ def compute_commutes(listings, defer_on_limit: bool = False) -> dict:
         if not (pd.notna(lon) and pd.notna(lat)):
             continue
 
+        # Checked before the rate limiter, not after: _reserve_slot may sleep,
+        # and there is no point waiting out a minute for a slot we are then
+        # forbidden to spend. Unlike the rate limit this is not a deferral —
+        # the month has to turn over before these get another chance.
+        #
+        # `continue`, not `break`. Breaking skipped every remaining listing
+        # including the already-cached ones, whose `result[url] = cached` sits
+        # above this — so once the cap tripped, compute_commutes returned a dict
+        # missing commutes it had already paid for. The digest builds its
+        # over-budget filter from that dict, so a capped month would have
+        # quietly changed which listings made someone's email. Cached entries
+        # cost nothing; only new calls are withheld.
+        if budget["calls"] >= _MONTHLY_CALL_CAP:
+            capped += 1
+            continue
+
         if not _reserve_slot(defer_on_limit):
             deferred = sum(
                 1 for p in listings[i:] if p.get("url") and p["url"] not in cache
@@ -444,6 +602,10 @@ def compute_commutes(listings, defer_on_limit: bool = False) -> dict:
             break
 
         _call_times.append(time.time())
+        # Charged before the response, so a request that fails or times out
+        # still counts. It reached Google either way, and a ledger that only
+        # records successes is not a spend ledger.
+        _budget_charge(budget)
         routes = _request(float(lat), float(lon), arrival)
 
         if routes is None:
@@ -485,6 +647,12 @@ def compute_commutes(listings, defer_on_limit: bool = False) -> dict:
     if deferred:
         print(f"  Commute: rate limit hit — deferred {deferred} listing(s) to next run")
 
+    if capped:
+        print(f"  Commute: monthly call cap reached "
+              f"({budget['calls']}/{_MONTHLY_CALL_CAP} for {budget['month']}) — "
+              f"skipped {capped} listing(s). Nothing else is affected; the cap "
+              f"resets next month. Raise _MONTHLY_CALL_CAP if this is expected.")
+
     if cache_dirty:
         try:
             with open(COMMUTE_CACHE_PATH, "w") as f:
@@ -523,37 +691,68 @@ def _describe(info: dict) -> str:
 # map draws it as one undifferentiated "Other transit" line -- which is how 32
 # of 49 cached trips ended up grey despite being ordinary bus/Muni/BART rides.
 #
-# This walks the full active + archive set instead, so those entries get seen
-# exactly once. Complete entries cost nothing: the cache check skips them before
-# any request is made, so the bill is one call per genuinely stale listing.
+# This walks the listing data instead, so those entries get seen exactly once.
+# Complete entries cost nothing: the cache check skips them before any request
+# is made, so the bill is one call per listing that genuinely needs one.
+#
+# It covers two populations, and both matter:
+#
+#   stale    cached before per-step geometry was requested
+#   missing  eligible but never cached at all — the case that appears whenever
+#            _is_included widens (adding _EXTRA_HOODS did exactly this) and the
+#            case that matters most in deployment, because the cache is
+#            gitignored. The Pi and a laptop each keep their own, so a backfill
+#            run in one place does not reach the other, and the Pi is what
+#            builds the published dashboard. Run this there after widening.
+#
+# Active listings only for the "missing" set: a removed listing is off the map
+# and out of the digest, so a call spent on one buys nothing. Stale entries are
+# still refetched from active + archive, since those are already paid for.
 #
 #     python transit_commute.py --dry-run     # count them, spend nothing
-#     python transit_commute.py               # refetch
+#     python transit_commute.py               # fetch
 def _main() -> None:
     import argparse
 
     from config import DATA_ACTIVE, DATA_ARCHIVE, add_profile_arg, PROFILE_NAME
 
     parser = argparse.ArgumentParser(
-        description="Refetch cached commutes that predate per-step geometry."
+        description="Fill in commutes that are stale or were never fetched."
     )
     parser.add_argument("--dry-run", action="store_true",
-                        help="Report what would be refetched; make no API calls.")
+                        help="Report what would be fetched; make no API calls.")
     add_profile_arg(parser)
     args = parser.parse_args()
 
-    frames = []
-    for path in (DATA_ACTIVE, DATA_ARCHIVE):
+    # Checked before any counting. compute_commutes() bails on these too, so a
+    # real run was always safe — but the dry run happily reported "would spend
+    # up to 64" for a profile that has nothing to route to, which is exactly the
+    # number someone deciding whether they can afford this would misread.
+    if not COMMUTE_DESTINATION:
+        print(f"Profile {PROFILE_NAME} has no [commute] destination — "
+              f"nothing to fetch, nothing to spend.")
+        return
+    if not GOOGLE_MAPS_API_KEY:
+        print("No GOOGLE_MAPS_API_KEY set — nothing to fetch.")
+        return
+
+    def _read(path):
         try:
-            frames.append(pd.read_csv(path))
+            return pd.read_csv(path)
         except (FileNotFoundError, pd.errors.EmptyDataError, pd.errors.ParserError):
-            continue
+            return None
+
+    active = _read(DATA_ACTIVE)
+    frames = [f for f in (active, _read(DATA_ARCHIVE)) if f is not None]
     if not frames:
         print(f"No listing data for profile {PROFILE_NAME}.")
         return
 
-    df = pd.concat(frames, ignore_index=True).drop_duplicates(subset="url")
-    df = df[df["lat"].notna() & df["lon"].notna()]
+    def _located(frame):
+        return frame[frame["lat"].notna() & frame["lon"].notna()]
+
+    df        = _located(pd.concat(frames, ignore_index=True).drop_duplicates(subset="url"))
+    df_active = _located(active.drop_duplicates(subset="url")) if active is not None else df.iloc[:0]
 
     try:
         with open(COMMUTE_CACHE_PATH) as f:
@@ -561,12 +760,21 @@ def _main() -> None:
     except (FileNotFoundError, ValueError):
         cache = {}
 
-    stale = [u for u, v in cache.items() if "segments" not in v]
-    known = set(df["url"])
+    known     = set(df["url"])
+    stale     = [u for u, v in cache.items() if "segments" not in v]
     reachable = [u for u in stale if u in known]
 
-    print(f"Profile {PROFILE_NAME}: {len(cache)} cached, {len(stale)} missing "
-          f"per-step geometry, {len(reachable)} of those still in the listing data.")
+    missing = [
+        r for r in df_active.to_dict("records")
+        if r.get("url") and r["url"] not in cache and _is_included(r)
+    ]
+
+    budget = _budget_load()
+    print(f"Profile {PROFILE_NAME}: {len(cache)} cached, "
+          f"{len(reachable)} stale (no per-step geometry), "
+          f"{len(missing)} eligible active listing(s) never fetched.")
+    print(f"  Calls this month: {budget['calls']}/{_MONTHLY_CALL_CAP}. "
+          f"This run would spend up to {len(reachable) + len(missing)}.")
     if len(stale) != len(reachable):
         print(f"  {len(stale) - len(reachable)} stale entr(ies) have no listing "
               f"left to route from and will stay as they are.")
@@ -574,21 +782,65 @@ def _main() -> None:
     if args.dry_run:
         print("Dry run — no API calls made.")
         return
-    if not reachable:
-        print("Nothing to refetch.")
+    if not reachable and not missing:
+        print("Nothing to fetch.")
         return
 
     # defer_on_limit=False: this is run by hand, so waiting out the rate limit is
     # better than finishing half the job and leaving the map still mostly grey.
-    listings = df[df["url"].isin(reachable)].to_dict("records")
-    before   = sum(1 for v in cache.values() if "segments" in v)
-    compute_commutes(listings, defer_on_limit=False)
+    # The monthly cap still applies and is not waited out — it just stops.
+    listings = df[df["url"].isin(reachable)].to_dict("records") + missing
+    before   = len(cache)
+    results  = compute_commutes(listings, defer_on_limit=False)
 
-    with open(COMMUTE_CACHE_PATH) as f:
-        after_cache = json.load(f)
-    after = sum(1 for v in after_cache.values() if "segments" in v)
+    # Write the numbers back into the active CSV, not just the cache.
+    #
+    # The dashboard reads this fact from two places: the map draws a route from
+    # the cache, but the dot's opacity, its popup and the commute dropdown all
+    # read the CSV column. Filling only the cache therefore published a map
+    # whose shortlist listings had a route drawn out of a faded dot whose popup
+    # said "Commute not calculated" — the two halves of the same change
+    # contradicting each other. The cache is gitignored and the CSV is not, so
+    # this is also the only half that reaches the published dashboard at all.
+    #
+    # Mirrors the write-back in email_alert.py, including the object-dtype dance
+    # for the text column: read back from a CSV where every value is empty,
+    # pandas types it float64 and writing a line list into it is an
+    # incompatible-dtype assignment.
+    if results and active is not None:
+        csv_df = pd.read_csv(DATA_ACTIVE)
+        for col in ("commute_minutes", "commute_walk_minutes", "commute_headway",
+                    "transit_score", "transit_lines"):
+            if col not in csv_df.columns:
+                csv_df[col] = None
+            if col == "transit_lines" and csv_df[col].isna().all():
+                csv_df[col] = csv_df[col].astype(object)
+
+        written = 0
+        for url, info in results.items():
+            row = csv_df["url"] == url
+            if not row.any():
+                continue
+            csv_df.loc[row, "commute_minutes"]      = info["minutes"]
+            csv_df.loc[row, "commute_walk_minutes"] = info["walk_minutes"]
+            csv_df.loc[row, "commute_headway"]      = info["worst_headway"]
+            csv_df.loc[row, "transit_score"]        = info["transit_score"]
+            csv_df.loc[row, "transit_lines"]        = ", ".join(info["lines"])
+            written += 1
+        csv_df.to_csv(DATA_ACTIVE, index=False)
+        print(f"Wrote commute values into {written} active listing row(s).")
+
+    # Guarded: compute_commutes only writes the cache when it actually fetched
+    # something, so a run that fetched nothing (cap already spent, bad API key,
+    # no itinerary found) leaves no file at all on a machine that had none —
+    # which is exactly the fresh-Pi case this CLI exists for.
+    try:
+        with open(COMMUTE_CACHE_PATH) as f:
+            after_cache = json.load(f)
+    except (FileNotFoundError, ValueError):
+        after_cache = {}
     still = [u for u, v in after_cache.items() if "segments" not in v]
-    print(f"\nEntries with per-step geometry: {before} → {after}")
+    print(f"\nCached entries: {before} → {len(after_cache)}")
     if still:
         print(f"{len(still)} still without segments — most likely outside the "
               f"profile's include list, which withholds new calls.")

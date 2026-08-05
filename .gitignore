@@ -22,6 +22,9 @@ data/*/last_digest_date.txt
 data/*/bike_routes.json
 data/*/bart_bike_routes.json
 data/*/transit_commutes.json
+# Routes API call ledger. Per-machine like the cache it guards — the Pi and a
+# laptop each have their own cache, so they each spend and count separately.
+data/*/transit_commutes_budget.json
 data/*/digest_preview.html
 
 # Editor backup, written whenever shapes are saved from the map GUI

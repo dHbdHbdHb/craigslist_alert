@@ -42,11 +42,22 @@ BIKE_ROUTES_FILE      = Path(BIKE_ROUTES_PATH)
 BART_BIKE_ROUTES_FILE = Path(BART_ROUTES_PATH)
 COMMUTE_CACHE_FILE    = Path(COMMUTE_CACHE_PATH)
 
-# Only draw the transit line for trips at or under this, and only for listings
-# in a named neighborhood. Tighter than the profile's own max_minutes on
-# purpose: at the full budget nearly every listing qualifies and the map turns
-# into a ball of overlapping lines. Raise it if too few routes show up.
-TRANSIT_ROUTE_MAX_MINUTES = 30
+# Which listings get their transit trip drawn.
+#
+# The gate used to be "in a named neighborhood, commute under 30 min", which is
+# a readability rule rather than a useful one — it drew routes for whatever
+# happened to be measured, mostly 1BRs, and still produced a tangle.
+#
+# These three are the shortlist instead: the profile's real ceiling ($4,000),
+# 2BR or larger, and a commute short enough to be worth the rent. A route on
+# this map now means "this is a candidate", so the lines are the answer rather
+# than decoration. Everything else stays a dot and is still clickable.
+#
+# 2BR is a floor, not an exact match: a 3BR inside the same budget and commute
+# is at least as good a find, and silently dropping one would be a surprise.
+TRANSIT_ROUTE_MAX_MINUTES  = 30
+TRANSIT_ROUTE_MIN_BEDROOMS = 2
+TRANSIT_ROUTE_MAX_PRICE    = digest_max_price or max_price
 
 # Per-mode styling.
 #
@@ -76,7 +87,9 @@ TRANSIT_ROUTE_MAX_MINUTES = 30
 # darker only to pull it away from Positron's own grey label text.
 _TRANSIT_STYLE = {
     "bart":  {"color": "#2a78d6", "label": "BART",          "weight": 4.0, "dash": "12 5"},
-    "muni":  {"color": "#1baf7a", "label": "Muni Metro",    "weight": 4.0, "dash": "7 5"},
+    # "Muni" rather than "Muni Metro": the label is the legend key as well as the
+    # leg tooltip, and the extra word was costing a legend row on a phone.
+    "muni":  {"color": "#1baf7a", "label": "Muni",          "weight": 4.0, "dash": "7 5"},
     "bus":   {"color": "#eb6834", "label": "Bus",           "weight": 2.5, "dash": "3 5"},
     "rail":  {"color": "#3f3f3c", "label": "Other transit", "weight": 2.5, "dash": "2 4"},
     "other": {"color": "#3f3f3c", "label": "Other transit", "weight": 2.5, "dash": "2 4"},
@@ -773,6 +786,12 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         scrollWheelZoom=False,   # less jarring when scrolling the dashboard
     )
 
+    # No viewport meta is added here on purpose. folium's own Figure template
+    # already emits one, later in <head> than anything added via header, so a
+    # second tag is both redundant and silently overridden — it looked like it
+    # was doing something while doing nothing. The overlays' mobile problem was
+    # their own size, and it is fixed where they are built.
+
     for hood in known_hoods:
         poly  = neighborhood_shapes[hood]
         color = colors.get(hood, _WOT_COLOR)
@@ -890,10 +909,17 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             for h in raw.split(",")
         )
 
-    _highlightable = df_markers[df_markers["neighborhoods"].apply(_in_named_hood)]
-    _newest_urls = set(
-        _highlightable.nlargest(3, "time_posted")["url"].tolist()
-    )
+    # Guarded on empty: .apply() over a zero-row column returns a bare object
+    # Series, and indexing with it yields a frame with no columns at all — so
+    # nlargest("time_posted") raised KeyError and took the whole dashboard build
+    # down with it. That happens whenever nothing was posted in the recency
+    # window, which is not an error: a stale profile, or any scrape gap longer
+    # than the window, lands there. An empty map is the correct output.
+    if len(df_markers):
+        _highlightable = df_markers[df_markers["neighborhoods"].apply(_in_named_hood)]
+        _newest_urls = set(_highlightable.nlargest(3, "time_posted")["url"].tolist())
+    else:
+        _newest_urls = set()
 
     # Load route caches. Profiles with no [transit] stations skip all of this —
     # there is nothing to route to, and the backfill below would otherwise churn
@@ -1063,15 +1089,19 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             layer_vars.append(line.get_name())
 
         # Transit trip to work, one dotted line per leg so bus, Muni and BART
-        # are told apart at a glance. Restricted to named neighborhoods and
-        # short commutes so the map stays readable — see
-        # TRANSIT_ROUTE_MAX_MINUTES.
+        # are told apart at a glance. Drawn only for shortlist candidates — see
+        # the TRANSIT_ROUTE_* constants for why that's the gate rather than
+        # "everything we happen to have measured".
         commute_cached = commute_cache.get(url)
-        if (
-            commute_cached
-            and _in_named_hood(row.get("neighborhoods"))
+        _beds_v  = row.get("num_bedrooms")
+        _price_v = row.get("price")
+        _draws_route = (
+            bool(commute_cached)
             and (commute_cached.get("minutes") or 0) <= TRANSIT_ROUTE_MAX_MINUTES
-        ):
+            and pd.notna(_beds_v)  and _beds_v  >= TRANSIT_ROUTE_MIN_BEDROOMS
+            and pd.notna(_price_v) and _price_v <= TRANSIT_ROUTE_MAX_PRICE
+        )
+        if _draws_route:
             total = commute_cached.get("minutes")
             # Fall back to the whole-trip polyline if a response came back
             # without step geometry, so the route still shows up uncoloured.
@@ -1128,6 +1158,12 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         detail_lines, tip_bits = [], []
 
         # Commute first — for a transit-first search it's the headline number.
+        #
+        # The absent case gets its own line rather than nothing. A popup that
+        # simply omitted the commute was indistinguishable from one reporting a
+        # good one, which is the same confusion the dimmed dot fixes on the map:
+        # most listings out west have never been measured, and "we didn't check"
+        # has to read differently from "it's fine".
         commute_val = row.get("commute_minutes")
         if pd.notna(commute_val):
             commute_min = int(commute_val)
@@ -1151,6 +1187,15 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
                     f'<span style="color:#6b7280;font-size:12px;">'
                     f'transit score {int(row["transit_score"])}/100</span>'
                 )
+        elif HAS_COMMUTE and COMMUTE_DESTINATION:
+            detail_lines.append(
+                '<span style="color:#9a6a2f;font-weight:600;">'
+                'Commute not calculated</span>'
+                '<br><span style="color:#6b7280;font-size:12px;">'
+                'No transit time was ever measured for this address — it is not '
+                'a short commute, it is an unknown one.</span>'
+            )
+            tip_bits.append("commute not calculated")
 
         # Bike times, when the profile computes them. Guarded on notna: this
         # used to assume every marker had one, which crashed the whole dashboard
@@ -1187,10 +1232,29 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         is_new    = url in _newest_urls
         dot_color = _NEW_COLOR if is_new else _OLD_COLOR
         dot_r     = 6 if is_new else 4
+
+        # A listing with no commute figure is drawn faded. It is the majority of
+        # the map west of the include list, and it used to be indistinguishable
+        # from a measured listing — which mattered because the commute filter
+        # lets these through (a missing measurement still isn't evidence of a bad
+        # commute). Fading them means the filter's output reads as "these
+        # qualify, and these we never checked" instead of one undifferentiated
+        # set. Opacity carries it rather than a fourth colour: the dot vocabulary
+        # is already three sizes deep and this is a qualifier on a dot, not a
+        # new kind of thing.
+        # Gated on the profile having commutes at all, to match the popup branch
+        # and the legend key. Without the gate, a profile with no [commute]
+        # section fades *every* dot: load_data() fills commute_minutes with NaN
+        # when the column is absent, so nothing is ever "measured" — and the
+        # "Commute unknown" key that would explain the fading is itself gated on
+        # HAS_COMMUTE, so the map would dim wholesale with no legend for it.
+        _fades     = HAS_COMMUTE and COMMUTE_DESTINATION and pd.isna(commute_val)
+        _fill_op   = 0.28 if _fades else 0.9
+        _stroke_op = 0.45 if _fades else 1.0
         marker = folium.CircleMarker(
             [row["lat"], row["lon"]], radius=dot_r,
-            color="white", weight=1.5,
-            fill=True, fill_color=dot_color, fill_opacity=0.9,
+            color="white", weight=1.5, opacity=_stroke_op,
+            fill=True, fill_color=dot_color, fill_opacity=_fill_op,
             popup=folium.Popup(popup_html, max_width=270),
             tooltip=", ".join([*tip_bits, price]) or price,
         )
@@ -1220,30 +1284,52 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
             tooltip=f"{COMMUTE_DESTINATION_NAME} — commute destination",
         ).add_to(m)
 
-    # Legend rows are built to match what this profile actually shows — a
+    # Legend keys are built to match what this profile actually shows — a
     # "Bike route to Caltrain" key on a map with no bike routes is just noise.
+    #
+    # Each key is an inline-block, and the container wraps them. The old version
+    # was one <div> per key at line-height 2, which on a phone was a column
+    # eight rows tall sitting on top of a 500px map — the legend was winning
+    # against the thing it describes. Wrapping puts the same keys in two or
+    # three lines at any width, and the prose that used to live down here has
+    # moved to the subtitle above the map, where it can use the full page width
+    # instead of overlaying the map at max-width:230px.
+    # The container is a real flex row, not inline-blocks in a text flow. Inline
+    # boxes only break at a whitespace opportunity, and these are join()ed with
+    # nothing between them — so the first attempt didn't wrap at all, it just
+    # ran off the right edge and clipped "Newest" in half.
+    def _key(swatch: str, label: str) -> str:
+        return (
+            '<span style="display:flex;align-items:center;white-space:nowrap;">'
+            f'{swatch}<span style="margin-left:4px;">{label}</span></span>'
+        )
+
     legend_rows = []
     if COMMUTE_DESTINATION:
-        legend_rows.append(
-            '<div><svg width="18" height="18" style="vertical-align:middle;margin-right:5px;">'
-            '<circle cx="9" cy="9" r="7" fill="#CC3311" stroke="white" stroke-width="2"/>'
-            '</svg>'
-            f'{_html.escape(COMMUTE_DESTINATION_NAME)}</div>'
-        )
+        legend_rows.append(_key(
+            '<svg width="16" height="16" style="display:block;">'
+            '<circle cx="8" cy="8" r="6.5" fill="#CC3311" stroke="white" stroke-width="2"/>'
+            '</svg>',
+            _html.escape(COMMUTE_DESTINATION_NAME),
+        ))
     if HAS_BIKE_TIMES:
         legend_rows += [
-            '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
-            f'<circle cx="7" cy="7" r="5.5" fill="{_CALTRAIN_COLOR}" stroke="white" stroke-width="1.5"/>'
-            '</svg>Caltrain station</div>',
-            '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
-            f'<circle cx="7" cy="7" r="5.5" fill="{_BART_COLOR}" stroke="white" stroke-width="1.5"/>'
-            '</svg>BART station</div>',
-            '<div><svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">'
-            f'<line x1="0" y1="4" x2="20" y2="4" stroke="{_CALTRAIN_COLOR}" stroke-width="2.5" '
-            'stroke-dasharray="8 6" opacity="0.75"/></svg>Bike route to Caltrain</div>',
-            '<div><svg width="20" height="8" style="vertical-align:middle;margin-right:5px;">'
-            f'<line x1="0" y1="4" x2="20" y2="4" stroke="{_BART_COLOR}" stroke-width="2.5" '
-            'stroke-dasharray="2 6" opacity="0.75"/></svg>Bike route to BART</div>',
+            _key(
+                '<svg width="14" height="14" style="display:block;">'
+                f'<circle cx="7" cy="7" r="5.5" fill="{_CALTRAIN_COLOR}" stroke="white" stroke-width="1.5"/>'
+                '</svg>', "Caltrain"),
+            _key(
+                '<svg width="14" height="14" style="display:block;">'
+                f'<circle cx="7" cy="7" r="5.5" fill="{_BART_COLOR}" stroke="white" stroke-width="1.5"/>'
+                '</svg>', "BART"),
+            _key(
+                '<svg width="20" height="8" style="display:block;">'
+                f'<line x1="0" y1="4" x2="20" y2="4" stroke="{_CALTRAIN_COLOR}" stroke-width="2.5" '
+                'stroke-dasharray="8 6" opacity="0.75"/></svg>', "Bike→Caltrain"),
+            _key(
+                '<svg width="20" height="8" style="display:block;">'
+                f'<line x1="0" y1="4" x2="20" y2="4" stroke="{_BART_COLOR}" stroke-width="2.5" '
+                'stroke-dasharray="2 6" opacity="0.75"/></svg>', "Bike→BART"),
         ]
     # The three real modes are always listed once this profile draws transit at
     # all, whether or not today's listings happen to include one of each. They
@@ -1267,51 +1353,68 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         _seen_labels.add(_st["label"])
         # Taller/wider than the bike keys so a 4px stroke plus its casing fits,
         # and drawn with the casing so the key looks like the thing on the map.
-        legend_rows.append(
-            '<div><svg width="26" height="12" style="vertical-align:middle;margin-right:5px;">'
-            f'<line x1="0" y1="6" x2="26" y2="6" stroke="{_TRANSIT_CASING["color"]}" '
+        legend_rows.append(_key(
+            '<svg width="24" height="12" style="display:block;">'
+            f'<line x1="0" y1="6" x2="24" y2="6" stroke="{_TRANSIT_CASING["color"]}" '
             f'stroke-width="{_st["weight"] + _TRANSIT_CASING["extra_weight"]}"/>'
-            f'<line x1="0" y1="6" x2="26" y2="6" stroke="{_st["color"]}" '
+            f'<line x1="0" y1="6" x2="24" y2="6" stroke="{_st["color"]}" '
             f'stroke-width="{_st["weight"]}" stroke-dasharray="{_st["dash"]}" '
-            f'opacity="{_TRANSIT_OPACITY}"/></svg>'
-            f'{_st["label"]}</div>'
-        )
-    # Only a minority of dots get a route, and the reason is three gates deep in
-    # this function -- so say it here rather than making the reader guess that
-    # the bare dots are a rendering bug.
-    if transit_modes_drawn:
-        legend_rows.append(
-            '<div style="font-size:11px;color:#6b7280;line-height:1.45;'
-            'max-width:230px;margin:2px 0 4px;">'
-            f'Routes are drawn only for listings in a named neighborhood whose '
-            f'commute is under {TRANSIT_ROUTE_MAX_MINUTES} min; walking legs are '
-            'left off. Everything else is dot-only.</div>'
-        )
+            f'opacity="{_TRANSIT_OPACITY}"/></svg>',
+            _st["label"],
+        ))
+    # The prose that used to sit here ("routes are drawn only for…") is now in
+    # the map subtitle — see _map_subtitle(). It was three wrapped lines of grey
+    # text inside a floating panel, which is the most expensive place on the
+    # page to put a sentence.
     legend_rows += [
-        '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
-        '<circle cx="7" cy="7" r="5.5" fill="#3b82f6" stroke="white" stroke-width="1.5"/>'
-        '</svg>Newest in a named neighborhood</div>',
-        '<div><svg width="14" height="14" style="vertical-align:middle;margin-right:5px;">'
-        '<circle cx="7" cy="7" r="4.5" fill="#9ca3af" stroke="white" stroke-width="1.5"/>'
-        '</svg>Listing — click to open</div>',
+        _key(
+            '<svg width="14" height="14" style="display:block;">'
+            '<circle cx="7" cy="7" r="5.5" fill="#3b82f6" stroke="white" stroke-width="1.5"/>'
+            '</svg>', "Newest"),
+        _key(
+            '<svg width="14" height="14" style="display:block;">'
+            '<circle cx="7" cy="7" r="4.5" fill="#9ca3af" stroke="white" stroke-width="1.5"/>'
+            '</svg>', "Listing"),
     ]
+    # Only worth a key where the faded dots actually exist. On a profile whose
+    # every listing is measured this would be a key for an empty set.
+    if HAS_COMMUTE and COMMUTE_DESTINATION:
+        legend_rows.append(_key(
+            '<svg width="14" height="14" style="display:block;">'
+            '<circle cx="7" cy="7" r="4.5" fill="#9ca3af" fill-opacity="0.28" '
+            'stroke="white" stroke-width="1.5" stroke-opacity="0.45"/></svg>',
+            "Commute unknown",
+        ))
+
+    # Controls are a horizontal strip, not a stacked panel. Stacked — label on
+    # its own line above a width:100% select, three times over — the box was
+    # 140x190px, which on a 350px-wide phone map covered the whole top-right
+    # quadrant and had become a bigger obstruction than the legend it was
+    # sharing the map with. Inline label+select pairs in a wrapping flex row
+    # hold the same three controls in one or two lines.
+    _SELECT_CSS = (
+        "font-size:12px;border:1px solid #d1d5db;border-radius:5px;"
+        "padding:1px 4px;background:#fff;cursor:pointer;max-width:110px;"
+    )
+
+    def _control(label: str, el_id: str, options: str) -> str:
+        return (
+            '<span style="display:flex;align-items:center;gap:4px;">'
+            f'<label for="{el_id}" style="font-weight:600;color:#1a1a2e;">{label}</label>'
+            f'<select id="{el_id}" style="{_SELECT_CSS}">{options}</select></span>'
+        )
 
     # The commute dropdown only appears when there are commute numbers to filter
     # on, so it can never sit there looking broken.
     has_commute_data = any(f["commute"] is not None for f in filterable)
     if has_commute_data:
         budget = COMMUTE_MAX_MINUTES
-        commute_control = f"""
-          <label for="commute-filter" style="font-weight:600;color:#1a1a2e;
-                 margin-right:6px;display:block;margin-top:6px;">Commute</label>
-          <select id="commute-filter"
-                  style="font-size:12px;border:1px solid #d1d5db;border-radius:5px;
-                         padding:2px 6px;background:#fff;cursor:pointer;width:100%;">
-            <option value="all">Any</option>
-            <option value="{budget}">Under {budget} min</option>
-            <option value="{int(budget * 2 / 3)}">Under {int(budget * 2 / 3)} min</option>
-            <option value="{int(budget / 2)}">Under {int(budget / 2)} min</option>
-          </select>"""
+        commute_control = _control("Commute", "commute-filter", (
+            '<option value="all">Any</option>'
+            f'<option value="{budget}">&lt;{budget} min</option>'
+            f'<option value="{int(budget * 2 / 3)}">&lt;{int(budget * 2 / 3)} min</option>'
+            f'<option value="{int(budget / 2)}">&lt;{int(budget / 2)} min</option>'
+        ))
     else:
         commute_control = ""
 
@@ -1330,17 +1433,11 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
                 _seen.add(_t)
                 _tiers.append(_t)
         _opts = "".join(
-            f'<option value="{t}">Under ${t:,}</option>' for t in _tiers
+            f'<option value="{t}">&lt;${t:,}</option>' for t in _tiers
         )
-        price_control = f"""
-          <label for="price-filter" style="font-weight:600;color:#1a1a2e;
-                 margin-right:6px;display:block;margin-top:6px;">Price</label>
-          <select id="price-filter"
-                  style="font-size:12px;border:1px solid #d1d5db;border-radius:5px;
-                         padding:2px 6px;background:#fff;cursor:pointer;width:100%;">
-            <option value="all">Any</option>
-            {_opts}
-          </select>"""
+        price_control = _control(
+            "Price", "price-filter", '<option value="all">Any</option>' + _opts
+        )
 
     # Built outside the f-string below: the layer names are raw JS identifiers,
     # not JSON, so they have to be interpolated rather than serialised.
@@ -1355,31 +1452,38 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
     ) + "]"
 
     m.get_root().html.add_child(folium.Element(f"""
-        <div style="position:fixed;bottom:16px;left:16px;z-index:999;
-                    background:rgba(255,255,255,0.93);padding:10px 14px;
+        <!-- max-width rather than a right edge, so the strip hugs its keys on a
+             desktop map and only spans the width when it has to wrap.
+             bottom:22px and z-index:1001 keep it clear of Leaflet's attribution
+             bar, which is z-index 1000 with a translucent white background and
+             wraps to two lines on a phone — at 999 and bottom:8px it painted
+             over the legend's last row, which on this map is the "Commute
+             unknown" key the whole faded-dot change depends on. -->
+        <div style="position:fixed;bottom:22px;left:8px;max-width:calc(100% - 16px);
+                    z-index:1001;display:flex;flex-wrap:wrap;gap:3px 12px;
+                    background:rgba(255,255,255,0.93);padding:6px 9px;
                     border-radius:8px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-                    font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,0.13);line-height:2;">
-          <div style="font-weight:700;font-size:13px;color:#1a1a2e;margin-bottom:2px;">Legend</div>
+                    font-size:11px;color:#1a1a2e;
+                    box-shadow:0 2px 8px rgba(0,0,0,0.13);">
           {''.join(legend_rows)}
         </div>
 
-        <div style="position:fixed;top:12px;right:12px;z-index:999;
-                    background:rgba(255,255,255,0.95);padding:7px 10px;
+        <!-- left:52px clears Leaflet's zoom buttons, which are the one thing on
+             the map that must never be covered. -->
+        <div style="position:fixed;top:8px;left:52px;max-width:calc(100% - 60px);
+                    z-index:999;
+                    display:flex;flex-wrap:wrap;align-items:center;gap:5px 12px;
+                    background:rgba(255,255,255,0.95);padding:6px 9px;
                     border-radius:8px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-                    font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,0.13);min-width:130px;">
-          <label for="br-filter" style="font-weight:600;color:#1a1a2e;
-                 margin-right:6px;display:block;">Bedrooms</label>
-          <select id="br-filter"
-                  style="font-size:12px;border:1px solid #d1d5db;border-radius:5px;
-                         padding:2px 6px;background:#fff;cursor:pointer;width:100%;">
-            <option value="all">All</option>
-            <option value="1">1 BR</option>
-            <option value="2">2 BR</option>
-            <option value="3">3+ BR</option>
-          </select>
+                    font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,0.13);">
+          {_control("Beds", "br-filter",
+                    '<option value="all">All</option>'
+                    '<option value="1">1 BR</option>'
+                    '<option value="2">2 BR</option>'
+                    '<option value="3">3+ BR</option>')}
           {price_control}
           {commute_control}
-          <div id="filter-count" style="color:#6b7280;margin-top:6px;font-size:11px;"></div>
+          <span id="filter-count" style="color:#6b7280;font-size:11px;"></span>
         </div>
 
         <script>
@@ -1590,16 +1694,21 @@ HTML_TEMPLATE = """\
 
 <header>
   <h1>SF Craigslist Rentals — Price Dashboard</h1>
-  <p>Historical scraped data. Listings under $2,100/mo excluded.</p>
+<!--    <p>Historical scraped data. Listings under $2,100/mo excluded.</p> -->
 </header>
 
 <div class="cards" id="cards"></div>
 
 <div class="grid">
   <div class="chart-card area-map" style="padding:12px 14px 10px;">
-    <div style="font-size:15px;font-weight:700;margin-bottom:8px;color:#1a1a2e;">
-      Where the Last 3 Days Landed <span style="font-size:11px;font-weight:400;color:#9ca3af;margin-left:10px;">__MAP_SUBTITLE__</span>
+    <div style="font-size:15px;font-weight:700;color:#1a1a2e;">
+      Where the Last 3 Days Landed
     </div>
+    <!-- Its own block rather than trailing the heading inline: it now carries
+         the map's rules (which listings get a route, what a faded dot means),
+         which is more text than fits beside a title on a phone. -->
+    <div style="font-size:11px;font-weight:400;color:#6b7280;line-height:1.5;
+                margin:3px 0 8px;max-width:70ch;">__MAP_SUBTITLE__</div>
     __MAP_IFRAME__
   </div>
   __TIME_SLOT__
@@ -1675,6 +1784,11 @@ def _map_subtitle() -> str:
     "bike times to Caltrain & BART" on every profile, including ones that do no
     bike routing at all, and never mentioned the transit routes — which by then
     were the most prominent thing on the map.
+
+    This is also where the map's two non-obvious rules are explained, both moved
+    out of the floating legend. Prose belongs in the page flow: down there it
+    was a 230px-wide grey block sitting on the map on a phone, and it is the
+    part a reader needs exactly once.
     """
     import html as _html
 
@@ -1685,8 +1799,18 @@ def _map_subtitle() -> str:
     if HAS_COMMUTE and COMMUTE_DESTINATION:
         bits.append(
             "Dashed lines are the transit trip to "
-            f"{_html.escape(COMMUTE_DESTINATION_NAME)}, coloured by mode "
-            f"(only trips under {TRANSIT_ROUTE_MAX_MINUTES} min)"
+            f"{_html.escape(COMMUTE_DESTINATION_NAME)}, colored by mode — drawn "
+            f"only for shortlist candidates ({TRANSIT_ROUTE_MIN_BEDROOMS}BR or "
+            f"larger, under ${TRANSIT_ROUTE_MAX_PRICE:,}, under "
+            f"{TRANSIT_ROUTE_MAX_MINUTES} min), with walking legs left off"
+        )
+        # The single most misreadable thing on the map, so it gets its own
+        # sentence rather than a parenthetical: most of the west side has never
+        # been measured, and a faded dot surviving the commute filter is not the
+        # same claim as a short commute.
+        bits.append(
+            "Faded dots have no commute time — they were never measured, not "
+            "measured and found close"
         )
     if HAS_BIKE_TIMES:
         bits.append("Dotted lines are bike routes to Caltrain &amp; BART")
