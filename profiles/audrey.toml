@@ -91,7 +91,16 @@ digest_to = [
 # ── 4. What makes the daily digest ────────────────────────────────────────────
 
 [alerts.digest]
-min_price = 2100   # the dashboard drops anything under $2,100 anyway
+# Also the dashboard's floor — analyze_listings reads this rather than keeping
+# its own number, so the two can't drift apart.
+#
+# Was 2100, set back when this was a 2BR/3BR search. With 1BRs in scope that was
+# discarding 26% of everything scraped, including genuine in-laws and
+# rent-controlled studios at $1,850-2,050. Not lowered further than 1800: below
+# ~$1,500 the listings stop being whole units (the $900-1,200 band is
+# room-shares posted as 1BR), and $1,500-1,800 is thick with lead-gen spam and
+# bot duplicates.
+min_price = 1800
 max_price = 4000   # their actual ceiling
 
 min_posting_age_minutes = 20

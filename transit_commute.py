@@ -219,6 +219,24 @@ _EXTRA_HOODS        = {"Way Out There"}
 _EXTRA_MIN_BEDROOMS = 2
 _EXTRA_MAX_PRICE    = digest_max_price or 4000
 
+# Every listing at or above this many bedrooms earns a call regardless of where
+# it is, and regardless of price. This supersedes the _EXTRA_HOODS gate above
+# for anything 2BR+ — that gate now only really matters as documentation of why
+# the west side started getting measured at all.
+#
+# The reason is that neighborhood is the wrong axis for the scarce thing. 1BRs
+# are 3/4 of what gets scraped and are everywhere; 2BRs are ~32/day citywide and
+# are the listings this search is actually deciding between, so measuring all of
+# them and none of the distant 1BRs is a better use of the same budget than
+# measuring everything inside a polygon list.
+#
+# It also closes a gap that was invisible: "Rest of City" is not a place, it is
+# the bucket for listings matching no drawn polygon, and it held 17 shortlist
+# candidates with no commute — one of them 400m from the destination.
+#
+# Set to None to turn this off and fall back to include-list + _EXTRA_HOODS.
+_ALWAYS_ROUTE_MIN_BEDROOMS = 2
+
 
 def _num(value):
     """CSV-safe float, or None for blanks/NaN/non-numeric."""
@@ -246,6 +264,12 @@ def _is_included(listing) -> bool:
     """
     if not _INCLUDED_HOODS:
         return True
+
+    # Bedrooms first — this one does not consult the neighborhood at all.
+    if _ALWAYS_ROUTE_MIN_BEDROOMS is not None:
+        beds = _num(listing.get("num_bedrooms"))
+        if beds is not None and beds >= _ALWAYS_ROUTE_MIN_BEDROOMS:
+            return True
 
     hoods = _hoods_of(listing)
     if hoods & _INCLUDED_HOODS:

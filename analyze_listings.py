@@ -30,7 +30,7 @@ from config import (
     MAP_CENTER, SHOW_HISTORICAL, DISPLAY_NAME, PROFILE_NAME,
     HAS_BIKE_TIMES, HAS_COMMUTE, COMMUTE_DESTINATION,
     COMMUTE_DESTINATION_NAME, COMMUTE_MAX_MINUTES, COMMUTE_CACHE_PATH,
-    max_price, digest_max_price,
+    max_price, digest_max_price, digest_min_price,
     add_profile_arg,
 )
 
@@ -148,7 +148,21 @@ TRANSIT_DRAW_WALK_LEGS = False
 # live figures — see data/historical/README.md.
 HISTORICAL_CSV = BASE_DIR / "data" / "historical" / "2026-sf.csv"
 
-PRICE_FLOOR = 2_100
+# Follows the profile rather than being one shared number. It was hard-coded at
+# $2,100, which was set for a 2BR/3BR search and quietly threw away 26% of every
+# profile's listings — including, on a search that accepts 1BRs, real in-laws and
+# rent-controlled studios at $1,850-2,050.
+#
+# It is not a taste setting: below it the data stops being apartments. The
+# $900-1,200 band is room-shares mislabelled as 1BR, and repeated identical
+# prices ($1,000 x7, $1,050 x5) are one poster bulk-spraying. The floor is where
+# a whole unit stops being plausible, and that depends on what the person is
+# looking for — so it comes from their own digest floor.
+#
+# Note this does NOT change the API bill: the scraper routes commutes on the raw
+# scrape, before this filter ever runs, so these listings were already paid for
+# and were simply being discarded afterwards.
+PRICE_FLOOR = digest_min_price or 2_100
 PRICE_CEIL  = 15_000
 
 # Listings matching no polygon at all are bucketed here. Deliberately NOT the
