@@ -929,9 +929,21 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
     # down with it. That happens whenever nothing was posted in the recency
     # window, which is not an error: a stale profile, or any scrape gap longer
     # than the window, lands there. An empty map is the correct output.
+    #
+    # This is now only the paint the map loads with — the filter script
+    # recomputes the same three on every dropdown change, and its unfiltered
+    # answer is this one, so there is no flicker on load. It stays because it is
+    # also the fallback: the filter block has broken before on script ordering,
+    # and a map whose highlight silently vanished would be worse than one that
+    # simply doesn't follow the dropdowns.
     if len(df_markers):
-        _highlightable = df_markers[df_markers["neighborhoods"].apply(_in_named_hood)]
-        _newest_urls = set(_highlightable.nlargest(3, "time_posted")["url"].tolist())
+        # Named hoods rank first, recency breaks it within each tier — the same
+        # preference-not-requirement ordering the filter script uses, so the two
+        # never disagree about which three are newest.
+        _ranked = df_markers.assign(
+            _named=df_markers["neighborhoods"].apply(_in_named_hood)
+        ).sort_values(["_named", "time_posted"], ascending=[False, False])
+        _newest_urls = set(_ranked.head(3)["url"].tolist())
     else:
         _newest_urls = set()
 
@@ -1279,6 +1291,15 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         price_val = row.get("price")
         filterable.append({
             "vars":    layer_vars,
+            # The dot on its own, separate from `vars`, which also holds this
+            # listing's route polylines. The highlight restyles a circle and
+            # only a circle — setRadius() on a PolyLine is not a function.
+            "dot":     marker.get_name(),
+            # Epoch seconds, so the browser can re-rank by recency without
+            # parsing anything. `named` is the same eligibility test the
+            # build-time highlight used, carried over so JS can reapply it.
+            "ts":      int(row["time_posted"].timestamp()),
+            "named":   _in_named_hood(row.get("neighborhoods")),
             "beds":    int(beds_val) if pd.notna(beds_val) else None,
             "commute": int(commute_val) if pd.notna(commute_val) else None,
             "price":   int(price_val) if pd.notna(price_val) else None,
@@ -1384,7 +1405,10 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
         _key(
             '<svg width="14" height="14" style="display:block;">'
             '<circle cx="7" cy="7" r="5.5" fill="#3b82f6" stroke="white" stroke-width="1.5"/>'
-            '</svg>', "Newest"),
+            # "shown" rather than a bare "Newest": the highlight tracks the
+            # dropdowns, so on a filtered map these are the newest of the
+            # matches, not the newest on the map.
+            '</svg>', "3 newest shown"),
         _key(
             '<svg width="14" height="14" style="display:block;">'
             '<circle cx="7" cy="7" r="4.5" fill="#9ca3af" stroke="white" stroke-width="1.5"/>'
@@ -1456,8 +1480,11 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
     # Built outside the f-string below: the layer names are raw JS identifiers,
     # not JSON, so they have to be interpolated rather than serialised.
     listings_js = "[" + ",".join(
-        "{{vars:[{v}],beds:{b},commute:{c},price:{p}}}".format(
+        "{{vars:[{v}],dot:{d},ts:{t},named:{n},beds:{b},commute:{c},price:{p}}}".format(
             v=",".join(f["vars"]),
+            d=f["dot"],
+            t=f["ts"],
+            n="true" if f["named"] else "false",
             b=f["beds"] if f["beds"] is not None else "null",
             c=f["commute"] if f["commute"] is not None else "null",
             p=f["price"] if f["price"] is not None else "null",
@@ -1546,10 +1573,47 @@ def build_folium_map_iframe(df: pd.DataFrame) -> str:
                 }}
 
                 if (ok) shown++;
+                item.ok = ok;
                 item.vars.forEach(function(layer) {{
                   if (ok && !group.hasLayer(layer))  group.addLayer(layer);
                   if (!ok && group.hasLayer(layer))  group.removeLayer(layer);
                 }});
+              }});
+
+              // The highlight is recomputed here rather than baked in at build
+              // time, so "the 3 newest" means the 3 newest of what you actually
+              // asked for. Pinned to the whole map it was near useless once a
+              // filter was on: narrow to 2BR under $4k and the blue dots were
+              // usually three listings the filter had just hidden, leaving the
+              // surviving set with no recency signal at all.
+              //
+              // `named` is a preference, not a filter. It carries over the
+              // build-time bias toward listings in a named neighborhood — a
+              // highlight spent on the catch-all or "Way Out There" bucket is
+              // a highlight wasted — but as a hard requirement it emptied the
+              // highlight outright on narrow filters: only a fifth of markers
+              // land in a named hood, and e.g. 3BR has none at all, so that
+              // filter lit up nothing. Ranking named first and backfilling
+              // keeps the bias where there's a choice and still gives a
+              // recency signal where there isn't. Unfiltered, there are always
+              // more than three named, so the default map is unchanged.
+              var hot = listings.filter(function(item) {{ return item.ok; }});
+              hot.sort(function(a, b) {{
+                if (a.named !== b.named) return a.named ? -1 : 1;
+                return b.ts - a.ts;
+              }});
+              hot = hot.slice(0, 3);
+
+              listings.forEach(function(item) {{
+                var isNew = hot.indexOf(item) !== -1;
+                // setStyle with fillColor alone on purpose: fillOpacity is
+                // carrying the separate "commute never measured" fade, and
+                // restating it here would burn those dots back to full.
+                item.dot.setStyle({{fillColor: isNew ? '{_NEW_COLOR}' : '{_OLD_COLOR}'}});
+                item.dot.setRadius(isNew ? 6 : 4);
+                // Same SVG pane as every other dot, so without this a fresh
+                // listing drawn early sits under the gray ones around it.
+                if (isNew) item.dot.bringToFront();
               }});
 
               document.getElementById('filter-count').textContent =
