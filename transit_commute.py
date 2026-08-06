@@ -125,27 +125,30 @@ _MAX_CONSECUTIVE_FAILURES = 5
 # a lost or corrupted cache file, a scraper change that re-keys listing URLs so
 # every row looks new. Any of those turns a 750/month job into a per-run one.
 #
-# Sized against the WORST-CASE free allowance rather than the expected one.
+# Runaway protection, not budget management.
 #
-# Google's per-SKU free tiers (as of 2026-08) are 10,000 calls/month for Compute
-# Routes Essentials, 5,000 for Pro, 1,000 for Enterprise. The documented triggers
-# for the dearer tiers are TRAFFIC_AWARE/TRAFFIC_AWARE_OPTIMAL routing
-# preferences (Pro), tollInfo in the field mask (Preferred), and two-wheel
-# routing (Enterprise). This request uses none of them -- travelMode TRANSIT, no
-# routingPreference, no tolls, no intermediate waypoints -- so it should bill as
-# Essentials at 10,000 free. Google's docs do not state the transit case
-# outright, though, so this is inference and not a promise.
+# CONFIRMED on the billing report 2026-08-05: these requests bill as
+# "Routes: Compute Routes Essentials", SKU 9EFF-679A-9B16, whose free allowance
+# is 10,000 calls/month. 198 calls that month, $0.00. That settles what the code
+# could only infer -- travelMode TRANSIT with no routingPreference, no tollInfo
+# and no intermediate waypoints does not escalate past Essentials.
 #
-# Hence 1,000: it clears the ~750/month measured burn, and it is also the
-# Enterprise free tier, so even if the inference above is wrong by two whole
-# tiers the month still lands inside the free allowance. The authoritative check
-# is the SKU name on the billing report, not this comment.
+# Measured burn is ~63 eligible listings/day, ~1,890/month, which is 19% of the
+# allowance. The cap sits at 3,000 rather than just above that: the burn figure
+# rests on a single clean day of data and August is peak listing season, so the
+# honest uncertainty band tops out near 2,650 and a tighter cap would bind on a
+# busy month for no reason. At 3,000 it is still under a third of the free tier.
 #
-# This is per machine -- the Pi and a laptop keep separate ledgers -- so it is a
-# runaway backstop, not a project-wide guarantee. For that, set a quota cap on
-# the Routes API in the Google Cloud console, which Google enforces across every
-# caller of the key.
-_MONTHLY_CALL_CAP = 1000
+# What it is actually for is the failure mode where something starts
+# re-requesting -- a lost cache, a scraper change that re-keys listing URLs, a
+# profile flipped to `filter = false`. The scraper runs every 10 minutes against
+# ~300 active listings, so a runaway would burn the entire free allowance in
+# hours. 3,000 stops that inside about one hour.
+#
+# Per machine: the Pi and a laptop keep separate ledgers, so the true ceiling is
+# a multiple of this. For a project-wide guarantee set a quota cap on the Routes
+# API in the Cloud console, which Google enforces across every caller of the key.
+_MONTHLY_CALL_CAP = 3000
 
 _BUDGET_PATH = Path(COMMUTE_CACHE_PATH).with_name(
     Path(COMMUTE_CACHE_PATH).stem + "_budget.json"
