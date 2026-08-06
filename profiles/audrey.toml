@@ -96,11 +96,28 @@ digest_to = [
 #
 # Was 2100, set back when this was a 2BR/3BR search. With 1BRs in scope that was
 # discarding 26% of everything scraped, including genuine in-laws and
-# rent-controlled studios at $1,850-2,050. Not lowered further than 1800: below
-# ~$1,500 the listings stop being whole units (the $900-1,200 band is
-# room-shares posted as 1BR), and $1,500-1,800 is thick with lead-gen spam and
-# bot duplicates.
-min_price = 1800
+# rent-controlled studios at $1,850-2,050.
+#
+# Lowered 1800 -> 1500 on 2026-08-05 to stop missing real 1BRs. The earlier note
+# here said $1,500-1,800 was "thick with lead-gen spam and bot duplicates", and
+# that is still true — but it is not ALL spam, and the spam mostly dies at the
+# neighborhood filter anyway. Measured over 647 scraped listings:
+#
+#   42 listings fall in $1,500-1,800, but only 8 are inside the 11 included
+#   neighborhoods, and of those 8 roughly 2 look like genuine whole units
+#   (a Castro/Noe Victorian 1BR at $1,550, a Hayes Valley Victorian at $1,600).
+#
+# The rest is recognisable: 26 of the 42 share just five prices ($1,530 x7,
+# $1,500 x6, $1,540 x5, $1,520 x4, $1,600 x4), two posts advertise the same
+# 300 Buchanan St unit, and a run of LLM-written titles ("I'd Stay If My Cat
+# Didn't Hate the Neighbor's Dog" / "I'm Only Moving Because My Cat Hates the
+# Neighbor's Dog") are one poster. Room-shares posted as 1BR are still in here
+# too. So expect a slightly noisier digest for ~2 extra real listings — raise
+# this back to 1800 if that trade stops being worth it.
+#
+# Below 1500 is not recommended: the $900-1,200 band is essentially all
+# room-shares mislabelled as 1BR.
+min_price = 1500
 max_price = 4000   # their actual ceiling
 
 min_posting_age_minutes = 20
